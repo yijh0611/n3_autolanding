@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:187:13:[m[K [01;31m[Kerror: [m[K‘[01m[Ktag_po[m[K’ was not declared in this scope
+     cout << [01;31m[Ktag_po[m[K << endl;
+             [01;31m[K^~~~~~[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

@@ -21,6 +21,8 @@ from sensor_msgs.msg import Imu
 from geometry_msgs.msg import Vector3Stamped
 # # AprilTag
 from tf2_msgs.msg import TFMessage
+# AprilTag simulation
+from geometry_msgs.msg import Transform
 # # Velocity Publish
 from std_msgs.msg import Float64MultiArray
 # vo position
@@ -87,6 +89,23 @@ def callback_tf(tf_data):
                     z: 0.198426097724
                     w: -0.274867579102
     '''
+
+def callback_tf_sim(data_sim):
+    # print('tf_sim')
+    global tf
+    tf = data_sim.translation # x,y,z
+    global tf_tmp
+    global tf_count
+    global tf_count_time
+    if tf_tmp != tf:
+        tf_tmp = tf
+        tf_count += 1
+    if time.time() > tf_count_time + 1:
+        # print("Tags per sec : ",tf_count)
+        tf_count = 0
+        tf_count_time = time.time() 
+    # # print("tf signal", time.time())
+
 
 vo_po = 0
 def callback_vo_po(vo_data):
@@ -174,6 +193,15 @@ if __name__ == '__main__':
             is_gps_acc = False
             print("No GPS")
             break
+    
+    time_wait_tf = time.time() # 태그가 없으면 시뮬레이션 태그 정보 사용
+    while tf == 0:
+        if time.time() - time_wait_tf > 10:
+            for i_tf in range(10):
+                print("No Tag !!")
+                print("Simulation")
+            rospy.Subscriber("tf_2", Transform, callback_tf_sim)
+            break
 
     if is_gps_acc:
         # Tag 정보 받았는지 확인
@@ -214,7 +242,7 @@ if __name__ == '__main__':
                                 [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]) # 10*10 matrix
 
         my_filter.P *= 100 * np.identity(10)                 # covariance matrix # 1000 * 단위행렬 ## 20* 단위행렬 // 1*8 행렬일때는 10이었음 
-        my_filter.R = 100 * np.identity(8)               # state uncertainty - # 0.001 # 10000
+        my_filter.R = 100 * np.identity(10)               # state uncertainty - # 0.001 # 10000
         my_filter.Q = 0.1 * np.identity(10)   # process uncertainty // Q = [1 0; 0 1000]; - 작게 해보기, 크면 측정값에 의존 # 0.00001
     
     # Tag 정보 받았는지 확인

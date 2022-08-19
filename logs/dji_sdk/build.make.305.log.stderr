@@ -1,0 +1,25 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:63:2:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ after struct definition
+ }
+  [01;31m[K^[m[K
+  [32m[K;[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:169:42:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kstd::vector<geometry_msgs::TransformStamped_<std::allocator<void> >, std::allocator<geometry_msgs::TransformStamped_<std::allocator<void> > > >::push_back(st_2&)[m[K’
+     tag_po.transforms.push_back(transform[01;31m[K)[m[K;
+                                          [01;31m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/vector:64:0[m[K,
+                 from [01m[K/usr/include/boost/math/special_functions/math_fwd.hpp:26[m[K,
+                 from [01m[K/usr/include/boost/math/special_functions/round.hpp:15[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:58[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/stl_vector.h:939:7:[m[K [01;36m[Knote: [m[Kcandidate: void std::vector<_Tp, _Alloc>::push_back(const value_type&) [with _Tp = geometry_msgs::TransformStamped_<std::allocator<void> >; _Alloc = std::allocator<geometry_msgs::TransformStamped_<std::allocator<void> > >; std::vector<_Tp, _Alloc>::value_type = geometry_msgs::TransformStamped_<std::allocator<void> >]
+       [01;36m[Kpush_back[m[K(const value_type& __x)
+       [01;36m[K^~~~~~~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_vector.h:939:7:[m[K [01;36m[Knote: [m[K  no known conversion for argument 1 from ‘[01m[Kst_2[m[K’ to ‘[01m[Kconst value_type& {aka const geometry_msgs::TransformStamped_<std::allocator<void> >&}[m[K’
+[01m[K/usr/include/c++/7/bits/stl_vector.h:953:7:[m[K [01;36m[Knote: [m[Kcandidate: void std::vector<_Tp, _Alloc>::push_back(std::vector<_Tp, _Alloc>::value_type&&) [with _Tp = geometry_msgs::TransformStamped_<std::allocator<void> >; _Alloc = std::allocator<geometry_msgs::TransformStamped_<std::allocator<void> > >; std::vector<_Tp, _Alloc>::value_type = geometry_msgs::TransformStamped_<std::allocator<void> >]
+       [01;36m[Kpush_back[m[K(value_type&& __x)
+       [01;36m[K^~~~~~~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_vector.h:953:7:[m[K [01;36m[Knote: [m[K  no known conversion for argument 1 from ‘[01m[Kst_2[m[K’ to ‘[01m[Kstd::vector<geometry_msgs::TransformStamped_<std::allocator<void> >, std::allocator<geometry_msgs::TransformStamped_<std::allocator<void> > > >::value_type&& {aka geometry_msgs::TransformStamped_<std::allocator<void> >&&}[m[K’
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

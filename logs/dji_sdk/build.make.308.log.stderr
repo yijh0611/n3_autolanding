@@ -1,0 +1,16 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:167:44:[m[K [01;31m[Kerror: [m[K‘[01m[Kmsg[m[K’ was not declared in this scope
+     tf2_msgs::TFMessage::ConstPtr tf_msg = [01;31m[Kmsg[m[K.instantiate<tf2_msgs::TFMessage>();
+                                            [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:167:79:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K>[m[K’ token
+     tf2_msgs::TFMessage::ConstPtr tf_msg = msg.instantiate<tf2_msgs::TFMessage[01;31m[K>[m[K();
+                                                                               [01;31m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:167:81:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K)[m[K’ token
+     tf2_msgs::TFMessage::ConstPtr tf_msg = msg.instantiate<tf2_msgs::TFMessage>([01;31m[K)[m[K;
+                                                                                 [01;31m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:180:15:[m[K [01;31m[Kerror: [m[K‘[01m[Ktag_po[m[K’ was not declared in this scope
+       cout << [01;31m[Ktag_po[m[K << endl;
+               [01;31m[K^~~~~~[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

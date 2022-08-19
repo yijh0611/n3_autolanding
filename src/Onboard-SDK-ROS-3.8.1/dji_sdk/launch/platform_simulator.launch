@@ -1,0 +1,8 @@
+<launch>
+    <include file="$(find dji_sdk)/launch/sdk.launch"/>
+    
+    <node pkg ="dji_sdk" type="kalmanfilter.py" name="kalman_filter" output="screen"/>
+    <node pkg ="dji_sdk" type="talker_ros_19" name="talker_ros_19" output="screen"/>
+    <node pkg ="dji_sdk" type="platform_simulator" name="platform_simulator" output="screen"/>
+    
+</launch>

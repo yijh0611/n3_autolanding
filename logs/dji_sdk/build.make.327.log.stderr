@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:177:12:[m[K [01;31m[Kerror: [m[K‘[01m[Ktf2_msgs::TFMessage_<std::allocator<void> >::ConstPtr {aka class boost::shared_ptr<const tf2_msgs::TFMessage_<std::allocator<void> > >}[m[K’ has no member named ‘[01m[Ktransforms[m[K’
+     tf_msg.[01;31m[Ktransforms[m[K -> tst;
+            [01;31m[K^~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

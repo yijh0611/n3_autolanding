@@ -1,0 +1,679 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:67:1:[m[K [01;31m[Kerror: [m[Kexpected initializer before ‘[01m[Kfloat[m[K’
+ [01;31m[Kfloat[m[K x_tf, y_tf, z_tf;
+ [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:89:74:[m[K [01;31m[Kerror: [m[K‘[01m[Kcb_gps_health[m[K’ was not declared in this scope
+   ros::Subscriber sub_gps_hlth = n.subscribe("dji_sdk/gps_health", 1000, [01;31m[Kcb_gps_health[m[K);
+                                                                          [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:89:74:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Ksub_gps_hlth[m[K’
+   ros::Subscriber sub_gps_hlth = n.subscribe("dji_sdk/gps_health", 1000, [01;36m[Kcb_gps_health[m[K);
+                                                                          [01;36m[K^~~~~~~~~~~~~[m[K
+                                                                          [32m[Ksub_gps_hlth[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:90:32:[m[K [01;31m[Kerror: [m[K‘[01m[Knh[m[K’ was not declared in this scope
+   ros::Subscriber sub_vo_pos = [01;31m[Knh[m[K.subscribe("dji_sdk/vo_position", 1000, cb_voposition);
+                                [01;31m[K^~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:90:32:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kn[m[K’
+   ros::Subscriber sub_vo_pos = [01;36m[Knh[m[K.subscribe("dji_sdk/vo_position", 1000, cb_voposition);
+                                [01;36m[K^~[m[K
+                                [32m[Kn[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kros::NodeHandle::subscribe(const char [3], int, ros::Publisher&)[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;31m[K)[m[K;
+                                                         [01;31m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:402:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(M), T*, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(T::*fp)(M), T* obj,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:402:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(M)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:413:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(M) const, T*, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(T::*fp)(M) const, T* obj,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:413:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(M) const[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:465:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(const boost::shared_ptr<const M>&), T*, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:465:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(const boost::shared_ptr<const M>&)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:475:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(const boost::shared_ptr<const M>&) const, T*, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:475:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(const boost::shared_ptr<const M>&) const[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:529:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(M), const boost::shared_ptr<U>&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(T::*fp)(M),
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:529:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(M)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:540:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(M) const, const boost::shared_ptr<U>&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(T::*fp)(M) const,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:540:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(M) const[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:594:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(const boost::shared_ptr<const M>&), const boost::shared_ptr<U>&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:594:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(const boost::shared_ptr<const M>&)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:605:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class T> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (T::*)(const boost::shared_ptr<const M>&) const, const boost::shared_ptr<U>&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:605:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (T::*)(const boost::shared_ptr<const M>&) const[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:656:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (*)(M), const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(*fp)(M), const TransportHints& transport_hints = TransportHints())
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:656:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (*)(M)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:704:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, void (*)(const boost::shared_ptr<const M>&), const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, void(*fp)(const boost::shared_ptr<M const>&), const TransportHints& transport_hints = TransportHints())
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:704:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kvoid (*)(const boost::shared_ptr<const M>&)[m[K’ and ‘[01m[Kros::Publisher[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:750:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, const boost::function<void(const boost::shared_ptr<const M>&)>&, const VoidConstPtr&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, const boost::function<void (const boost::shared_ptr<M const>&)>& callback,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:750:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  ‘[01m[Kros::Publisher[m[K’ is not derived from ‘[01m[Kconst boost::function<void(const boost::shared_ptr<const M>&)>[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:799:14:[m[K [01;36m[Knote: [m[Kcandidate: template<class M, class C> ros::Subscriber ros::NodeHandle::subscribe(const string&, uint32_t, const boost::function<void(C)>&, const VoidConstPtr&, const ros::TransportHints&)
+   Subscriber [01;36m[Ksubscribe[m[K(const std::string& topic, uint32_t queue_size, const boost::function<void (C)>& callback,
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:799:14:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:96:57:[m[K [01;36m[Knote: [m[K  ‘[01m[Kros::Publisher[m[K’ is not derived from ‘[01m[Kconst boost::function<void(C)>[m[K’
+   ros::Publisher pub_tf = n.subscribe("tf", 1000, pub_tf[01;36m[K)[m[K;
+                                                         [01;36m[K^[m[K
+In file included from [01m[K/opt/ros/melodic/include/ros/ros.h:45:0[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:836:14:[m[K [01;36m[Knote: [m[Kcandidate: ros::Subscriber ros::NodeHandle::subscribe(ros::SubscribeOptions&)
+   Subscriber [01;36m[Ksubscribe[m[K(SubscribeOptions& ops);
+              [01;36m[K^~~~~~~~~[m[K
+[01m[K/opt/ros/melodic/include/ros/node_handle.h:836:14:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 3 provided
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:99:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kchk_start[m[K’ was not declared in this scope
+   [01;31m[Kchk_start[m[K = 0;
+   [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:99:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kis_start[m[K’
+   [01;36m[Kchk_start[m[K = 0;
+   [01;36m[K^~~~~~~~~[m[K
+   [32m[Kis_start[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:117:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdistance_data[m[K’ was not declared in this scope
+     [01;31m[Ktag_.data.pus[m[Kh_back(0.0);
+     [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:117:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdistance_pub[m[K’
+     [01;36m[Ktag_.data.pus[m[Kh_back(0.0);
+     [01;36m[K^~~~~~~~~~~~~[m[K
+     [32m[Kdistance_pub[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ was not declared in this scope
+   cin >> [01;31m[Kmax_move_spd[m[K;
+          [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:136:3:[m[K [01;31m[Kerror: [m[K‘[01m[Ksdk_ctrl_authority_service[m[K’ was not declared in this scope
+   [01;31m[Ksdk_ctrl_authority_service[m[K = n.serviceClient<dji_sdk::SDKControlAuthority> ("dji_sdk/sdk_control_authority");
+   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:162:26:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_time[m[K’ was not declared in this scope
+     float kal_time_tmp = [01;31m[Kkal_time[m[K - 1; // 이거는 4자리? + 소수점 아래 2자리 이기 때문에, 오버플로우 현상이 있을 수 있다.
+                          [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:162:26:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kget_time[m[K’
+     float kal_time_tmp = [01;36m[Kkal_time[m[K - 1; // 이거는 4자리? + 소수점 아래 2자리 이기 때문에, 오버플로우 현상이 있을 수 있다.
+                          [01;36m[K^~~~~~~~[m[K
+                          [32m[Kget_time[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:199:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kis_drone_move[m[K’ was not declared in this scope
+         [01;31m[Kis_drone_move[m[K = false;
+         [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:207:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kx_tf[m[K’ was not declared in this scope
+       if(tag_x_tmp != [01;31m[Kx_tf[m[K){ // 태그 정보가 바뀌었을때
+                       [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:207:23:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kpub_tf[m[K’
+       if(tag_x_tmp != [01;36m[Kx_tf[m[K){ // 태그 정보가 바뀌었을때
+                       [01;36m[K^~~~[m[K
+                       [32m[Kpub_tf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:209:26:[m[K [01;31m[Kerror: [m[K‘[01m[Ky_tf[m[K’ was not declared in this scope
+         float d_y = -1 * [01;31m[Ky_tf[m[K;
+                          [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:209:26:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kynf[m[K’
+         float d_y = -1 * [01;36m[Ky_tf[m[K;
+                          [01;36m[K^~~~[m[K
+                          [32m[Kynf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:211:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdt[m[K’ was not declared in this scope
+         [01;31m[Kdt[m[K = ros::Time::now().toSec() - time_prev;
+         [01;31m[K^~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:226:22:[m[K [01;31m[Kerror: [m[K‘[01m[Kkp[m[K’ was not declared in this scope
+         move_right = [01;31m[Kkp[m[K * d_x + kd * v_x;
+                      [01;31m[K^~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:226:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kkd[m[K’ was not declared in this scope
+         move_right = kp * d_x + [01;31m[Kkd[m[K * v_x;
+                                 [01;31m[K^~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:229:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdistance_data[m[K’ was not declared in this scope
+         [01;31m[Kdistance_data[m[K.data[0] = d_x;
+         [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:229:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdistance_pub[m[K’
+         [01;36m[Kdistance_data[m[K.data[0] = d_x;
+         [01;36m[K^~~~~~~~~~~~~[m[K
+         [32m[Kdistance_pub[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:239:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_is_tag_lost[m[K’ was not declared in this scope
+         if([01;31m[Kkal_is_tag_lost[m[K == 0){ // 태그 놓치지 않았을 때
+            [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:250:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_r_vel[m[K’ was not declared in this scope
+           float kal_r_vel_tmp = [01;31m[Kkal_r_vel[m[K * spd_constant;
+                                 [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:250:33:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kkal_r_vel_tmp[m[K’
+           float kal_r_vel_tmp = [01;36m[Kkal_r_vel[m[K * spd_constant;
+                                 [01;36m[K^~~~~~~~~[m[K
+                                 [32m[Kkal_r_vel_tmp[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:251:33:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_f_vel[m[K’ was not declared in this scope
+           float kal_f_vel_tmp = [01;31m[Kkal_f_vel[m[K * spd_constant;
+                                 [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:251:33:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kkal_f_vel_tmp[m[K’
+           float kal_f_vel_tmp = [01;36m[Kkal_f_vel[m[K * spd_constant;
+                                 [01;36m[K^~~~~~~~~[m[K
+                                 [32m[Kkal_f_vel_tmp[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:261:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+         if(fabs(move_right) > [01;31m[Kmax_move_spd[m[K){
+                               [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:262:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+           move_right = [01;31m[Kmax_move_spd[m[K * move_right / fabs(move_right);
+                        [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:265:31:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+         if(fabs(move_front) > [01;31m[Kmax_move_spd[m[K){
+                               [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:266:24:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+           move_front = [01;31m[Kmax_move_spd[m[K * move_front / fabs(move_front);
+                        [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:272:17:[m[K [01;31m[Kerror: [m[K‘[01m[Kz_tf[m[K’ was not declared in this scope
+         if(fabs([01;31m[Kz_tf[m[K - 5.0) > 0.1){
+                 [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:272:17:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kpub_tf[m[K’
+         if(fabs([01;36m[Kz_tf[m[K - 5.0) > 0.1){
+                 [01;36m[K^~~~[m[K
+                 [32m[Kpub_tf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:281:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_f[m[K’ was not declared in this scope
+         [01;31m[Kspd_f[m[K = move_front;
+         [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:281:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kspeed_t[m[K’
+         [01;36m[Kspd_f[m[K = move_front;
+         [01;36m[K^~~~~[m[K
+         [32m[Kspeed_t[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:282:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_r[m[K’ was not declared in this scope
+         [01;31m[Kspd_r[m[K = move_right;
+         [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:282:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kspeed_t[m[K’
+         [01;36m[Kspd_r[m[K = move_right;
+         [01;36m[K^~~~~[m[K
+         [32m[Kspeed_t[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:283:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_u[m[K’ was not declared in this scope
+         [01;31m[Kspd_u[m[K = move_up;
+         [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:283:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kspeed_t[m[K’
+         [01;36m[Kspd_u[m[K = move_up;
+         [01;36m[K^~~~~[m[K
+         [32m[Kspeed_t[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:284:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_y[m[K’ was not declared in this scope
+         [01;31m[Kspd_y[m[K = 0;
+         [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:284:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_y[m[K’
+         [01;36m[Kspd_y[m[K = 0;
+         [01;36m[K^~~~~[m[K
+         [32m[Kd_y[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:285:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kis_drone_move[m[K’ was not declared in this scope
+         [01;31m[Kis_drone_move[m[K = true;
+         [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:304:51:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_f_prev[m[K’ was not declared in this scope
+           float derivative_f = (proportional_f - ([01;31m[Kspd_f_prev[m[K - drone_vel_f_prev)) / dt;
+                                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:304:51:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_y_prev[m[K’
+           float derivative_f = (proportional_f - ([01;36m[Kspd_f_prev[m[K - drone_vel_f_prev)) / dt;
+                                                   [01;36m[K^~~~~~~~~~[m[K
+                                                   [32m[Kd_y_prev[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:304:64:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrone_vel_f_prev[m[K’ was not declared in this scope
+           float derivative_f = (proportional_f - (spd_f_prev - [01;31m[Kdrone_vel_f_prev[m[K)) / dt;
+                                                                [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:304:64:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdrone_vel_e[m[K’
+           float derivative_f = (proportional_f - (spd_f_prev - [01;36m[Kdrone_vel_f_prev[m[K)) / dt;
+                                                                [01;36m[K^~~~~~~~~~~~~~~~[m[K
+                                                                [32m[Kdrone_vel_e[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:305:51:[m[K [01;31m[Kerror: [m[K‘[01m[Kspd_r_prev[m[K’ was not declared in this scope
+           float derivative_r = (proportional_r - ([01;31m[Kspd_r_prev[m[K - drone_vel_r_prev)) / dt;
+                                                   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:305:51:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_y_prev[m[K’
+           float derivative_r = (proportional_r - ([01;36m[Kspd_r_prev[m[K - drone_vel_r_prev)) / dt;
+                                                   [01;36m[K^~~~~~~~~~[m[K
+                                                   [32m[Kd_y_prev[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:305:64:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrone_vel_r_prev[m[K’ was not declared in this scope
+           float derivative_r = (proportional_r - (spd_r_prev - [01;31m[Kdrone_vel_r_prev[m[K)) / dt;
+                                                                [01;31m[K^~~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:305:64:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdrone_vel_e[m[K’
+           float derivative_r = (proportional_r - (spd_r_prev - [01;36m[Kdrone_vel_r_prev[m[K)) / dt;
+                                                                [01;36m[K^~~~~~~~~~~~~~~~[m[K
+                                                                [32m[Kdrone_vel_e[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:309:30:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+           if(fabs(input_f) > [01;31m[Kmax_move_spd[m[K){
+                              [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:310:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+             input_f = [01;31m[Kmax_move_spd[m[K * (input_f)/(fabs(input_f));
+                       [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:313:30:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+           if(fabs(input_r) > [01;31m[Kmax_move_spd[m[K){
+                              [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:314:23:[m[K [01;31m[Kerror: [m[K‘[01m[Kmax_move_spd[m[K’ is not captured
+             input_r = [01;31m[Kmax_move_spd[m[K * (input_r)/(fabs(input_r));
+                       [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:157:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:123:10:[m[K [01;36m[Knote: [m[K‘[01m[K<typeprefixerror>max_move_spd[m[K’ declared here
+   cin >> [01;36m[Kmax_move_spd[m[K;
+          [01;36m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:320:36:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmove(float [1], ros::NodeHandle&, ros::Publisher&)[m[K’
+           move(cont, n, control_pub[01;31m[K)[m[K;
+                                    [01;31m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_pair.h:59:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/stl_algobase.h:64[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&)
+     [01;36m[Kmove[m[K(_Tp&& __t) noexcept
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:320:36:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 3 provided
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/char_traits.h:39:0[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _II, class _OI> _OI std::move(_II, _II, _OI)
+     [01;36m[Kmove[m[K(_II __first, _II __last, _OI __result)
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:320:36:[m[K [01;36m[Knote: [m[K  deduced conflicting types for parameter ‘[01m[K_II[m[K’ (‘[01m[Kfloat*[m[K’ and ‘[01m[Kros::NodeHandle[m[K’)
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:66:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, const _Tp&, const _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:320:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, const _Tp&, const _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:64:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, _Tp&, _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:320:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, _Tp&, _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:328:36:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmove(float [4], ros::NodeHandle&, ros::Publisher&)[m[K’
+           move(cont, n, control_pub[01;31m[K)[m[K;
+                                    [01;31m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_pair.h:59:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/stl_algobase.h:64[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&)
+     [01;36m[Kmove[m[K(_Tp&& __t) noexcept
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:328:36:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 3 provided
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/char_traits.h:39:0[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _II, class _OI> _OI std::move(_II, _II, _OI)
+     [01;36m[Kmove[m[K(_II __first, _II __last, _OI __result)
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:328:36:[m[K [01;36m[Knote: [m[K  deduced conflicting types for parameter ‘[01m[K_II[m[K’ (‘[01m[Kfloat*[m[K’ and ‘[01m[Kros::NodeHandle[m[K’)
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:66:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, const _Tp&, const _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:328:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, const _Tp&, const _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:64:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, _Tp&, _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:328:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, _Tp&, _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K;
+                                    [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:337:34:[m[K [01;31m[Kerror: [m[K‘[01m[Kbatt_volt[m[K’ was not declared in this scope
+         cout << "Battery : " << ([01;31m[Kbatt_volt[m[K/1000) << " V" << endl;
+                                  [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:341:36:[m[K [01;31m[Kerror: [m[Kno matching function for call to ‘[01m[Kmove(float [4], ros::NodeHandle&, ros::Publisher&)[m[K’
+           move(cont, n, control_pub[01;31m[K)[m[K; // 정지
+                                    [01;31m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_pair.h:59:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/stl_algobase.h:64[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> constexpr typename std::remove_reference< <template-parameter-1-1> >::type&& std::move(_Tp&&)
+     [01;36m[Kmove[m[K(_Tp&& __t) noexcept
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/move.h:98:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:341:36:[m[K [01;36m[Knote: [m[K  candidate expects 1 argument, 3 provided
+           move(cont, n, control_pub[01;36m[K)[m[K; // 정지
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/bits/char_traits.h:39:0[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:5[m[K:
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _II, class _OI> _OI std::move(_II, _II, _OI)
+     [01;36m[Kmove[m[K(_II __first, _II __last, _OI __result)
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_algobase.h:479:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:341:36:[m[K [01;36m[Knote: [m[K  deduced conflicting types for parameter ‘[01m[K_II[m[K’ (‘[01m[Kfloat*[m[K’ and ‘[01m[Kros::NodeHandle[m[K’)
+           move(cont, n, control_pub[01;36m[K)[m[K; // 정지
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:66:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, const _Tp&, const _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, const _Tp&, const _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/deque.tcc:1048:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:341:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, const _Tp&, const _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K; // 정지
+                                    [01;36m[K^[m[K
+In file included from [01m[K/usr/include/c++/7/deque:64:0[m[K,
+                 from [01m[K/usr/include/boost/detail/container_fwd.hpp:91[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/extensions.hpp:22[m[K,
+                 from [01m[K/usr/include/boost/functional/hash/hash.hpp:594[m[K,
+                 from [01m[K/usr/include/boost/functional/hash.hpp:6[m[K,
+                 from [01m[K/usr/include/boost/unordered/unordered_map.hpp:18[m[K,
+                 from [01m[K/usr/include/boost/unordered_map.hpp:17[m[K,
+                 from [01m[K/opt/ros/melodic/include/tf/tf.h:45[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/include/dji_sdk/demo_flight_control.h:27[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:14[m[K:
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[Kcandidate: template<class _Tp> std::_Deque_iterator<_Tp, _Tp&, _Tp*> std::move(std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>, std::_Deque_iterator<_Tp, _Tp&, _Tp*>)
+     [01;36m[Kmove[m[K(_Deque_iterator<_Tp, _Tp&, _Tp*> __first,
+     [01;36m[K^~~~[m[K
+[01m[K/usr/include/c++/7/bits/stl_deque.h:424:5:[m[K [01;36m[Knote: [m[K  template argument deduction/substitution failed:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:341:36:[m[K [01;36m[Knote: [m[K  mismatched types ‘[01m[Kstd::_Deque_iterator<_Tp, _Tp&, _Tp*>[m[K’ and ‘[01m[Kfloat*[m[K’
+           move(cont, n, control_pub[01;36m[K)[m[K; // 정지
+                                    [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:346:11:[m[K [01;31m[Kerror: [m[K‘[01m[Kis_drone_move[m[K’ was not declared in this scope
+           [01;31m[Kis_drone_move[m[K = false;
+           [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:372:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgimbal_x[m[K’ was not declared in this scope
+     [01;31m[Kgimbal_x[m[K = 77; // 앞보기 - 핀 한개만 있는거. - 이거는 뺐음.(76이 정면) - 77으로 해야 정면 보는 듯
+     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:372:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Klgammal_r[m[K’
+     [01;36m[Kgimbal_x[m[K = 77; // 앞보기 - 핀 한개만 있는거. - 이거는 뺐음.(76이 정면) - 77으로 해야 정면 보는 듯
+     [01;36m[K^~~~~~~~[m[K
+     [32m[Klgammal_r[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:375:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgimbal_y[m[K’ was not declared in this scope
+     [01;31m[Kgimbal_y[m[K = gimbal_down;
+     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:375:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kimu_y[m[K’
+     [01;36m[Kgimbal_y[m[K = gimbal_down;
+     [01;36m[K^~~~~~~~[m[K
+     [32m[Kimu_y[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:375:16:[m[K [01;31m[Kerror: [m[K‘[01m[Kgimbal_down[m[K’ was not declared in this scope
+     gimbal_y = [01;31m[Kgimbal_down[m[K;
+                [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:375:16:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kgimbal_control[m[K’
+     gimbal_y = [01;36m[Kgimbal_down[m[K;
+                [01;36m[K^~~~~~~~~~~[m[K
+                [32m[Kgimbal_control[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:377:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kgim[m[K’ was not declared in this scope
+     [01;31m[Kgim[m[K.data[0] = gimbal_y;
+     [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:377:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Ktime[m[K’
+     [01;36m[Kgim[m[K.data[0] = gimbal_y;
+     [01;36m[K^~~[m[K
+     [32m[Ktime[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kvoid cb_gps_health(std_msgs::UInt8)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:522:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kgps_health[m[K’ was not declared in this scope
+   [01;31m[Kgps_health[m[K = gps_h.data;
+   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:522:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kcb_gps_health[m[K’
+   [01;36m[Kgps_health[m[K = gps_h.data;
+   [01;36m[K^~~~~~~~~~[m[K
+   [32m[Kcb_gps_health[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:526:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kget_gps_time[m[K’ was not declared in this scope
+   [01;31m[Kget_gps_time[m[K = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+   [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:526:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kget_time[m[K’
+   [01;36m[Kget_gps_time[m[K = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+   [01;36m[K^~~~~~~~~~~~[m[K
+   [32m[Kget_time[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kbool obtain_control()[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:540:3:[m[K [01;31m[Kerror: [m[K‘[01m[Ksdk_ctrl_authority_service[m[K’ was not declared in this scope
+   [01;31m[Ksdk_ctrl_authority_service[m[K.call(authority);
+   [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K At global scope:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:591:36:[m[K [01;31m[Kerror: [m[K‘[01m[KBatteryState[m[K’ in namespace ‘[01m[Ksensor_msgs[m[K’ does not name a type
+ void cb_battery(const sensor_msgs::[01;31m[KBatteryState[m[K battery){
+                                    [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kvoid cb_battery(int)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:592:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kbatt_volt[m[K’ was not declared in this scope
+   [01;31m[Kbatt_volt[m[K = battery.voltage;
+   [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:592:23:[m[K [01;31m[Kerror: [m[Krequest for member ‘[01m[Kvoltage[m[K’ in ‘[01m[Kbattery[m[K’, which is of non-class type ‘[01m[Kconst int[m[K’
+   batt_volt = battery.[01;31m[Kvoltage[m[K;
+                       [01;31m[K^~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kvoid cb_kalman(std_msgs::Float64MultiArray)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:596:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_f[m[K’ was not declared in this scope
+   [01;31m[Kkal_f[m[K = kal.data[0];
+   [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:596:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kkal[m[K’
+   [01;36m[Kkal_f[m[K = kal.data[0];
+   [01;36m[K^~~~~[m[K
+   [32m[Kkal[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:597:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_r[m[K’ was not declared in this scope
+   [01;31m[Kkal_r[m[K = kal.data[1];
+   [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:597:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kkal[m[K’
+   [01;36m[Kkal_r[m[K = kal.data[1];
+   [01;36m[K^~~~~[m[K
+   [32m[Kkal[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:598:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_f_vel[m[K’ was not declared in this scope
+   [01;31m[Kkal_f_vel[m[K = kal.data[2];
+   [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:599:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_r_vel[m[K’ was not declared in this scope
+   [01;31m[Kkal_r_vel[m[K = kal.data[3];
+   [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:600:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_time[m[K’ was not declared in this scope
+   [01;31m[Kkal_time[m[K = kal.data[4];
+   [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:600:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kget_time[m[K’
+   [01;36m[Kkal_time[m[K = kal.data[4];
+   [01;36m[K^~~~~~~~[m[K
+   [32m[Kget_time[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:601:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_is_tag[m[K’ was not declared in this scope
+   [01;31m[Kkal_is_tag[m[K = kal.data[5];
+   [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:602:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kkal_is_tag_lost[m[K’ was not declared in this scope
+   [01;31m[Kkal_is_tag_lost[m[K = kal.data[6];
+   [01;31m[K^~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kvoid pub_tf(tf2_msgs::TFMessage)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:607:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kx_tf[m[K’ was not declared in this scope
+   [01;31m[Kx_tf[m[K = msg3.transforms[0].transform.translation.x;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:607:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kpub_tf[m[K’
+   [01;36m[Kx_tf[m[K = msg3.transforms[0].transform.translation.x;
+   [01;36m[K^~~~[m[K
+   [32m[Kpub_tf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:608:3:[m[K [01;31m[Kerror: [m[K‘[01m[Ky_tf[m[K’ was not declared in this scope
+   [01;31m[Ky_tf[m[K = msg3.transforms[0].transform.translation.y;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:608:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kynf[m[K’
+   [01;36m[Ky_tf[m[K = msg3.transforms[0].transform.translation.y;
+   [01;36m[K^~~~[m[K
+   [32m[Kynf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:609:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kz_tf[m[K’ was not declared in this scope
+   [01;31m[Kz_tf[m[K = msg3.transforms[0].transform.translation.z;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:609:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kpub_tf[m[K’
+   [01;36m[Kz_tf[m[K = msg3.transforms[0].transform.translation.z;
+   [01;36m[K^~~~[m[K
+   [32m[Kpub_tf[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In function ‘[01m[Kvoid cb_voposition(dji_sdk::VOPosition)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:637:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvo_z[m[K’ was not declared in this scope
+   [01;31m[Kvo_z[m[K = pos.z;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:637:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvo_n[m[K’
+   [01;36m[Kvo_z[m[K = pos.z;
+   [01;36m[K^~~~[m[K
+   [32m[Kvo_n[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

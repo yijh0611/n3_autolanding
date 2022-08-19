@@ -1,0 +1,13 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:152:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kpub_tf[m[K’ is not captured
+       [01;31m[Kpub_tf[m[K.publish(tag_po);
+       [01;31m[K^~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:134:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:95:18:[m[K [01;36m[Knote: [m[K‘[01m[Kros::Publisher pub_tf[m[K’ declared here
+   ros::Publisher [01;36m[Kpub_tf[m[K = n.advertise<tf2_msgs::TFMessage>("tf", 10); // 필요한거 같은데, 일단 주석
+                  [01;36m[K^~~~~~[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2
