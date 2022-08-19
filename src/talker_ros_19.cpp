@@ -376,6 +376,7 @@ int main(int argc, char **argv){
       // 속도 제어
       if(is_drone_move){
         kp_control = 0.5;
+        kp_control = 0; // 일단 0으로 해보고 나중에 바꾸기
         kd_control = 0;
         if(dt < 0.5){
           kd_control = 0.01;
