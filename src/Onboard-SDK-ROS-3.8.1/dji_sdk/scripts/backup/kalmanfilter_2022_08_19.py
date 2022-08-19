@@ -2,10 +2,6 @@
 # -*- coding: utf-8 -*-
 # 한국어 주석 적기 위함
 
-# 코드 특징
-# 태그가 안보이다가 보이면, 위치가 0에서 갑자기 어떤 숫자가 되기 때문에
-# 속도가 큰 값으로 튈 수 있다. 처음 발견 되면 0.1초 동안 태그의 속도를 0으로 고정
-
 import rospy
 # 칼만필터 부분
 from filterpy.kalman import KalmanFilter
@@ -50,7 +46,6 @@ tf_count_time = time.time()
 tf_count = 0
 tf_tmp = 0
 tf = 0
-
 def callback_tf(tf_data):
     global tf
     tf = tf_data.transforms[0].transform.translation # x,y,z
@@ -146,7 +141,12 @@ if __name__ == '__main__':
 
     # Publish
     pub_kalman = rospy.Publisher('kalmanfilter', Float64MultiArray, queue_size=10)
+    # pub = rospy.Publisher('chatter', String, queue_size=10)
 
+    # 현재시간, Platform의 x,y 속력 정보를 한번에 보내주기
+    # print('Start Kalmanfilter node') # -> 멀티 쓰레드 만든 뒤에 하기.
+    print('Check point')
+    
     # 멀티쓰레드 만들어서 센서 값 받은거 계산해서 출력하게 만들기
     t = threading.Thread(target=ros_spin_thread)
     t.daemon = True
@@ -157,23 +157,25 @@ if __name__ == '__main__':
     
     # IMU 받았는지 확인
     is_imu = True
-    is_gps_acc = True
     time_wait_sensor = time.time()
     while imu_orientation == 0:
         if time.time() - time_wait_sensor > 20:
             is_imu = False
-            is_gps_acc = False
             print("No IMU")
             break
 
     time.sleep(0.5) # 모든 센서값이 다 표시 되는지 확인할 수는 없어서 0.5초 대기 후 실행
 
+    is_gps_acc = True
     time_wait_sensor = time.time()
     while gps_vel == 0:
         if time.time() - time_wait_sensor > 20:
             is_gps_acc = False
             print("No GPS")
             break
+    
+    if is_imu == False:
+        is_gps_acc = False
 
     if is_gps_acc:
         # Tag 정보 받았는지 확인
@@ -188,7 +190,7 @@ if __name__ == '__main__':
 
         # 칼만필터 정의
         dt = 0.01
-        my_filter = KalmanFilter(dim_x=10, dim_z=10)
+        my_filter = KalmanFilter(dim_x=10, dim_z=8)
         my_filter.x = np.array([[vo_po.x], [vo_po.y], [gps_vel.x], [gps_vel.y], [acc_e], [acc_n], [0.0], [0.0], [0.0], [0.0]]) # initial state (location and velocity)
                             # [[right[0]], [front[0]], [vel_r[0]], [vel_f[0]], [acc_r[0]], [acc_f[0]], [tag_r[0]], [tag_f[0]], [0.0], [0.0]]
         my_filter.F = np.array([[1., 0., dt, 0., dt*dt/2,      0., 0., 0., 0., 0.],
@@ -201,7 +203,6 @@ if __name__ == '__main__':
                                 [0., 0., 0., 0.,      0.,      0., 0., 1., 0., dt],
                                 [0., 0., 0., 0.,      0.,      0., 0., 0., 1., 0.],
                                 [0., 0., 0., 0.,      0.,      0., 0., 0., 0., 1.]])    # state transition matrix
-
         my_filter.H = np.array([[1., 0., 0., 0., 0., 0., 0., 0., 0., 0.],
                                 [0., 1., 0., 0., 0., 0., 0., 0., 0., 0.],
                                 [0., 0., 1., 0., 0., 0., 0., 0., 0., 0.],
@@ -209,12 +210,9 @@ if __name__ == '__main__':
                                 [0., 0., 0., 0., 1., 0., 0., 0., 0., 0.],
                                 [0., 0., 0., 0., 0., 1., 0., 0., 0., 0.],
                                 [0., 0., 0., 0., 0., 0., 1., 0., 0., 0.],
-                                [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.],
-                                [0., 0., 0., 0., 0., 0., 0., 0., 1., 0.],
-                                [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]) # 10*10 matrix
-
-        my_filter.P *= 100 * np.identity(10)                 # covariance matrix # 1000 * 단위행렬 ## 20* 단위행렬 // 1*8 행렬일때는 10이었음 
-        my_filter.R = 100 * np.identity(8)               # state uncertainty - # 0.001 # 10000
+                                [0., 0., 0., 0., 0., 0., 0., 1., 0., 0.]])
+        my_filter.P *= 100 * np.identity(10)                 # covariance matrix # 1000 * 단위행렬 ## 20* 단위행렬
+        my_filter.R = 10 * np.identity(8)               # state uncertainty - # 0.001 # 10000
         my_filter.Q = 0.1 * np.identity(10)   # process uncertainty // Q = [1 0; 0 1000]; - 작게 해보기, 크면 측정값에 의존 # 0.00001
     
     # Tag 정보 받았는지 확인
@@ -234,7 +232,7 @@ if __name__ == '__main__':
     # 무한루프 실행
     while is_gps_acc:
         if is_tag: # 태그가 보인적이 있는 경우
-            if tag_chk == tf.x: # 태그가 보이지 않는 경우 // 같은 태그 정보가 들어온 경우
+            if tag_chk == tf.x: # 태그가 보이지 않는 경우
                 if time.time() - time_tag > 0.5: # 0.5초 이상 Tag 값 일정
                     is_tag_lost = True
                     # print("Tag is lost", time.time()-time_tag)
@@ -246,22 +244,16 @@ if __name__ == '__main__':
                     tag_vx = (tf.x - tag_tmp.x)/kal_dt
                     tag_vy = (tf.y - tag_tmp.y)/kal_dt
                     tag_vz = (tf.z - tag_tmp.z)/kal_dt
-                    if kal_dt > 0.1:
-                        tag_vx = 0
-                        tag_vy = 0
-                        tag_vz = 0
-                        reset_tag_x = tf.x
-                        reset_tag_y = tf.y
                 time_tag = time.time()
                 tag_tmp = tf
         else:# 태그가 한번도 보이지 않음.
             if tf != 0: # Tag를 확인했음
                 is_tag = True
                 tag_chk = tf.x
-                # reset_tag_x = tf.x
-                # reset_tag_y = tf.y
-                # tf.x = 0
-                time_tag = time.time() - 0.2 # 0.2를 빼야 위에서 속도가 이상한 값이 나오는 경우를 제외할 수 있다.
+                reset_tag_x = tf.x
+                reset_tag_y = tf.y
+                tf.x = 0
+                time_tag = time.time()
                 print("Tag is found")
 
         # IMU 기반 Orientation 계산
@@ -280,11 +272,10 @@ if __name__ == '__main__':
             tag_f = 0
         
         tag_e, tag_n = fru_to_enu(tag_f, tag_r, yaw)
-        tag_ve, tag_vn = fru_to_enu(-1 * tag_vy, tag_vx, yaw)
         
         # 칼만필터 업데이트
         my_filter.predict()
-        x = np.array([[vo_po.x], [vo_po.y], [gps_vel.x], [gps_vel.y], [acc_e], [acc_n], [tag_e], [tag_n], [tag_ve], [tag_vn]]) # initial state (location and velocity)
+        x = np.array([[vo_po.x], [vo_po.y], [gps_vel.x], [gps_vel.y], [acc_e], [acc_n], [tag_e], [tag_n]]) # initial state (location and velocity)
         my_filter.update(x)
         
         x_filtered = my_filter.x
@@ -293,9 +284,11 @@ if __name__ == '__main__':
         tag_f, tag_r = enu_to_fru(x_filtered[6],x_filtered[7],yaw)
         vel_f, vel_r = enu_to_fru(x_filtered[8]+x_filtered[2],x_filtered[9]+x_filtered[3],yaw)
 
-        # float은 소수점 아래 6자리만 표현 가능해서 double로 보내야 하지만, 그냥 1000으로 나눠서 보내기로 했다. - 이거 사용 안해서 없어도 크게 상관은 없을 듯 하다.
-        time_publish = time.time() % 1000
+        # C에서 float은 소수점 아래 6자리만 표현 가능?
+        time_publish = time.time() % 1000 # 이렇게 해도 소수점 아래로 다 안나오면 1000으로 바꾸기
+                                            # 아마 필요 없을 듯
         time_publish = round(time_publish,2)
+
 
         data_pub = Float64MultiArray()
         try:

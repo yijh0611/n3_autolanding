@@ -276,6 +276,7 @@ Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_3, /
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_18, /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_18)
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/dji_sdk_node, /home/aims/catkin_ws/devel/lib/dji_sdk/dji_sdk_node)
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_14, /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_14)
+Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/get_tf, /home/aims/catkin_ws/devel/lib/dji_sdk/get_tf)
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_2, /home/aims/catkin_ws/devel/lib/dji_sdk/talker_sim_2)
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_4, /home/aims/catkin_ws/devel/lib/dji_sdk/talker_sim_4)
 Linked: (/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/calculate_vel, /home/aims/catkin_ws/devel/lib/dji_sdk/calculate_vel)
