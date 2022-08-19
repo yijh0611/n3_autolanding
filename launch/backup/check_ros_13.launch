@@ -1,0 +1,11 @@
+<launch>
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch"/>
+    <include file="$(find dji_sdk)/launch/sdk.launch"/>
+    
+    <node pkg ="dji_sdk" type="camera_pub_no_imshow" name="publish_camera"/>
+    <node pkg ="dji_sdk" type="gimbal_control.py" name="control_gimbal"/>
+    <node pkg ="dji_sdk" type="save_log" name="save_log" output = "screen"/>
+    <!-- <node pkg ="dji_sdk" type="save_log_gps" name="save_log_gps" output="screen"/> -->
+    <node pkg ="dji_sdk" type="talker_ros_13" name="talker_ros_13" output="screen"/>
+    
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+    <include file="$(find apriltag_ros)/launch/continuous_detection.launch"/>
+    <!-- <include file="$(find dji_sdk)/launch/sdk.launch"/> -->
+    
+    <node pkg ="dji_sdk" type="camera_pub" name="publish_camera"/>
+    <node pkg ="dji_sdk" type="gimbal_control.py" name="control_gimbal"/>
+    <node pkg ="dji_sdk" type="chk_gimbal" name="chk_gimbal" output="screen"/>
+    
+    
+</launch>
