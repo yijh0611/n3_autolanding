@@ -2,9 +2,6 @@
 # -*- coding: utf-8 -*-
 # 한국어 주석 적기 위함
 
-# 코드 특징
-# 태그가 처음 보이면 갑자기 
-
 import rospy
 # 칼만필터 부분
 from filterpy.kalman import KalmanFilter
