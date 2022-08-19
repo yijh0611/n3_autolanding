@@ -1,0 +1,1 @@
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/pkgconfig/dji_sdk_demo.pc

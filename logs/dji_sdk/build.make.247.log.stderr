@@ -1,0 +1,14 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:381:63:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K)[m[K’ token
+             input_f = max_move_spd * (input_f)/(fabs(input_f))[01;31m[K)[m[K;
+                                                               [01;31m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:385:63:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K)[m[K’ token
+             input_r = max_move_spd * (input_r)/(fabs(input_r))[01;31m[K)[m[K;
+                                                               [01;31m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:[m[K In function ‘[01m[Kfloat enu_to_fru(float, float, float)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:702:1:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[K}[m[K’ token
+ [01;31m[K}[m[K
+ [01;31m[K^[m[K
+make[2]: *** [CMakeFiles/talker_ros_19.dir/src/talker_ros_19.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_19.dir/all] Error 2
+make: *** [all] Error 2

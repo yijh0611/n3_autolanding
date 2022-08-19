@@ -1,0 +1,33 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:280:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kd_dx[m[K’ was not declared in this scope
+         [01;31m[Kd_dx[m[K = d_x - d_x_prev;
+         [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:280:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_x[m[K’
+         [01;36m[Kd_dx[m[K = d_x - d_x_prev;
+         [01;36m[K^~~~[m[K
+         [32m[Kd_x[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:281:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kd_dy[m[K’ was not declared in this scope
+         [01;31m[Kd_dy[m[K = d_y - d_y_prev;
+         [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:281:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_y[m[K’
+         [01;36m[Kd_dy[m[K = d_y - d_y_prev;
+         [01;36m[K^~~~[m[K
+         [32m[Kd_y[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:286:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kv_x[m[K’ was not declared in this scope
+         [01;31m[Kv_x[m[K = d_dx / dt;
+         [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:286:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_x[m[K’
+         [01;36m[Kv_x[m[K = d_dx / dt;
+         [01;36m[K^~~[m[K
+         [32m[Kd_x[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:287:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kv_y[m[K’ was not declared in this scope
+         [01;31m[Kv_y[m[K = d_dy / dt;
+         [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:287:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kd_y[m[K’
+         [01;36m[Kv_y[m[K = d_dy / dt;
+         [01;36m[K^~~[m[K
+         [32m[Kd_y[m[K
+make[2]: *** [CMakeFiles/talker_ros_16.dir/src/talker_ros_16.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_16.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

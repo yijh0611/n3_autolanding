@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In function ‘[01m[Kvoid cb_kalman(geometry_msgs::Vector3Stamped)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:570:10:[m[K [01;31m[Kerror: [m[Kreturn-statement with a value, in function returning 'void' [[01;31m[K-fpermissive[m[K]
+   return [01;31m[K0[m[K;
+          [01;31m[K^[m[K
+make[2]: *** [CMakeFiles/talker_ros_16.dir/src/talker_ros_16.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_16.dir/all] Error 2
+make: *** [all] Error 2

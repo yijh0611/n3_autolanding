@@ -1,0 +1,11 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_18.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_18.cpp:297:49:[m[K [01;31m[Kerror: [m[K‘[01m[Kmsecs_tag_time[m[K’ was not declared in this scope
+           if((float)msecs_tag_time_now - (float)[01;31m[Kmsecs_tag_time[m[K < 500){
+                                                 [01;31m[K^~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_18.cpp:297:49:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kmsecs_tag_time_now[m[K’
+           if((float)msecs_tag_time_now - (float)[01;36m[Kmsecs_tag_time[m[K < 500){
+                                                 [01;36m[K^~~~~~~~~~~~~~[m[K
+                                                 [32m[Kmsecs_tag_time_now[m[K
+make[2]: *** [CMakeFiles/talker_ros_18.dir/src/talker_ros_18.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_18.dir/all] Error 2
+make: *** [all] Error 2

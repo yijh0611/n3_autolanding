@@ -1,0 +1,11 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:313:12:[m[K [01;31m[Kerror: [m[K‘[01m[Kbatt_vlot[m[K’ was not declared in this scope
+         if([01;31m[Kbatt_vlot[m[K/1000 < 14.5){
+            [01;31m[K^~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:313:12:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kbatt_volt[m[K’
+         if([01;36m[Kbatt_vlot[m[K/1000 < 14.5){
+            [01;36m[K^~~~~~~~~[m[K
+            [32m[Kbatt_volt[m[K
+make[2]: *** [CMakeFiles/talker_ros_16.dir/src/talker_ros_16.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_16.dir/all] Error 2
+make: *** [all] Error 2

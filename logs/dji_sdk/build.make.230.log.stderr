@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:443:9:[m[K [01;31m[Kerror: [m[Kexpected primary-expression before ‘[01m[K}[m[K’ token
+         [01;31m[K}[m[K
+         [01;31m[K^[m[K
+make[2]: *** [CMakeFiles/talker_ros_19.dir/src/talker_ros_19.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_19.dir/all] Error 2
+make: *** [all] Error 2

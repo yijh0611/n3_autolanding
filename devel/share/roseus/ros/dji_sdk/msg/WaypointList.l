@@ -1,0 +1,1 @@
+/home/aims/catkin_ws/devel/.private/dji_sdk/share/roseus/ros/dji_sdk/msg/WaypointList.l

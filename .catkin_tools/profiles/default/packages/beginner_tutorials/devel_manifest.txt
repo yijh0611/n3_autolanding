@@ -1,0 +1,5 @@
+beginner_tutorials
+/home/aims/catkin_ws/devel/.private/beginner_tutorials/cmake.lock /home/aims/catkin_ws/devel/./cmake.lock
+/home/aims/catkin_ws/devel/.private/beginner_tutorials/share/beginner_tutorials/cmake/beginner_tutorialsConfig.cmake /home/aims/catkin_ws/devel/share/beginner_tutorials/cmake/beginner_tutorialsConfig.cmake
+/home/aims/catkin_ws/devel/.private/beginner_tutorials/share/beginner_tutorials/cmake/beginner_tutorialsConfig-version.cmake /home/aims/catkin_ws/devel/share/beginner_tutorials/cmake/beginner_tutorialsConfig-version.cmake
+/home/aims/catkin_ws/devel/.private/beginner_tutorials/lib/pkgconfig/beginner_tutorials.pc /home/aims/catkin_ws/devel/lib/pkgconfig/beginner_tutorials.pc

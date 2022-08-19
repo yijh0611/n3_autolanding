@@ -1,0 +1,12 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:360:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdiatance_data[m[K’ was not declared in this scope
+         [01;31m[Kdiatance_data[m[K.data[11] = spd_constant;
+         [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:360:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdistance_data[m[K’
+         [01;36m[Kdiatance_data[m[K.data[11] = spd_constant;
+         [01;36m[K^~~~~~~~~~~~~[m[K
+         [32m[Kdistance_data[m[K
+make[2]: *** [CMakeFiles/talker_ros_19.dir/src/talker_ros_19.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_19.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

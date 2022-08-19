@@ -1,0 +1,10 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_sim_3.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_sim_3.cpp:242:15:[m[K [01;31m[Kerror: [m[Kredeclaration of ‘[01m[Kros::Time control_start_time[m[K’
+     ros::Time [01;31m[Kcontrol_start_time[m[K = ros::Time::now();
+               [01;31m[K^~~~~~~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_sim_3.cpp:227:15:[m[K [01;36m[Knote: [m[K‘[01m[Kros::Time control_start_time[m[K’ previously declared here
+     ros::Time [01;36m[Kcontrol_start_time[m[K = ros::Time::now();
+               [01;36m[K^~~~~~~~~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/talker_sim_3.dir/src/talker_sim_3.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_sim_3.dir/all] Error 2
+make: *** [all] Error 2

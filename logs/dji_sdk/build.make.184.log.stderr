@@ -1,0 +1,8 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_sim_4.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_sim_4.cpp:229:60:[m[K [01;31m[Kerror: [m[K‘[01m[Kkp[m[K’ cannot be used as a function
+       float move_right = target_spd + kp(target_spd - vel_x[01;31m[K)[m[K;
+                                                            [01;31m[K^[m[K
+make[2]: *** [CMakeFiles/talker_sim_4.dir/src/talker_sim_4.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_sim_4.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

@@ -1,0 +1,124 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:165:5:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+     [01;31m[Kdistance[m[K.data.push_back(0.0);
+     [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:305:9:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         [01;31m[Kdistance[m[K.data[0] = d_x;
+         [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:306:9:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         [01;31m[Kdistance[m[K.data[1] = v_x;
+         [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:307:9:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         [01;31m[Kdistance[m[K.data[2] = d_y;
+         [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:308:9:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         [01;31m[Kdistance[m[K.data[3] = v_y;
+         [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:309:9:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         [01;31m[Kdistance[m[K.data[4] = dt;
+         [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:310:9:[m[K [01;31m[Kerror: [m[K‘[01m[Kdiatance_pub[m[K’ was not declared in this scope
+         [01;31m[Kdiatance_pub[m[K.publish(distance);
+         [01;31m[K^~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:310:9:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdistance_pub[m[K’
+         [01;36m[Kdiatance_pub[m[K.publish(distance);
+         [01;36m[K^~~~~~~~~~~~[m[K
+         [32m[Kdistance_pub[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:310:30:[m[K [01;31m[Kerror: [m[Kreference to ‘[01m[Kdistance[m[K’ is ambiguous
+         diatance_pub.publish([01;31m[Kdistance[m[K);
+                              [01;31m[K^~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:105:29:[m[K [01;36m[Knote: [m[Kcandidates are: std_msgs::Float64MultiArray distance
+ std_msgs::Float64MultiArray [01;36m[Kdistance[m[K;
+                             [01;36m[K^~~~~~~~[m[K
+In file included from [01m[K/usr/include/c++/7/bits/stl_algobase.h:66:0[m[K,
+                 from [01m[K/usr/include/c++/7/bits/char_traits.h:39[m[K,
+                 from [01m[K/usr/include/c++/7/string:40[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/platform.h:38[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/time.h:53[m[K,
+                 from [01m[K/opt/ros/melodic/include/ros/ros.h:38[m[K,
+                 from [01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:1[m[K:
+[01m[K/usr/include/c++/7/bits/stl_iterator_base_funcs.h:138:5:[m[K [01;36m[Knote: [m[K                template<class _InputIterator> typename std::iterator_traits<_Iterator>::difference_type std::distance(_InputIterator, _InputIterator)
+     [01;36m[Kdistance[m[K(_InputIterator __first, _InputIterator __last)
+     [01;36m[K^~~~~~~~[m[K
+make[2]: *** [CMakeFiles/talker_ros_16.dir/src/talker_ros_16.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_16.dir/all] Error 2
+make: *** [all] Error 2

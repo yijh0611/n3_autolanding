@@ -1,0 +1,1 @@
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/share/dji_sdk_demo/cmake/dji_sdk_demoConfig-version.cmake

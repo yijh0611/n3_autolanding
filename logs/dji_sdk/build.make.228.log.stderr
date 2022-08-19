@@ -1,0 +1,21 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:78:1:[m[K [01;31m[Kerror: [m[Kexpected initializer before ‘[01m[Kfloat[m[K’
+ [01;31m[Kfloat[m[K r_prev = 0;
+ [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:[m[K In function ‘[01m[Kvoid cb_gps_velocity(geometry_msgs::Vector3Stamped)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:550:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrone_vel_n[m[K’ was not declared in this scope
+     [01;31m[Kdrone_vel_n[m[K = vel.vector.y;
+     [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:550:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdrone_vel_e[m[K’
+     [01;36m[Kdrone_vel_n[m[K = vel.vector.y;
+     [01;36m[K^~~~~~~~~~~[m[K
+     [32m[Kdrone_vel_e[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:551:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kdrone_vel_u[m[K’ was not declared in this scope
+     [01;31m[Kdrone_vel_u[m[K = vel.vector.z;
+     [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:551:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdrone_vel_e[m[K’
+     [01;36m[Kdrone_vel_u[m[K = vel.vector.z;
+     [01;36m[K^~~~~~~~~~~[m[K
+     [32m[Kdrone_vel_e[m[K
+make[2]: *** [CMakeFiles/talker_ros_19.dir/src/talker_ros_19.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_19.dir/all] Error 2
+make: *** [all] Error 2

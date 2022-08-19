@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/aims/catkin_ws/devel/.private/dji_sdk/setup.sh

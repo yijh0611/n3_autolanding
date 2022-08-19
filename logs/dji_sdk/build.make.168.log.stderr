@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/camera_pub_no_imshow.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/camera_pub_no_imshow.cpp:85:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kimg_tmp[m[K’ was not declared in this scope
+   [01;31m[K// img_[m[Ktmp = img;
+   [01;31m[K^~~~~~~[m[K
+make[2]: *** [CMakeFiles/camera_pub_no_imshow.dir/src/camera_pub_no_imshow.cpp.o] Error 1
+make[1]: *** [CMakeFiles/camera_pub_no_imshow.dir/all] Error 2
+make: *** [all] Error 2

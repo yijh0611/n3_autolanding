@@ -1,0 +1,11 @@
+dji_sdk_demo
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/cmake.lock /home/aims/catkin_ws/devel/./cmake.lock
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/share/dji_sdk_demo/cmake/dji_sdk_demoConfig.cmake /home/aims/catkin_ws/devel/share/dji_sdk_demo/cmake/dji_sdk_demoConfig.cmake
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/share/dji_sdk_demo/cmake/dji_sdk_demoConfig-version.cmake /home/aims/catkin_ws/devel/share/dji_sdk_demo/cmake/dji_sdk_demoConfig-version.cmake
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_mfio /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_mfio
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_local_position_control /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_local_position_control
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_mobile_comm /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_mobile_comm
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_flight_control /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_flight_control
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_camera_gimbal /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_camera_gimbal
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/dji_sdk_demo/demo_mission /home/aims/catkin_ws/devel/lib/dji_sdk_demo/demo_mission
+/home/aims/catkin_ws/devel/.private/dji_sdk_demo/lib/pkgconfig/dji_sdk_demo.pc /home/aims/catkin_ws/devel/lib/pkgconfig/dji_sdk_demo.pc

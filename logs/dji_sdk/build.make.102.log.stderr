@@ -1,0 +1,47 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In function ‘[01m[Kvoid cb_gps_velocity(geometry_msgs::Vector3Stamped)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:376:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_x[m[K’ was not declared in this scope
+     [01;31m[Kvel_x[m[K = vel.vector.x;
+     [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:376:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvel_r[m[K’
+     [01;36m[Kvel_x[m[K = vel.vector.x;
+     [01;36m[K^~~~~[m[K
+     [32m[Kvel_r[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:377:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_y[m[K’ was not declared in this scope
+     [01;31m[Kvel_y[m[K = vel.vector.y;
+     [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:377:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvel_r[m[K’
+     [01;36m[Kvel_y[m[K = vel.vector.y;
+     [01;36m[K^~~~~[m[K
+     [32m[Kvel_r[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:378:5:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_z[m[K’ was not declared in this scope
+     [01;31m[Kvel_z[m[K = vel.vector.z;
+     [01;31m[K^~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:378:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvel_r[m[K’
+     [01;36m[Kvel_z[m[K = vel.vector.z;
+     [01;36m[K^~~~~[m[K
+     [32m[Kvel_r[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:[m[K In function ‘[01m[Kvoid cb_voposition(dji_sdk::VOPosition)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:391:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvo_x[m[K’ was not declared in this scope
+   [01;31m[Kvo_x[m[K = pos.x;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:391:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvoid[m[K’
+   [01;36m[Kvo_x[m[K = pos.x;
+   [01;36m[K^~~~[m[K
+   [32m[Kvoid[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:392:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvo_y[m[K’ was not declared in this scope
+   [01;31m[Kvo_y[m[K = pos.y;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:392:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvoid[m[K’
+   [01;36m[Kvo_y[m[K = pos.y;
+   [01;36m[K^~~~[m[K
+   [32m[Kvoid[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:393:3:[m[K [01;31m[Kerror: [m[K‘[01m[Kvo_z[m[K’ was not declared in this scope
+   [01;31m[Kvo_z[m[K = pos.z;
+   [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_16.cpp:393:3:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kvoid[m[K’
+   [01;36m[Kvo_z[m[K = pos.z;
+   [01;36m[K^~~~[m[K
+   [32m[Kvoid[m[K
+make[2]: *** [CMakeFiles/talker_ros_16.dir/src/talker_ros_16.cpp.o] Error 1
+make[1]: *** [CMakeFiles/talker_ros_16.dir/all] Error 2
+make: *** [all] Error 2

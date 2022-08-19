@@ -1,0 +1,7 @@
+<launch>
+    <include file="$(find dji_sdk)/launch/sdk.launch"/>
+    
+    <node pkg ="dji_sdk" type="save_log_sim" name="save_log_sim" output = "screen"/>
+    <node pkg ="dji_sdk" type="talker_sim_2" name="talker_sim_2" output="screen"/>
+    
+</launch>
