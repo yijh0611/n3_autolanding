@@ -10,6 +10,7 @@
 #include "dji_sdk/demo_flight_control.h" // 이게 있어야 dji_sdk::SDKControlAuthority가 되는 듯 // dji_sdk/demo...에서 dji_sdk는 헤더 파일이 있는 폴더 이름
 #include "geometry_msgs/Vector3.h"
 #include "tf2_msgs/TFMessage.h"
+#include "geometry_msgs/Transform.h" // 시뮬레이션
 // multi thread
 #include <mutex>
 #include <thread>
@@ -79,6 +80,9 @@ float r_prev = 0;
 float f_prev = 0;
 float z_prev = 0;
 float dt = 0;
+// Tag 정보 수신이 되는지 확인
+bool is_tag_signal = false;
+
 // PID 계수
 float kp = 0.7; 
 float kd = 0.07; // 2.5
@@ -93,7 +97,7 @@ float kal_r,kal_f,kal_r_vel,kal_f_vel,kal_time,kal_is_tag,kal_is_tag_lost;
 float x_tf, y_tf, z_tf;
 double time_prev;
 float gimbal_down;
-bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
+bool is_gimbal_down = true; // 밖에서 할때는 false, 안에서 할때는 true
 
 // 드론 제어해도 되는지 판단
 bool is_drone_move = false;
@@ -101,7 +105,7 @@ float spd_r, spd_f, spd_u, spd_y;
 float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
 float drone_vel_f_prev = 0;
 float drone_vel_r_prev = 0;
-// float 
+// tf 정보 
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
@@ -117,6 +121,7 @@ void move(float cont[], ros::NodeHandle n, ros::Publisher control_pub);
 void cb_battery(const sensor_msgs::BatteryState battery);
 void cb_kalman(const std_msgs::Float64MultiArray kal);
 void callback_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
+void callback_tf_2(const geometry_msgs::Transform tag_tmp); // Tag 정보 simulation
 void get_time();
 float get_yaw(float w, float x, float y, float z);
 float enu_to_fru(float e, float n, float y);
@@ -143,6 +148,7 @@ int main(int argc, char **argv){
   ros::Subscriber sub_battery = n.subscribe("dji_sdk/battery_state", 1000, cb_battery);
   ros::Subscriber sub_kalman = n.subscribe("kalmanfilter", 1000, cb_kalman);
   ros::Subscriber sub_tf = n.subscribe("tf", 1000, callback_tf);
+  ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
   
   // publisher
   ros::Publisher control_vel_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_ENUvelocity_yawrate", 10);
@@ -174,6 +180,25 @@ int main(int argc, char **argv){
     }
     ros::spinOnce();
   }
+
+  chk_start = 0;
+  while(is_tag_signal == false){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
+    ros::Duration(0.1).sleep();
+    chk_start += 1;
+    if (chk_start > 100){
+      ROS_ERROR("No Tag singal for 10 Sec!");
+      ROS_ERROR("Simulation");
+      // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
+      break;
+    }
+    ros::spinOnce();
+  }
+
+  // if (is_tag_signal == false){
+  //   ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
+  //   ros::spin();
+  // }
+
   
   if(!is_run_thread){
     return 0;
@@ -195,8 +220,10 @@ int main(int argc, char **argv){
   
 
   // // 계수 입력 받기
-  cout << "Maximum speed" << endl;
-  cin >> max_move_spd;
+  if (is_tag_signal){ // 시뮬레이션이 아닐 때
+    cout << "Maximum speed" << endl;
+    cin >> max_move_spd;
+  }
 
   if(max_move_spd > 5){
     max_move_spd = 5;
@@ -222,6 +249,11 @@ int main(int argc, char **argv){
   // // // // 쓰레드 1 - Get sensor data
   auto ros_spin = []()
 	{
+    // if (is_tag_signal == false){
+    //   cout << "Start TF_2" << endl;
+    //   ros::NodeHandle nh;
+    //   ros::Subscriber sub_tf_2 = nh.subscribe("tf_2", 1000, callback_tf_2);
+    // }
     if(is_run_thread){
       cout << "start ros spin" << endl;
       ros::spin(); // 이거 굳이 쓰레드 한개를 차지할 필요가 있나? 그냥 메인함수에 남겨둬도 될거 같은데.
@@ -263,20 +295,29 @@ int main(int argc, char **argv){
     struct timeval time_now{};
     time_t msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
 
+    int count_tag_lost = 0;
+
     while(is_run_thread){ // 이게 수정된 제어 코드
+      count_tag_lost += 1;
       if(ros::Time::now() - time_no_tag > ros::Duration(time_limit)){
         move_front = 0;
         move_right = 0; // 안해도 되는데, 로그 저장할 때 있으면 좋을 듯.
         is_drone_move = false;
-        ROS_ERROR("Tag is lost");
+        if(count_tag_lost % 100 == 0){
+          ROS_ERROR("Tag is lost");
+        }
         tag_time = ros::Time::now().toSec();
         // cout << "Time : " << tag_time << endl;
         // gettimeofday(&time_now, nullptr);
         // msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
       }
 
-      // 칼만필터 없이 태그만 가지고 이동
+      // 태그 거리기반 PID
       if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
+        if(count_tag_lost % 100 == 0){
+          ROS_INFO("Tag is found");
+          count_tag_lost = 0;
+        }
         float d_x = x_tf;
         float d_y = -1 * y_tf;
         
@@ -323,8 +364,6 @@ int main(int argc, char **argv){
 
         if(ros::Time::now().toSec() - tag_time < 0.5){
           spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; // - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
-          // cout << ros::Time::now().toSec() - tag_time << endl;
-          // spd_constant = ((float)msecs_tag_time_now - (float)msecs_tag_time)/500;
         }
 
         float kal_r_vel_tmp = kal_r_vel * spd_constant;
@@ -690,12 +729,26 @@ void cb_kalman(const std_msgs::Float64MultiArray kal){
 
 void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
 { // 값 저장하는 코드
-  x_tf = msg3.transforms[0].transform.translation.x;
-  y_tf = msg3.transforms[0].transform.translation.y;
-  z_tf = msg3.transforms[0].transform.translation.z;
-  // cout << "x_tf : " << x_tf << endl;
-  // cout << "y_tf : " << y_tf << endl;
-  // cout << "z_tf : " << z_tf << endl;
+  if (is_tag_signal){
+    x_tf = msg3.transforms[0].transform.translation.x;
+    y_tf = msg3.transforms[0].transform.translation.y;
+    z_tf = msg3.transforms[0].transform.translation.z;
+    is_tag_signal = true;
+    // cout << "x_tf : " << x_tf << endl;
+    // cout << "y_tf : " << y_tf << endl;
+    // cout << "z_tf : " << z_tf << endl;
+  }
+}
+
+void callback_tf_2(const geometry_msgs::Transform tag_tmp){
+  if (is_tag_signal == false){
+    // cout << tag_tmp << endl;
+    x_tf = tag_tmp.translation.x;
+    // cout << x_tf << endl;
+    y_tf = tag_tmp.translation.y;
+    z_tf = tag_tmp.translation.z;
+    // cout << "tf_2" << endl;
+  }
 }
 
 void cb_gps_velocity(const geometry_msgs::Vector3Stamped vel){
