@@ -177,7 +177,7 @@ int main(int argc, char **argv){
 
     geometry_msgs::Transform tag_po;
 
-    // double time_start = ros::Time::now().toSec();
+    double time_start = ros::Time::now().toSec();
     double time_prev = ros::Time::now().toSec();
 
     int i = 0;
@@ -188,8 +188,9 @@ int main(int argc, char **argv){
     float vo_n_start = 0;
     float vo_z_start = 0;
 
-    // float dt_all = 0;
+    float dt_all = 0;
     float dt = 0;
+    bool is_circle = true;
 
     float tag_e = 0;
     float tag_n = 0;
@@ -215,7 +216,7 @@ int main(int argc, char **argv){
 
           is_first = false;
 
-          // time_start = ros::Time::now().toSec();
+          time_start = ros::Time::now().toSec();
           time_prev = ros::Time::now().toSec();
           ROS_INFO("init");
         }
@@ -223,15 +224,32 @@ int main(int argc, char **argv){
 
       count_while += 1;
 
-      // dt 랜덤하게 정의
+      // dt 랜덤하게 정의 - 정규분포로 난수 생성하는건 없는 것 같다.
+      // 정규분포를 가지고 있는 list를 만들어서 그 중에 랜덤하게 꺼내는걸 해야 하는 듯.
+      // 일단 보류
 
 
 
       if (vo_z != 0){ // 위치 정보가 들어올 때
+       
+        // Tag 원운동 할 때
+        if (is_circle){
+          int radius = 5;
+          int ang_vel = 3;
+          tag_vel_e = radius * cos(ang_vel * dt_all);
+          tag_vel_n = radius * sin(ang_vel * dt_all); 
+        }
+
+        // 시간이 너무 지나면, 정지
+        if(dt_all > 100){
+          tag_vel_e = 0;
+          tag_vel_n = 0;
+        }
+
         // Tag 위치
         tag_e += tag_vel_e * dt;
         tag_n += tag_vel_n * dt;
-
+        
         float drone_to_tag_e = tag_e - vo_e;
         float drone_to_tag_n = tag_n - vo_n;
 
@@ -242,43 +260,39 @@ int main(int argc, char **argv){
         tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
         tag_po.translation.y = -1 * tag_f;
         tag_po.translation.z = -1 * (vo_z - vo_z_start); // vo_z는 높아지면 음수가 되는 듯.
-        if(fabs(tag_e - vo_e_start) > 20){ // 시작으로부터 20미터 이상 이동했을 경우
-          tag_vel_e = 0;
-          tag_vel_n = 0;
-        }
 
         // Publish Tag info
         pub_tf.publish(tag_po);
 
-        if(count_while % 12 == 0){
-          // cout << "Tag distance from start : " << tag_e - vo_e_start << endl;
-          // cout << "tag_e : " << tag_e - vo_e << endl;
-          cout << "drone to tag e : " << drone_to_tag_e << endl;
-          cout << "drone to tag n : " << drone_to_tag_n << endl;
-          cout << "yaw : " << yaw << endl;
-          cout << "sin : " << sin(yaw) << endl;
-          cout << "cos : " << cos(yaw) << endl;
-          cout << "Tag_f : " << tag_f << endl;
-          cout << "Tag_r : " << tag_r << endl;
-          cout << endl;
+        // if(count_while % 12 == 0){ // 정보 확인용.
+        //   // cout << "Tag distance from start : " << tag_e - vo_e_start << endl;
+        //   // cout << "tag_e : " << tag_e - vo_e << endl;
+        //   // cout << "drone to tag e : " << drone_to_tag_e << endl;
+        //   // cout << "drone to tag n : " << drone_to_tag_n << endl;
+        //   // cout << "yaw : " << yaw << endl;
+        //   // cout << "sin : " << sin(yaw) << endl;
+        //   // cout << "cos : " << cos(yaw) << endl;
+        //   // cout << "Tag_f : " << tag_f << endl;
+        //   // cout << "Tag_r : " << tag_r << endl;
+        //   // cout << endl;
 
-          cout << "vo_e : " << vo_e << endl;
-          cout << "vo_n : " << vo_n << endl;
-          // cout << "tag_n : " << tag_n - vo_n << endl;
-          cout << "tag_abs_e : " << tag_e << endl;
-          cout << "tag_abs_n : " << tag_n << endl;
-          cout << "count : " << count_while << endl;
-          cout << endl;
-          cout << endl;
+        //   // cout << "vo_e : " << vo_e << endl;
+        //   // cout << "vo_n : " << vo_n << endl;
+        //   // // cout << "tag_n : " << tag_n - vo_n << endl;
+        //   // cout << "tag_abs_e : " << tag_e << endl;
+        //   // cout << "tag_abs_n : " << tag_n << endl;
+        //   // cout << "count : " << count_while << endl;
+        //   cout << endl;
+        //   cout << endl;
           
-          count_while = 0;
-        }
+        //   count_while = 0;
+        // }
 
         while(ros::Time::now().toSec() - time_prev < 0.083){ // 12Hz로 데이터 보내기
           // 아무것도 안함.
           i = 1 - i;
         }
-        // dt_all = ros::Time::now().toSec() - time_start;
+        dt_all = ros::Time::now().toSec() - time_start;
         dt = ros::Time::now().toSec() - time_prev;
         // cout << "dt : " << dt << endl;
         time_prev = ros::Time::now().toSec();
