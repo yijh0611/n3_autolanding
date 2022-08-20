@@ -96,7 +96,8 @@ void cb_voposition(const dji_sdk::VOPosition pos); // 위치
 // void pub_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
 void get_time();
 float get_yaw(float w, float x, float y, float z);
-float enu_to_fru(float e, float n, float y);
+float enu_to_fru_f(float e, float n, float y);
+float enu_to_fru_r(float e, float n, float y);
 
 // tf2_msgs::TFMessage tag_po; // 태그 정보 보내기 위한 변수
 
@@ -192,7 +193,7 @@ int main(int argc, char **argv){
 
     float tag_e = 0;
     float tag_n = 0;
-    float tag_f = 1;
+    float tag_f = 0;
     float tag_r = 0;
     float yaw = 0;
     float tag_vel_e = 2;
@@ -207,7 +208,7 @@ int main(int argc, char **argv){
         if (vo_z != 0){
           vo_z_start = vo_z;
           vo_e_start = vo_e;
-          vo_n_start = vo_n;
+          vo_n_start = vo_n + 1;
 
           tag_e = vo_e;
           tag_n = vo_n;
@@ -235,7 +236,8 @@ int main(int argc, char **argv){
         float drone_to_tag_n = tag_n - vo_n;
 
         yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
-        tag_f, tag_r = enu_to_fru(drone_to_tag_e, drone_to_tag_n, yaw);
+        tag_f = enu_to_fru_f(drone_to_tag_e, drone_to_tag_n, yaw);
+        tag_r = enu_to_fru_r(drone_to_tag_e, drone_to_tag_n, yaw);
 
         tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
         tag_po.translation.y = -1 * tag_f;
@@ -318,11 +320,14 @@ float get_yaw(float w, float x, float y, float z){
   return yaw;
 }
 
-float enu_to_fru(float e, float n, float y){
+float enu_to_fru_f(float e, float n, float y){
   float f = e * cos(y) + n * sin(y);
-  float r = e * sin(y) - n * cos(y);
+  return f;
+}
 
-  return f,r;
+float enu_to_fru_r(float e, float n, float y){
+  float r = e * sin(y) - n * cos(y);
+  return r;
 }
 
 void cb_voposition(const dji_sdk::VOPosition pos){ // 이거 0.1Hz 라서 사용하기 힘들거 같다.

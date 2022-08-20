@@ -124,7 +124,8 @@ void callback_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 
 void callback_tf_2(const geometry_msgs::Transform tag_tmp); // Tag 정보 simulation
 void get_time();
 float get_yaw(float w, float x, float y, float z);
-float enu_to_fru(float e, float n, float y);
+float enu_to_fru_f(float e, float n, float y);
+float enu_to_fru_r(float e, float n, float y);
 
 std_msgs::Float64MultiArray gim;
 std_msgs::Float64MultiArray distance_data;
@@ -414,7 +415,7 @@ int main(int argc, char **argv){
 
       // 속도 제어
       if(is_drone_move){
-        kp_control = 0.5;
+        kp_control = 0; // 직전에는 0.5
         kp_control = 0; // 일단 0으로 해보고 나중에 바꾸기
         kd_control = 0;
         if(dt < 0.5){
@@ -422,7 +423,8 @@ int main(int argc, char **argv){
         }
 
         float yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
-        float drone_vel_f, drone_vel_r = enu_to_fru(drone_vel_e, drone_vel_n, yaw);
+        float drone_vel_f = enu_to_fru_f(drone_vel_e, drone_vel_n, yaw);
+        float drone_vel_r = enu_to_fru_r(drone_vel_e, drone_vel_n, yaw);
         
         // PID를 위한 계산
         float proportional_f = spd_f - drone_vel_f;
@@ -765,9 +767,12 @@ float get_yaw(float w, float x, float y, float z){
   return yaw;
 }
 
-float enu_to_fru(float e, float n, float y){
+float enu_to_fru_f(float e, float n, float y){
   float f = e * cos(y) + n * sin(y);
-  float r = e * sin(y) - n * cos(y);
+  return f;
+}
 
-  return f,r;
+float enu_to_fru_r(float e, float n, float y){
+  float r = e * sin(y) - n * cos(y);
+  return r;
 }
