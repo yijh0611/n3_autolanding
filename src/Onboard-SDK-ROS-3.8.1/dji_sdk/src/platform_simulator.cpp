@@ -78,6 +78,21 @@ void get_imu(const sensor_msgs::Imu msg);
 // gps 관련
 void cb_voposition(const dji_sdk::VOPosition pos); // 위치
 
+// float get_yaw(float w, float x, float y, float z){
+//   float yaw_x = 2 * (w * z + x * y);
+//   float yaw_y = 1 - 2 * (y * y + z * z);
+//   float yaw = atan2(yaw_x, yaw_y);
+
+//   return yaw;
+// }
+
+// float enu_to_fru(float e, float n, float y){
+//   float f = e * cos(y) + n * sin(y);
+//   float r = e * sin(y) - n * cos(y);
+
+//   return f,r;
+// }
+
 // void pub_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
 void get_time();
 float get_yaw(float w, float x, float y, float z);
@@ -105,17 +120,23 @@ int main(int argc, char **argv){
   // GPS신호 대기
   float chk_start = 0;
   is_run_thread = true;
-  // while(vo_position_chk == 0){
-  //   chk_start += 1;
-  //   if (chk_start > 300){
-  //     ROS_ERROR("No GPS position for 30 Sec!");
-  //     is_run_thread = false;
-  //     return 0;
-  //     break;
-  //   }
-  //   ros::Duration(0.1).sleep();
-  //   ros::spinOnce();
-  // }
+  while(vo_position_chk == 0){
+    chk_start += 1;
+    if (chk_start > 300){
+      ROS_ERROR("No GPS position for 30 Sec!");
+      is_run_thread = false;
+      return 0;
+      break;
+    }
+    ros::Duration(0.1).sleep();
+    ros::spinOnce();
+  }
+  if(chk_start <= 300){
+    ROS_INFO("Vo_position recieved");
+    cout << "vo_e : " << vo_e << endl;
+    cout << "vo_n : " << vo_n << endl;
+    cout << "vo_z : " << vo_z << endl;
+  }
   
   // for(int i=0; i<3; i++){
   //   // tag_po.transforms[0].transform.translation.push_back(0.0);
@@ -141,33 +162,124 @@ int main(int argc, char **argv){
   // 쓰레드 2 - Control drone
   auto control_drone = []()
 	{
+    double time_is_start = ros::Time::now().toSec();
+    int int_wait = 0;
+    while (ros::Time::now().toSec() - time_is_start < 12){
+      int_wait = 1 - int_wait;
+    }
     cout << "Tag simulation start" << endl;
 
     // // 드론 제어
     ros::NodeHandle n;
     ros::Publisher pub_tf = n.advertise<geometry_msgs::Transform>("tf_2", 10);
-    // ros::Publisher control_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_generic", 10); // 이거로 해야지 NEU가 아니라 FRU로 할 수 있다.
-    // ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
     ros::Rate loop_rate(50);
 
-    // time_prev = ros::Time::now().toSec() - 2; // 시작할 때 속도 높게나오는거 방지하기 위함.
-    // ros::Time time_no_tag = ros::Time::now();
-    // // float tag_time = ros::Time::now().toSec();
-    // struct timeval time_now{};
-    // time_t msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
-    int i = 0;
     geometry_msgs::Transform tag_po;
-    cout << "chk point" << endl;
+
+    // double time_start = ros::Time::now().toSec();
+    double time_prev = ros::Time::now().toSec();
+
+    int i = 0;
+    // int j = 0;
+    bool is_first = true;
     
+    float vo_e_start = 0;
+    float vo_n_start = 0;
+    float vo_z_start = 0;
+
+    // float dt_all = 0;
+    float dt = 0;
+
+    float tag_e = 0;
+    float tag_n = 0;
+    float tag_f = 1;
+    float tag_r = 0;
+    float yaw = 0;
+    float tag_vel_e = 2;
+    float tag_vel_n = 0;
+
+    int count_while = 0;
+
+    ROS_INFO("Start simulation");
 
     while(is_run_thread){ // Start Tag simulation
-      i+=1;
-      
-      tag_po.translation.x = i;
-      pub_tf.publish(tag_po);
+      if (is_first){
+        if (vo_z != 0){
+          vo_z_start = vo_z;
+          vo_e_start = vo_e;
+          vo_n_start = vo_n;
 
-      if (i>100){
-        i = 0;
+          tag_e = vo_e;
+          tag_n = vo_n;
+
+          is_first = false;
+
+          // time_start = ros::Time::now().toSec();
+          time_prev = ros::Time::now().toSec();
+          ROS_INFO("init");
+        }
+      }
+
+      count_while += 1;
+
+      // dt 랜덤하게 정의
+
+
+
+      if (vo_z != 0){ // 위치 정보가 들어올 때
+        // Tag 위치
+        tag_e += tag_vel_e * dt;
+        tag_n += tag_vel_n * dt;
+
+        float drone_to_tag_e = tag_e - vo_e;
+        float drone_to_tag_n = tag_n - vo_n;
+
+        yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
+        tag_f, tag_r = enu_to_fru(drone_to_tag_e, drone_to_tag_n, yaw);
+
+        tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
+        tag_po.translation.y = -1 * tag_f;
+        tag_po.translation.z = -1 * (vo_z - vo_z_start); // vo_z는 높아지면 음수가 되는 듯.
+        if(fabs(tag_e - vo_e_start) > 20){ // 시작으로부터 20미터 이상 이동했을 경우
+          tag_vel_e = 0;
+          tag_vel_n = 0;
+        }
+
+        // Publish Tag info
+        pub_tf.publish(tag_po);
+
+        if(count_while % 12 == 0){
+          // cout << "Tag distance from start : " << tag_e - vo_e_start << endl;
+          // cout << "tag_e : " << tag_e - vo_e << endl;
+          cout << "drone to tag e : " << drone_to_tag_e << endl;
+          cout << "drone to tag n : " << drone_to_tag_n << endl;
+          cout << "yaw : " << yaw << endl;
+          cout << "sin : " << sin(yaw) << endl;
+          cout << "cos : " << cos(yaw) << endl;
+          cout << "Tag_f : " << tag_f << endl;
+          cout << "Tag_r : " << tag_r << endl;
+          cout << endl;
+
+          cout << "vo_e : " << vo_e << endl;
+          cout << "vo_n : " << vo_n << endl;
+          // cout << "tag_n : " << tag_n - vo_n << endl;
+          cout << "tag_abs_e : " << tag_e << endl;
+          cout << "tag_abs_n : " << tag_n << endl;
+          cout << "count : " << count_while << endl;
+          cout << endl;
+          cout << endl;
+          
+          count_while = 0;
+        }
+
+        while(ros::Time::now().toSec() - time_prev < 0.083){ // 12Hz로 데이터 보내기
+          // 아무것도 안함.
+          i = 1 - i;
+        }
+        // dt_all = ros::Time::now().toSec() - time_start;
+        dt = ros::Time::now().toSec() - time_prev;
+        // cout << "dt : " << dt << endl;
+        time_prev = ros::Time::now().toSec();
       }
     }
 	};
@@ -218,4 +330,5 @@ void cb_voposition(const dji_sdk::VOPosition pos){ // 이거 0.1Hz 라서 사용
   vo_e = pos.y; // y가 동쪽인데, 코드를 x를 동쪽으로 짜서 이렇게 바꿨음.
   vo_n = pos.x;
   vo_z = pos.z;
+  vo_position_chk = pos.y;
 }

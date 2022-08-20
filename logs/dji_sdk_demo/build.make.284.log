@@ -1,0 +1,7 @@
+[  0%] Built target dji_sdk_generate_messages_cpp
+[ 33%] Built target demo_mission
+[ 33%] Built target demo_camera_gimbal
+[ 50%] Built target demo_mfio
+[ 66%] Built target demo_flight_control
+[ 83%] Built target demo_local_position_control
+[100%] Built target demo_mobile_comm
