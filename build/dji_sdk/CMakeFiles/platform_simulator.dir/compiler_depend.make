@@ -1533,8 +1533,16 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
   /usr/include/c++/7/thread \
   /opt/ros/melodic/include/sensor_msgs/CameraInfo.h \
   /opt/ros/melodic/include/sensor_msgs/RegionOfInterest.h \
-  /home/aims/catkin_ws/devel/.private/dji_sdk/include/dji_sdk/VOPosition.h
+  /home/aims/catkin_ws/devel/.private/dji_sdk/include/dji_sdk/VOPosition.h \
+  /usr/include/c++/7/random \
+  /usr/include/c++/7/bits/random.h \
+  /usr/include/aarch64-linux-gnu/c++/7/bits/opt_random.h \
+  /usr/include/c++/7/bits/random.tcc \
+  /usr/include/c++/7/numeric \
+  /usr/include/c++/7/bits/stl_numeric.h
 
+
+/usr/include/c++/7/numeric:
 
 /home/aims/catkin_ws/devel/.private/dji_sdk/include/dji_sdk/VOPosition.h:
 
@@ -1625,6 +1633,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
 /usr/include/boost/functional/hash/hash.hpp:
 
 /usr/include/boost/preprocessor/seq/first_n.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/7/bits/opt_random.h:
 
 /opt/ros/melodic/include/std_msgs/String.h:
 
@@ -1723,6 +1733,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
 /usr/include/boost/mpl/aux_/full_lambda.hpp:
 
 /usr/include/boost/tuple/detail/tuple_basic.hpp:
+
+/usr/include/c++/7/bits/stl_numeric.h:
 
 /usr/include/boost/parameter/config.hpp:
 
@@ -3938,6 +3950,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
 
 /usr/include/boost/core/noncopyable.hpp:
 
+/usr/include/c++/7/bits/random.h:
+
 /usr/include/boost/next_prior.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/waitflags.h:
@@ -4286,6 +4300,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
 
 /usr/include/c++/7/typeindex:
 
+/usr/include/c++/7/random:
+
 /usr/include/boost/detail/lcast_precision.hpp:
 
 /usr/include/boost/functional/hash/extensions.hpp:
@@ -4509,6 +4525,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: /home/aims/catki
 /usr/include/boost/type_traits/has_nothrow_copy.hpp:
 
 /usr/include/boost/mpl/base.hpp:
+
+/usr/include/c++/7/bits/random.tcc:
 
 /usr/include/boost/ratio/detail/overflow_helpers.hpp:
 

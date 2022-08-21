@@ -134,6 +134,7 @@
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/save_log.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/save_log_100.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/save_log_sim.dir
+/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/save_log_platform.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/calculate_vel.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/test.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/edit_cache.dir

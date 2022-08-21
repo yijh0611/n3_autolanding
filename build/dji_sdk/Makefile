@@ -1940,6 +1940,19 @@ save_log_sim/fast:
 .PHONY : save_log_sim/fast
 
 #=============================================================================
+# Target rules for targets named save_log_platform
+
+# Build rule for target.
+save_log_platform: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 save_log_platform
+.PHONY : save_log_platform
+
+# fast build rule for target.
+save_log_platform/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/build
+.PHONY : save_log_platform/fast
+
+#=============================================================================
 # Target rules for targets named calculate_vel
 
 # Build rule for target.
@@ -2484,6 +2497,30 @@ src/save_log_100.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_100.dir/build.make CMakeFiles/save_log_100.dir/src/save_log_100.cpp.s
 .PHONY : src/save_log_100.cpp.s
 
+src/save_log_platform.o: src/save_log_platform.cpp.o
+.PHONY : src/save_log_platform.o
+
+# target to build an object file
+src/save_log_platform.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/src/save_log_platform.cpp.o
+.PHONY : src/save_log_platform.cpp.o
+
+src/save_log_platform.i: src/save_log_platform.cpp.i
+.PHONY : src/save_log_platform.i
+
+# target to preprocess a source file
+src/save_log_platform.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/src/save_log_platform.cpp.i
+.PHONY : src/save_log_platform.cpp.i
+
+src/save_log_platform.s: src/save_log_platform.cpp.s
+.PHONY : src/save_log_platform.s
+
+# target to generate assembly for a file
+src/save_log_platform.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/src/save_log_platform.cpp.s
+.PHONY : src/save_log_platform.cpp.s
+
 src/save_log_sim.o: src/save_log_sim.cpp.o
 .PHONY : src/save_log_sim.o
 
@@ -2845,6 +2882,7 @@ help:
 	@echo "... platform_simulator"
 	@echo "... save_log"
 	@echo "... save_log_100"
+	@echo "... save_log_platform"
 	@echo "... save_log_sim"
 	@echo "... talker_ros_17"
 	@echo "... talker_ros_18"
@@ -2914,6 +2952,9 @@ help:
 	@echo "... src/save_log_100.o"
 	@echo "... src/save_log_100.i"
 	@echo "... src/save_log_100.s"
+	@echo "... src/save_log_platform.o"
+	@echo "... src/save_log_platform.i"
+	@echo "... src/save_log_platform.s"
 	@echo "... src/save_log_sim.o"
 	@echo "... src/save_log_sim.i"
 	@echo "... src/save_log_sim.s"

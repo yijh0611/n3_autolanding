@@ -1392,4 +1392,8 @@ CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o: \
  /usr/include/c++/7/bits/std_mutex.h /usr/include/c++/7/thread \
  /opt/ros/melodic/include/sensor_msgs/CameraInfo.h \
  /opt/ros/melodic/include/sensor_msgs/RegionOfInterest.h \
- /home/aims/catkin_ws/devel/.private/dji_sdk/include/dji_sdk/VOPosition.h
+ /home/aims/catkin_ws/devel/.private/dji_sdk/include/dji_sdk/VOPosition.h \
+ /usr/include/c++/7/random /usr/include/c++/7/bits/random.h \
+ /usr/include/aarch64-linux-gnu/c++/7/bits/opt_random.h \
+ /usr/include/c++/7/bits/random.tcc /usr/include/c++/7/numeric \
+ /usr/include/c++/7/bits/stl_numeric.h

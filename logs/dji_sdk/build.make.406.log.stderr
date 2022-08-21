@@ -1,0 +1,40 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:239:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kdist[m[K’ is not captured
+       double rand_num_f = [01;31m[Kdist[m[K(gen) * 0.05;
+                           [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:173:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:128:31:[m[K [01;36m[Knote: [m[K‘[01m[Kstd::normal_distribution<double> dist[m[K’ declared here
+   normal_distribution<double> [01;36m[Kdist[m[K(/* 평균 = */ 0, /* 표준 편차 = */ 1);
+                               [01;36m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:239:32:[m[K [01;31m[Kerror: [m[K‘[01m[Kgen[m[K’ is not captured
+       double rand_num_f = dist([01;31m[Kgen[m[K) * 0.05;
+                                [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:173:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:127:11:[m[K [01;36m[Knote: [m[K‘[01m[Kstd::mt19937 gen[m[K’ declared here
+   mt19937 [01;36m[Kgen[m[K(rd());
+           [01;36m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:241:27:[m[K [01;31m[Kerror: [m[K‘[01m[Kdist[m[K’ is not captured
+       double rand_num_r = [01;31m[Kdist[m[K(gen) * 0.05;
+                           [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:173:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:128:31:[m[K [01;36m[Knote: [m[K‘[01m[Kstd::normal_distribution<double> dist[m[K’ declared here
+   normal_distribution<double> [01;36m[Kdist[m[K(/* 평균 = */ 0, /* 표준 편차 = */ 1);
+                               [01;36m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:241:32:[m[K [01;31m[Kerror: [m[K‘[01m[Kgen[m[K’ is not captured
+       double rand_num_r = dist([01;31m[Kgen[m[K) * 0.05;
+                                [01;31m[K^~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:173:25:[m[K [01;36m[Knote: [m[Kthe lambda has no capture-default
+   auto control_drone = [[01;36m[K][m[K()
+                         [01;36m[K^[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:127:11:[m[K [01;36m[Knote: [m[K‘[01m[Kstd::mt19937 gen[m[K’ declared here
+   mt19937 [01;36m[Kgen[m[K(rd());
+           [01;36m[K^~~[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

@@ -274,6 +274,7 @@ Onboard-SDK-ROS-3.8.1/dji_sdk
 /home/aims/catkin_ws/devel/.private/dji_sdk/share/roseus/ros/dji_sdk/srv/CameraAction.l /home/aims/catkin_ws/devel/share/roseus/ros/dji_sdk/srv/CameraAction.l
 /home/aims/catkin_ws/devel/.private/dji_sdk/share/roseus/ros/dji_sdk/srv/Stereo240pSubscription.l /home/aims/catkin_ws/devel/share/roseus/ros/dji_sdk/srv/Stereo240pSubscription.l
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/test_code /home/aims/catkin_ws/devel/lib/dji_sdk/test_code
+/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log_platform /home/aims/catkin_ws/devel/lib/dji_sdk/save_log_platform
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_3 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_sim_3
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_18 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_18
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/dji_sdk_node /home/aims/catkin_ws/devel/lib/dji_sdk/dji_sdk_node

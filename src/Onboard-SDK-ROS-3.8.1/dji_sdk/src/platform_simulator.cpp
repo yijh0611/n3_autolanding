@@ -36,6 +36,13 @@
 // 시뮬레이션 위치 파악용
 #include "dji_sdk/VOPosition.h"
 
+// 난수 생성
+// https://modoocode.com/304
+#include <iomanip>
+// #include <iostream>
+// #include <map>
+#include <random>
+
 // Quaternion 계산용
 #include <iostream>
 using namespace std;
@@ -113,9 +120,6 @@ int main(int argc, char **argv){
   ros::Subscriber sub_vo_pos = n.subscribe("dji_sdk/vo_position", 1000, cb_voposition);
   
   // publisher
-  // ros::Publisher control_vel_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_ENUvelocity_yawrate", 10);
-  // ros::Publisher gimbal_control = n.advertise<std_msgs::Float64MultiArray>("gimbal_control", 10);
-  // ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
   // ros::Publisher pub_tf = n.advertise<tf2_msgs::TFMessage>("tf", 10); // 필요한거 같은데, 일단 주석
  
   // GPS신호 대기
@@ -165,6 +169,7 @@ int main(int argc, char **argv){
 	{
     double time_is_start = ros::Time::now().toSec();
     int int_wait = 0;
+    ROS_INFO("Simulation wait 12s");
     while (ros::Time::now().toSec() - time_is_start < 12){
       int_wait = 1 - int_wait;
     }
@@ -173,9 +178,15 @@ int main(int argc, char **argv){
     // // 드론 제어
     ros::NodeHandle n;
     ros::Publisher pub_tf = n.advertise<geometry_msgs::Transform>("tf_2", 10);
+    ros::Publisher pub_sim_data = n.advertise<std_msgs::Float64MultiArray>("sim_data", 10);
     ros::Rate loop_rate(50);
 
     geometry_msgs::Transform tag_po;
+    std_msgs::Float64MultiArray sim_data;
+
+    for(int i=0; i < 15; i++){ // 5까지 하면 arr[4]까지 쓸 수 있음.
+      sim_data.data.push_back(0.0);
+    }
 
     double time_start = ros::Time::now().toSec();
     double time_prev = ros::Time::now().toSec();
@@ -226,30 +237,48 @@ int main(int argc, char **argv){
 
       // dt 랜덤하게 정의 - 정규분포로 난수 생성하는건 없는 것 같다.
       // 정규분포를 가지고 있는 list를 만들어서 그 중에 랜덤하게 꺼내는걸 해야 하는 듯.
-      // 일단 보류
-
-
+      // 평균이 0이고 표준편차가 1인 난수
+      
+      // 난수 생성
+      random_device rd;
+      mt19937 gen(rd());
+      normal_distribution<double> dist(/* 평균 = */ 0, /* 표준 편차 = */ 1);
+      
+      double rand_num_f = dist(gen) * 0.05;
+      // rand_num_f = rand_num_f * 0.05;
+      double rand_num_r = dist(gen) * 0.05;
 
       if (vo_z != 0){ // 위치 정보가 들어올 때
        
         // Tag 원운동 할 때
-        if (is_circle){
-          int radius = 5;
-          int ang_vel = 3;
-          tag_vel_e = radius * cos(ang_vel * dt_all);
-          tag_vel_n = radius * sin(ang_vel * dt_all); 
-        }
+        // if (is_circle){
+        //   int radius = 15;
+        //   int ang_vel = 0.5;
+        //   tag_vel_e = radius * cos(ang_vel * dt_all);
+        //   tag_vel_n = radius * sin(ang_vel * dt_all); 
+        // }
 
-        // 시간이 너무 지나면, 정지
-        if(dt_all > 100){
-          tag_vel_e = 0;
-          tag_vel_n = 0;
-        }
+        // // 시간이 너무 지나면, 정지
+        // if(dt_all > 100){
+        //   tag_vel_e = 0;
+        //   tag_vel_n = 0;
+        // }
 
         // Tag 위치
-        tag_e += tag_vel_e * dt;
-        tag_n += tag_vel_n * dt;
-        
+        if(dt_all < 100){
+          if(is_circle){
+            float radius = 15;
+            // float ang_vel = 0.133;
+            float ang_vel = 0.266;
+            tag_e = vo_e_start + radius * sin(ang_vel * dt_all);
+            tag_n = vo_n_start + radius - radius * cos(ang_vel * dt_all);
+          }
+          else{
+            tag_e += tag_vel_e * dt;
+            tag_n += tag_vel_n * dt;
+          }
+        }
+
         float drone_to_tag_e = tag_e - vo_e;
         float drone_to_tag_n = tag_n - vo_n;
 
@@ -257,14 +286,27 @@ int main(int argc, char **argv){
         tag_f = enu_to_fru_f(drone_to_tag_e, drone_to_tag_n, yaw);
         tag_r = enu_to_fru_r(drone_to_tag_e, drone_to_tag_n, yaw);
 
+        // data publish
+        sim_data.data[0] = tag_f;
+        sim_data.data[1] = tag_r;
+        sim_data.data[2] = tag_e;
+        sim_data.data[3] = tag_n;
+        // sim_data.data[4] = vo_e;
+        // sim_data.data[5] = vo_n;
+
+        tag_f = tag_f + rand_num_f;
+        tag_r = tag_r + rand_num_r;
+
         tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
         tag_po.translation.y = -1 * tag_f;
         tag_po.translation.z = -1 * (vo_z - vo_z_start); // vo_z는 높아지면 음수가 되는 듯.
 
         // Publish Tag info
         pub_tf.publish(tag_po);
+        pub_sim_data.publish(sim_data);
+        
 
-        // if(count_while % 12 == 0){ // 정보 확인용.
+        if(count_while % 12 == 0){ // 정보 확인용.
         //   // cout << "Tag distance from start : " << tag_e - vo_e_start << endl;
         //   // cout << "tag_e : " << tag_e - vo_e << endl;
         //   // cout << "drone to tag e : " << drone_to_tag_e << endl;
@@ -272,21 +314,30 @@ int main(int argc, char **argv){
         //   // cout << "yaw : " << yaw << endl;
         //   // cout << "sin : " << sin(yaw) << endl;
         //   // cout << "cos : " << cos(yaw) << endl;
-        //   // cout << "Tag_f : " << tag_f << endl;
-        //   // cout << "Tag_r : " << tag_r << endl;
+          cout << "Tag_f : " << tag_f << endl;
+          cout << "Tag_r : " << tag_r << endl;
+          if(fabs(tag_f - rand_num_f) > 2){
+            cout << endl;
+            ROS_ERROR("Too far F");
+          }
+          if(fabs(tag_r - rand_num_r) > 2){
+            cout << endl;
+            ROS_ERROR("Too far R");
+          }
         //   // cout << endl;
 
         //   // cout << "vo_e : " << vo_e << endl;
         //   // cout << "vo_n : " << vo_n << endl;
         //   // // cout << "tag_n : " << tag_n - vo_n << endl;
-        //   // cout << "tag_abs_e : " << tag_e << endl;
-        //   // cout << "tag_abs_n : " << tag_n << endl;
+          // cout << "tag_abs_e : " << tag_e << endl;
+          // cout << "tag_abs_n : " << tag_n << endl;
+          // cout << "dt_all : " << dt_all << endl;
         //   // cout << "count : " << count_while << endl;
-        //   cout << endl;
-        //   cout << endl;
+          cout << endl;
+          cout << endl;
           
         //   count_while = 0;
-        // }
+        }
 
         while(ros::Time::now().toSec() - time_prev < 0.083){ // 12Hz로 데이터 보내기
           // 아무것도 안함.

@@ -456,6 +456,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/save_log.dir/DependInfo.cmake"
   "CMakeFiles/save_log_100.dir/DependInfo.cmake"
   "CMakeFiles/save_log_sim.dir/DependInfo.cmake"
+  "CMakeFiles/save_log_platform.dir/DependInfo.cmake"
   "CMakeFiles/calculate_vel.dir/DependInfo.cmake"
   "gtest/googlemock/CMakeFiles/gmock.dir/DependInfo.cmake"
   "gtest/googlemock/CMakeFiles/gmock_main.dir/DependInfo.cmake"

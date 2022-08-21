@@ -83,6 +83,7 @@ all: CMakeFiles/chk_gimbal.dir/all
 all: CMakeFiles/save_log.dir/all
 all: CMakeFiles/save_log_100.dir/all
 all: CMakeFiles/save_log_sim.dir/all
+all: CMakeFiles/save_log_platform.dir/all
 all: CMakeFiles/calculate_vel.dir/all
 all: gtest/all
 .PHONY : all
@@ -228,6 +229,7 @@ clean: CMakeFiles/chk_gimbal.dir/clean
 clean: CMakeFiles/save_log.dir/clean
 clean: CMakeFiles/save_log_100.dir/clean
 clean: CMakeFiles/save_log_sim.dir/clean
+clean: CMakeFiles/save_log_platform.dir/clean
 clean: CMakeFiles/calculate_vel.dir/clean
 clean: gtest/clean
 .PHONY : clean
@@ -1986,7 +1988,7 @@ CMakeFiles/dji_sdk_generate_messages.dir/all: CMakeFiles/dji_sdk_generate_messag
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dji_sdk_generate_messages.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 78
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 77
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/dji_sdk_generate_messages.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/dji_sdk_generate_messages.dir/rule
@@ -3405,12 +3407,12 @@ CMakeFiles/dji_sdk_generate_messages_nodejs.dir/all: CMakeFiles/_dji_sdk_generat
 CMakeFiles/dji_sdk_generate_messages_nodejs.dir/all: CMakeFiles/_dji_sdk_generate_messages_check_deps_MFIOSetValue.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_generate_messages_nodejs.dir/build.make CMakeFiles/dji_sdk_generate_messages_nodejs.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_generate_messages_nodejs.dir/build.make CMakeFiles/dji_sdk_generate_messages_nodejs.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66 "Built target dji_sdk_generate_messages_nodejs"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=51,52,53,54,55,56,57,58,59,60,61,62,63,64,65 "Built target dji_sdk_generate_messages_nodejs"
 .PHONY : CMakeFiles/dji_sdk_generate_messages_nodejs.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dji_sdk_generate_messages_nodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/dji_sdk_generate_messages_nodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/dji_sdk_generate_messages_nodejs.dir/rule
@@ -3436,7 +3438,7 @@ CMakeFiles/dji_sdk_gennodejs.dir/all: CMakeFiles/dji_sdk_generate_messages_nodej
 
 # Build rule for subdir invocation for target.
 CMakeFiles/dji_sdk_gennodejs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/dji_sdk_gennodejs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/dji_sdk_gennodejs.dir/rule
@@ -3501,7 +3503,7 @@ CMakeFiles/dji_sdk_generate_messages_py.dir/all: CMakeFiles/_dji_sdk_generate_me
 CMakeFiles/dji_sdk_generate_messages_py.dir/all: CMakeFiles/_dji_sdk_generate_messages_check_deps_MFIOSetValue.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_generate_messages_py.dir/build.make CMakeFiles/dji_sdk_generate_messages_py.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_generate_messages_py.dir/build.make CMakeFiles/dji_sdk_generate_messages_py.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82 "Built target dji_sdk_generate_messages_py"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81 "Built target dji_sdk_generate_messages_py"
 .PHONY : CMakeFiles/dji_sdk_generate_messages_py.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3553,7 +3555,7 @@ CMakeFiles/dji_sdk_genpy.dir/clean:
 CMakeFiles/dji_sdk_node.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_node.dir/build.make CMakeFiles/dji_sdk_node.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dji_sdk_node.dir/build.make CMakeFiles/dji_sdk_node.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=83,84,85,86 "Built target dji_sdk_node"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=82,83,84,85 "Built target dji_sdk_node"
 .PHONY : CMakeFiles/dji_sdk_node.dir/all
 
 # Build rule for subdir invocation for target.
@@ -3761,12 +3763,12 @@ CMakeFiles/talker_sim_4.dir/clean:
 CMakeFiles/platform_simulator.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform_simulator.dir/build.make CMakeFiles/platform_simulator.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/platform_simulator.dir/build.make CMakeFiles/platform_simulator.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num= "Built target platform_simulator"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=91 "Built target platform_simulator"
 .PHONY : CMakeFiles/platform_simulator.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/platform_simulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/platform_simulator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/platform_simulator.dir/rule
@@ -3787,12 +3789,12 @@ CMakeFiles/platform_simulator.dir/clean:
 CMakeFiles/get_tf.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/get_tf.dir/build.make CMakeFiles/get_tf.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/get_tf.dir/build.make CMakeFiles/get_tf.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num= "Built target get_tf"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=86 "Built target get_tf"
 .PHONY : CMakeFiles/get_tf.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/get_tf.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 15
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/get_tf.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/get_tf.dir/rule
@@ -3969,12 +3971,12 @@ CMakeFiles/chk_gimbal.dir/clean:
 CMakeFiles/save_log.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log.dir/build.make CMakeFiles/save_log.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log.dir/build.make CMakeFiles/save_log.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=92 "Built target save_log"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num= "Built target save_log"
 .PHONY : CMakeFiles/save_log.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/save_log.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/save_log.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : CMakeFiles/save_log.dir/rule
@@ -3995,7 +3997,7 @@ CMakeFiles/save_log.dir/clean:
 CMakeFiles/save_log_100.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_100.dir/build.make CMakeFiles/save_log_100.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_100.dir/build.make CMakeFiles/save_log_100.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=93 "Built target save_log_100"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=92 "Built target save_log_100"
 .PHONY : CMakeFiles/save_log_100.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4041,6 +4043,32 @@ CMakeFiles/save_log_sim.dir/clean:
 .PHONY : CMakeFiles/save_log_sim.dir/clean
 
 #=============================================================================
+# Target rules for target CMakeFiles/save_log_platform.dir
+
+# All Build rule for target.
+CMakeFiles/save_log_platform.dir/all: CMakeFiles/dji_sdk_generate_messages_cpp.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=93 "Built target save_log_platform"
+.PHONY : CMakeFiles/save_log_platform.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/save_log_platform.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 16
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/save_log_platform.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
+.PHONY : CMakeFiles/save_log_platform.dir/rule
+
+# Convenience name for target.
+save_log_platform: CMakeFiles/save_log_platform.dir/rule
+.PHONY : save_log_platform
+
+# clean rule for target.
+CMakeFiles/save_log_platform.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/save_log_platform.dir/build.make CMakeFiles/save_log_platform.dir/clean
+.PHONY : CMakeFiles/save_log_platform.dir/clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/calculate_vel.dir
 
 # All Build rule for target.
@@ -4073,12 +4101,12 @@ CMakeFiles/calculate_vel.dir/clean:
 gtest/googlemock/CMakeFiles/gmock.dir/all:
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock.dir/build.make gtest/googlemock/CMakeFiles/gmock.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=87,88 "Built target gmock"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=87 "Built target gmock"
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/all
 
 # Build rule for subdir invocation for target.
 gtest/googlemock/CMakeFiles/gmock.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 1
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest/googlemock/CMakeFiles/gmock.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/aims/catkin_ws/build/dji_sdk/CMakeFiles 0
 .PHONY : gtest/googlemock/CMakeFiles/gmock.dir/rule
@@ -4099,7 +4127,7 @@ gtest/googlemock/CMakeFiles/gmock.dir/clean:
 gtest/googlemock/CMakeFiles/gmock_main.dir/all:
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/CMakeFiles/gmock_main.dir/build.make gtest/googlemock/CMakeFiles/gmock_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=89 "Built target gmock_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=88 "Built target gmock_main"
 .PHONY : gtest/googlemock/CMakeFiles/gmock_main.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4125,7 +4153,7 @@ gtest/googlemock/CMakeFiles/gmock_main.dir/clean:
 gtest/googlemock/gtest/CMakeFiles/gtest.dir/all:
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/gtest/CMakeFiles/gtest.dir/build.make gtest/googlemock/gtest/CMakeFiles/gtest.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/gtest/CMakeFiles/gtest.dir/build.make gtest/googlemock/gtest/CMakeFiles/gtest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=90 "Built target gtest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=89 "Built target gtest"
 .PHONY : gtest/googlemock/gtest/CMakeFiles/gtest.dir/all
 
 # Build rule for subdir invocation for target.
@@ -4151,7 +4179,7 @@ gtest/googlemock/gtest/CMakeFiles/gtest.dir/clean:
 gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/all: gtest/googlemock/gtest/CMakeFiles/gtest.dir/all
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/build.make gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/depend
 	$(MAKE) $(MAKESILENT) -f gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/build.make gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=91 "Built target gtest_main"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/aims/catkin_ws/build/dji_sdk/CMakeFiles --progress-num=90 "Built target gtest_main"
 .PHONY : gtest/googlemock/gtest/CMakeFiles/gtest_main.dir/all
 
 # Build rule for subdir invocation for target.

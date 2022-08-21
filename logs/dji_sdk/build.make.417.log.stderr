@@ -1,0 +1,12 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log_platform.cpp:[m[K In function ‘[01m[Kvoid callback_tf_2(geometry_msgs::Transform)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log_platform.cpp:501:7:[m[K [01;31m[Kerror: [m[K‘[01m[Kis_tag_signal[m[K’ was not declared in this scope
+   if ([01;31m[Kis_tag_signal[m[K == false){
+       [01;31m[K^~~~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log_platform.cpp:501:7:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kstrsignal[m[K’
+   if ([01;36m[Kis_tag_signal[m[K == false){
+       [01;36m[K^~~~~~~~~~~~~[m[K
+       [32m[Kstrsignal[m[K
+make[2]: *** [CMakeFiles/save_log_platform.dir/src/save_log_platform.cpp.o] Error 1
+make[1]: *** [CMakeFiles/save_log_platform.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

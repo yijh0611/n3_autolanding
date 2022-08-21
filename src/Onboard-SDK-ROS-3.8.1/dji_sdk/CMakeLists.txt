@@ -455,6 +455,10 @@ add_executable(save_log_sim src/save_log_sim.cpp)
 target_link_libraries(save_log_sim ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(save_log_sim dji_sdk_generate_messages_cpp)
 
+add_executable(save_log_platform src/save_log_platform.cpp)
+target_link_libraries(save_log_platform ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(save_log_platform dji_sdk_generate_messages_cpp)
+
 add_executable(calculate_vel src/calculate_vel.cpp)
 target_link_libraries(calculate_vel ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(calculate_vel dji_sdk_generate_messages_cpp)
