@@ -6,4 +6,5 @@
     <node pkg ="dji_sdk" type="platform_simulator" name="platform_simulator" output="screen"/>
     <node pkg ="dji_sdk" type="save_log_platform" name="save_log_platform" output = "screen"/>
     
+    
 </launch>
