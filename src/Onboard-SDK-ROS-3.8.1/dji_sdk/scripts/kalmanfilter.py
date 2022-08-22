@@ -194,14 +194,14 @@ if __name__ == '__main__':
             print("No GPS")
             break
     
-    time_wait_tf = time.time() # 태그가 없으면 시뮬레이션 태그 정보 사용
-    while tf == 0:
-        if time.time() - time_wait_tf > 10:
-            for i_tf in range(10):
-                print("No Tag !!")
-                print("Simulation")
-            rospy.Subscriber("tf_2", Transform, callback_tf_sim)
-            break
+    # time_wait_tf = time.time() # 태그가 없으면 시뮬레이션 태그 정보 사용
+    # while tf == 0:
+    #     if time.time() - time_wait_tf > 10:
+    #         for i_tf in range(10):
+    #             print("No Tag !!")
+    #             print("Simulation")
+    #         rospy.Subscriber("tf_2", Transform, callback_tf_sim)
+    #         break
 
     if is_gps_acc:
         # Tag 정보 받았는지 확인
@@ -242,11 +242,33 @@ if __name__ == '__main__':
                                 [0., 0., 0., 0., 0., 0., 0., 0., 0., 1.]]) # 10*10 matrix
 
         my_filter.P *= 100 * np.identity(10)                 # covariance matrix # 1000 * 단위행렬 ## 20* 단위행렬 // 1*8 행렬일때는 10이었음 
-        my_filter.R = 100 * np.identity(10)               # state uncertainty - # 0.001 # 10000
-        my_filter.Q = 0.1 * np.identity(10)   # process uncertainty // Q = [1 0; 0 1000]; - 작게 해보기, 크면 측정값에 의존 # 0.00001
-    
+        # my_filter.R = 100 * np.identity(10)               # state uncertainty - # 0.001 # 10000
+        # my_filter.Q = 0.1 * np.identity(10)   # process uncertainty // Q = [1 0; 0 1000]; - 작게 해보기, 크면 측정값에 의존 # 0.00001
+
+        my_filter.R = np.array([[1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                                [0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                                [0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+                                [0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
+                                [0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
+                                [0, 0, 0, 0, 0, 1, 0, 0, 0, 0],
+                                [0, 0, 0, 0, 0, 0, 25, 0, 0, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 25, 0, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 0, 100, 0],
+                                [0, 0, 0, 0, 0, 0, 0, 0, 0, 100]])
+                                
+        my_filter.Q = np.array([[5, 0., 0., 0., 0., 0., 0., 0., 0., 0.],
+                                [0., 5, 0., 0., 0., 0., 0., 0., 0., 0.],
+                                [0., 0., 5, 0., 0., 0., 0., 0., 0., 0.],
+                                [0., 0., 0., 5, 0., 0., 0., 0., 0., 0.],
+                                [0., 0., 0., 0., 5, 0., 0., 0., 0., 0.],
+                                [0., 0., 0., 0., 0., 5, 0., 0., 0., 0.], # 여기까지 GPS
+                                [0., 0., 0., 0., 0., 0., 1, 0., 0., 0.], # 여기서부터 태그
+                                [0., 0., 0., 0., 0., 0., 0., 1, 0., 0.],
+                                [0., 0., 0., 0., 0., 0., 0., 0., 0.5, 0.],
+                                [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.5]])
+
     # Tag 정보 받았는지 확인
-    imu_chk = 0
+    imu_chk = acc_e
     tag_chk = 0
     reset_tag_x = 0
     reset_tag_y = 0
@@ -256,11 +278,19 @@ if __name__ == '__main__':
     tag_vx = 0
     tag_vy = 0
     tag_vz = 0
+    kal_gps_r = np.zeros(35)
+    kal_gps_f = np.zeros(35)
 
     is_tag_lost = True
 
     # 무한루프 실행
     while is_gps_acc:
+        if(imu_chk == acc_e):
+            continue
+        else:
+            imu_chk = acc_e
+
+
         if is_tag: # 태그가 보인적이 있는 경우
             if tag_chk == tf.x: # 태그가 보이지 않는 경우 // 같은 태그 정보가 들어온 경우
                 if time.time() - time_tag > 0.5: # 0.5초 이상 Tag 값 일정
@@ -320,6 +350,12 @@ if __name__ == '__main__':
         # 플랫폼 속도 출력
         tag_f, tag_r = enu_to_fru(x_filtered[6],x_filtered[7],yaw)
         vel_f, vel_r = enu_to_fru(x_filtered[8]+x_filtered[2],x_filtered[9]+x_filtered[3],yaw)
+        
+        ## GPS 딜레이를 주기 위함.
+        kal_gps_r = np.append(kal_gps_r, vel_r)
+        kal_gps_f = np.append(kal_gps_f, vel_f)
+        vel_f = kal_gps_f[-30]
+        vel_r = kal_gps_r[-30]
 
         # float은 소수점 아래 6자리만 표현 가능해서 double로 보내야 하지만, 그냥 1000으로 나눠서 보내기로 했다. - 이거 사용 안해서 없어도 크게 상관은 없을 듯 하다.
         time_publish = time.time() % 1000

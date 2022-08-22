@@ -81,7 +81,7 @@ float f_prev = 0;
 float z_prev = 0;
 float dt = 0;
 // Tag 정보 수신이 되는지 확인
-bool is_tag_signal = false;
+bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
 
 // PID 계수
 float kp = 0.7; 
@@ -93,11 +93,12 @@ float kp_control, kd_control;
 
 // 칼만필터
 float kal_r,kal_f,kal_r_vel,kal_f_vel,kal_time,kal_is_tag,kal_is_tag_lost;
+bool is_kalman = true;
 // 태그 위치
 float x_tf, y_tf, z_tf;
 double time_prev;
 float gimbal_down;
-bool is_gimbal_down = true; // 밖에서 할때는 false, 안에서 할때는 true
+bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
 
 // 드론 제어해도 되는지 판단
 bool is_drone_move = false;
@@ -139,7 +140,7 @@ int main(int argc, char **argv){
   }
   
   is_run_thread = true;
-  ros::init(argc, argv, "talker_ros_15");
+  ros::init(argc, argv, "talker_ros_19");
   ros::NodeHandle n;
 
   // subscriber - 영상 정보 및 얻을 수 있는 센서 데이터 전부 받기
@@ -149,7 +150,7 @@ int main(int argc, char **argv){
   ros::Subscriber sub_battery = n.subscribe("dji_sdk/battery_state", 1000, cb_battery);
   ros::Subscriber sub_kalman = n.subscribe("kalmanfilter", 1000, cb_kalman);
   ros::Subscriber sub_tf = n.subscribe("tf", 1000, callback_tf);
-  ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
+  // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
   
   // publisher
   ros::Publisher control_vel_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_ENUvelocity_yawrate", 10);
@@ -182,25 +183,26 @@ int main(int argc, char **argv){
     ros::spinOnce();
   }
 
-  chk_start = 0;
-  while(is_tag_signal == false){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
-    ros::Duration(0.1).sleep();
-    chk_start += 1;
-    if (chk_start > 100){
-      ROS_ERROR("No Tag singal for 10 Sec!");
-      ROS_ERROR("Simulation");
-      // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
-      break;
-    }
-    ros::spinOnce();
-  }
+  // // simulation
+  // chk_start = 0;
+  // while(is_tag_signal == false){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
+  //   ros::Duration(0.1).sleep();
+  //   chk_start += 1;
+  //   if (chk_start > 100){
+  //     ROS_ERROR("No Tag singal for 10 Sec!");
+  //     ROS_ERROR("Simulation");
+  //     // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
+  //     break;
+  //   }
+  //   ros::spinOnce();
+  // }
 
   // if (is_tag_signal == false){
   //   ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
   //   ros::spin();
   // }
 
-  
+
   if(!is_run_thread){
     return 0;
   }
@@ -370,8 +372,10 @@ int main(int argc, char **argv){
         float kal_r_vel_tmp = kal_r_vel * spd_constant;
         float kal_f_vel_tmp = kal_f_vel * spd_constant;
         
-        move_right += kal_r_vel_tmp;
-        move_front += kal_f_vel_tmp;
+        if(is_kalman){
+          move_right += kal_r_vel_tmp;
+          move_front += kal_f_vel_tmp;
+        }
         // }
         // else{
         //   ROS_ERROR("Tag is lost");

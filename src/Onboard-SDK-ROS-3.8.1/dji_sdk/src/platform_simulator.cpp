@@ -244,9 +244,9 @@ int main(int argc, char **argv){
       mt19937 gen(rd());
       normal_distribution<double> dist(/* 평균 = */ 0, /* 표준 편차 = */ 1);
       
-      double rand_num_f = dist(gen) * 0.05;
+      double rand_num_f = dist(gen) * 0.01;
       // rand_num_f = rand_num_f * 0.05;
-      double rand_num_r = dist(gen) * 0.05;
+      double rand_num_r = dist(gen) * 0.01;
 
       if (vo_z != 0){ // 위치 정보가 들어올 때
        
