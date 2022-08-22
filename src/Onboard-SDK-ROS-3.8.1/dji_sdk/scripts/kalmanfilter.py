@@ -42,6 +42,7 @@ def callback_acc(acc_data):
     global acc
     acc = acc_data.vector # x,y,z
     # print(acc)
+    # print(acc.x)
 
 gps_vel = 0
 def callback_gps(gps_data):
@@ -199,7 +200,7 @@ if __name__ == '__main__':
     #     if time.time() - time_wait_tf > 10:
     #         for i_tf in range(10):
     #             print("No Tag !!")
-    #             print("Simulation")
+    #             print("Simulation Kalmanfilter.py")
     #         rospy.Subscriber("tf_2", Transform, callback_tf_sim)
     #         break
 
@@ -268,7 +269,7 @@ if __name__ == '__main__':
                                 [0., 0., 0., 0., 0., 0., 0., 0., 0., 0.5]])
 
     # Tag 정보 받았는지 확인
-    imu_chk = acc_e
+    imu_chk = 0
     tag_chk = 0
     reset_tag_x = 0
     reset_tag_y = 0
@@ -283,18 +284,31 @@ if __name__ == '__main__':
 
     is_tag_lost = True
 
+    count_skip = 0
+    count_else = 0
     # 무한루프 실행
     while is_gps_acc:
-        if(imu_chk == acc_e):
+        if(imu_chk == acc.y): # acc.y
+            # print("Skip")
+            count_skip += 1
             continue
         else:
-            imu_chk = acc_e
-
+            imu_chk = acc.y
+            count_else += 1
+            # print("else")
+        
+        if count_else % 1000 == 0:
+                print("Skip : ", count_skip)
+                print("else : ", count_else)
+                print()
 
         if is_tag: # 태그가 보인적이 있는 경우
             if tag_chk == tf.x: # 태그가 보이지 않는 경우 // 같은 태그 정보가 들어온 경우
                 if time.time() - time_tag > 0.5: # 0.5초 이상 Tag 값 일정
                     is_tag_lost = True
+                    tag_vx = 0 # 이거는 원래 없었는데, 있어도 될 듯 하다.
+                    tag_vy = 0
+                    tag_vz = 0
                     # print("Tag is lost", time.time()-time_tag)
             else: # 태그가 보이는 경우
                 is_tag_lost = False

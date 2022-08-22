@@ -61,10 +61,16 @@ struct EulerAngles {
 
 // void tf_callback(const turtlesim::PoseConstPtr& msg){
 
-
 // 전역 변수 정의
 float imu_y = 0;
 float imu_ori_x, imu_ori_y, imu_ori_z, imu_ori_w;
+
+float hz = 12;
+float dt_hz = 1/hz;
+// float delayed_tag_time = 0.3;
+// int how_many = delayed_tag_time * hz + 1;
+float tag_f_arr[4]; // 여기 4 대신에 how_many로 바꿔도 됨
+float tag_r_arr[4];
 
 bool is_start = false;
 using namespace std;
@@ -201,7 +207,8 @@ int main(int argc, char **argv){
 
     float dt_all = 0;
     float dt = 0;
-    bool is_circle = true;
+    // bool is_circle = true;
+    int what_direction = 1; // 0: circle, 1: square, 2: backward and forward
 
     float tag_e = 0;
     float tag_n = 0;
@@ -212,6 +219,7 @@ int main(int argc, char **argv){
     float tag_vel_n = 0;
 
     int count_while = 0;
+    int count_tag = 5;
 
     ROS_INFO("Start simulation");
 
@@ -266,12 +274,62 @@ int main(int argc, char **argv){
 
         // Tag 위치
         if(dt_all < 100){
-          if(is_circle){
+          if(what_direction == 0){ // 원
             float radius = 15;
             // float ang_vel = 0.133;
             float ang_vel = 0.266;
             tag_e = vo_e_start + radius * sin(ang_vel * dt_all);
             tag_n = vo_n_start + radius - radius * cos(ang_vel * dt_all);
+          }
+          else if(what_direction == 1){ // 네모
+            float dist = 10;
+            float vel = 2;
+            float distance_moved = dt_all * vel;
+            if(distance_moved < dist){
+              tag_e = vo_e_start + vel * dt_all;
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 2){
+              tag_e = vo_e_start + dist;
+              tag_n = vo_n_start + vel * dt_all - dist;
+            }
+            else if(distance_moved < dist * 3){
+              tag_e = vo_e_start + dist - (vel * dt_all - dist * 2);
+              tag_n = vo_n_start + dist;
+            }
+            else if(distance_moved < dist * 4){
+              tag_e = vo_e_start;
+              tag_n = vo_n_start + dist - (vel * dt_all - dist * 3);
+            }
+            else{
+              tag_e = vo_e_start;
+              tag_n = vo_n_start;
+            }
+          }
+          else if(what_direction == 2){ // 앞뒤로
+            float dist = 10;
+            float vel = 2;
+            float distance_moved = dt_all * vel;
+            if(distance_moved < dist){
+              tag_e = vo_e_start + vel * dt_all;
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 2){
+              tag_e = vo_e_start + dist - (vel * dt_all - dist);
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 3){
+              tag_e = vo_e_start + (vel * dt_all - dist * 2);
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 4){
+              tag_e = vo_e_start+ dist - (vel * dt_all - dist * 3);
+              tag_n = vo_n_start;
+            }
+            else{
+              tag_e = vo_e_start;
+              tag_n = vo_n_start;
+            }
           }
           else{
             tag_e += tag_vel_e * dt;
@@ -296,6 +354,17 @@ int main(int argc, char **argv){
 
         tag_f = tag_f + rand_num_f;
         tag_r = tag_r + rand_num_r;
+        
+        int where_arr = count_tag % 4;
+        
+        tag_f_arr[where_arr] = tag_f;
+        tag_r_arr[where_arr] = tag_r;
+
+        int where_arr_tmp = (count_tag - 3) % 4;
+        tag_f = tag_f_arr[where_arr_tmp];
+        tag_r = tag_r_arr[where_arr_tmp];
+
+        count_tag += 1;
 
         tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
         tag_po.translation.y = -1 * tag_f;
@@ -339,7 +408,7 @@ int main(int argc, char **argv){
         //   count_while = 0;
         }
 
-        while(ros::Time::now().toSec() - time_prev < 0.083){ // 12Hz로 데이터 보내기
+        while(ros::Time::now().toSec() - time_prev < dt_hz){ // 12Hz로 데이터 보내기
           // 아무것도 안함.
           i = 1 - i;
         }
@@ -350,7 +419,6 @@ int main(int argc, char **argv){
       }
     }
 	};
-
 
   std::thread t1 = std::thread(ros_spin);
 	std::thread t2 = std::thread(control_drone);

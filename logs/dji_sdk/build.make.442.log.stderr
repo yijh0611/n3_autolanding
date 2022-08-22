@@ -1,0 +1,32 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:296:44:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_dt_all[m[K’ was not declared in this scope
+               tag_e = vo_e_start + dist - ([01;31m[Kvel_dt_all[m[K - dist * 2);
+                                            [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:296:44:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdt_all[m[K’
+               tag_e = vo_e_start + dist - ([01;36m[Kvel_dt_all[m[K - dist * 2);
+                                            [01;36m[K^~~~~~~~~~[m[K
+                                            [32m[Kdt_all[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:301:44:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_dt_all[m[K’ was not declared in this scope
+               tag_n = vo_n_start + dist - ([01;31m[Kvel_dt_all[m[K - dist * 3);
+                                            [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:301:44:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdt_all[m[K’
+               tag_n = vo_n_start + dist - ([01;36m[Kvel_dt_all[m[K - dist * 3);
+                                            [01;36m[K^~~~~~~~~~[m[K
+                                            [32m[Kdt_all[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:321:37:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_dt_all[m[K’ was not declared in this scope
+               tag_e = vo_e_start + ([01;31m[Kvel_dt_all[m[K - dist * 2);
+                                     [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:321:37:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdt_all[m[K’
+               tag_e = vo_e_start + ([01;36m[Kvel_dt_all[m[K - dist * 2);
+                                     [01;36m[K^~~~~~~~~~[m[K
+                                     [32m[Kdt_all[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:325:43:[m[K [01;31m[Kerror: [m[K‘[01m[Kvel_dt_all[m[K’ was not declared in this scope
+               tag_e = vo_e_start+ dist - ([01;31m[Kvel_dt_all[m[K - dist * 3);
+                                           [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/platform_simulator.cpp:325:43:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdt_all[m[K’
+               tag_e = vo_e_start+ dist - ([01;36m[Kvel_dt_all[m[K - dist * 3);
+                                           [01;36m[K^~~~~~~~~~[m[K
+                                           [32m[Kdt_all[m[K
+make[2]: *** [CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o] Error 1
+make[1]: *** [CMakeFiles/platform_simulator.dir/all] Error 2
+make: *** [all] Error 2

@@ -98,7 +98,7 @@ bool is_kalman = true;
 float x_tf, y_tf, z_tf;
 double time_prev;
 float gimbal_down;
-bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
+bool is_gimbal_down = true; // 밖에서 할때는 false, 안에서 할때는 true
 
 // 드론 제어해도 되는지 판단
 bool is_drone_move = false;
@@ -321,6 +321,7 @@ int main(int argc, char **argv){
           ROS_INFO("Tag is found");
           count_tag_lost = 0;
         }
+
         float d_x = x_tf;
         float d_y = -1 * y_tf;
         
@@ -331,12 +332,12 @@ int main(int argc, char **argv){
         d_y_prev = d_y;
         time_prev = ros::Time::now().toSec();
         
-        float v_x = d_dx / dt;
-        float v_y = d_dy / dt;
+        float v_x = 0;
+        float v_y = 0;
 
-        if(dt > 0.5){
-          v_x = 0;
-          v_y = 0;
+        if(ros::Time::now().toSec() - tag_time > 0.5){ // 태그를 찾고 0.5동안은 속력 0이라고 생각
+          v_x = d_dx / dt;
+          v_y = d_dy / dt;
         }
 
         move_right = kp * d_x + kd * v_x;
@@ -375,6 +376,7 @@ int main(int argc, char **argv){
         if(is_kalman){
           move_right += kal_r_vel_tmp;
           move_front += kal_f_vel_tmp;
+          // cout << "kalmanfiltered" << endl;
         }
         // }
         // else{
@@ -422,9 +424,9 @@ int main(int argc, char **argv){
         kp_control = 0; // 직전에는 0.5
         kp_control = 0; // 일단 0으로 해보고 나중에 바꾸기
         kd_control = 0;
-        if(dt < 0.5){
-          kd_control = 0.01;
-        }
+        // if(dt < 0.5){
+        //   kd_control = 0.01;
+        // }
 
         float yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
         float drone_vel_f = enu_to_fru_f(drone_vel_e, drone_vel_n, yaw);
@@ -436,6 +438,11 @@ int main(int argc, char **argv){
 
         float derivative_f = (proportional_f - (spd_f_prev - drone_vel_f_prev)) / dt;
         float derivative_r = (proportional_r - (spd_r_prev - drone_vel_r_prev)) / dt;
+
+        if(ros::Time::now().toSec() - tag_time < 0.5){
+          derivative_f = 0;
+          derivative_r = 0;
+        }
 
         // PID 제어
         float input_f = spd_f + proportional_f * kp_control + derivative_f *  kd_control;
