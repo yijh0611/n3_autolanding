@@ -143,7 +143,7 @@ int main(int argc, char **argv){
   }
   
   is_run_thread = true;
-  ros::init(argc, argv, "talker_ros_19");
+  ros::init(argc, argv, "talker_ros_20");
   ros::NodeHandle n;
 
   // subscriber - 영상 정보 및 얻을 수 있는 센서 데이터 전부 받기

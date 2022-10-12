@@ -117,9 +117,10 @@ float kp_control, kd_control;
 float pid_front, pid_right;
 float spd_constant;
 float kal_r_vel_tmp, kal_f_vel_tmp;
+float kal_tag_vel_f, kal_tag_vel_r;
 
 // 영상 녹화 및 로그
-string src_vid, src_log;
+string src_vid, src_log, src_vid_tag;
 // 영상 프레임 낮추기 위한 변수
 float is_save_frame = 0;
 
@@ -127,6 +128,7 @@ float is_save_frame = 0;
 void get_imu(const sensor_msgs::Imu msg);
 void callback_tf(const tf2_msgs::TFMessage msg3);
 void get_img(const sensor_msgs::ImageConstPtr& img_ros);
+void get_img_tag(const sensor_msgs::ImageConstPtr& img_ros_tag);
 bool get_time();
 bool get_src();
 void cb_battery(const sensor_msgs::BatteryState battery);
@@ -151,6 +153,7 @@ bool test_bool_1 = get_src();
 ofstream outfile(src_log);
 
 cv::VideoWriter videoWriter;
+cv::VideoWriter videoWriter_tag;
 float videoFPS = 30; // 원래는 100인데, 30으로 줄였음. 100
 int videoWidth = 640;
 int videoHeight = 480;
@@ -173,7 +176,8 @@ int main(int argc, char **argv){
   vo_x,vo_y,v_z,kal_r,kal_f,kal_v_r,kal_vel_f,time_kal,is_tag,is_tag_lost,\
   kal_tf_x,kal_tf_y,kal_tf_z,dt,v_x,v_y,x_z,tag_d_x,tag_v_x,tag_d_y,tag_v_y,dt_pid,\
   PID_front,PID_right,target_input_f,target_input_l,\
-  kp_control,kd_control,spd_constant,kal_r_vel_tmp,kal_f_vel_tmp";
+  kp_control,kd_control,spd_constant,kal_r_vel_tmp,kal_f_vel_tmp,\
+  kal_tag_vel_f,kal_tag_vel_r";
   outfile << csv_name << endl;
 
   ros::init(argc, argv, "save_log");
@@ -197,9 +201,11 @@ int main(int argc, char **argv){
 
   // 영상 녹화
   videoWriter.open(src_vid, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), videoFPS , cv::Size(videoWidth, videoHeight), true);
+  // videoWriter_tag.open(src_vid, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), videoFPS , cv::Size(videoWidth, videoHeight), true);
   // 영상 수신
   image_transport::ImageTransport it(nh);
   image_transport::Subscriber sub_img = it.subscribe("camera_rect/image_rect", 1, get_img);
+  // image_transport::Subscriber sub_img_tag = it.subscribe("camera_rect/image_rect", 1, get_img_tag);
 
   ros::Rate loop_rate(50);
 
@@ -253,7 +259,7 @@ int main(int argc, char **argv){
       outfile << target_input_f << "," << target_input_l << ",";
       outfile << kp_control << "," << kd_control << ",";
       outfile << spd_constant << "," << kal_r_vel_tmp << ",";
-      outfile << kal_f_vel_tmp << "," << endl;
+      outfile << kal_f_vel_tmp << "," << kal_tag_vel_f << "," << kal_tag_vel_r << endl;
 
       loop_rate_save.sleep();
     }
@@ -353,6 +359,67 @@ void get_img(const sensor_msgs::ImageConstPtr& img_ros){// const sensor_msgs::Im
   }
 }
 
+void get_img_tag(const sensor_msgs::ImageConstPtr& img_ros_tag){// const sensor_msgs::Image
+  try{
+    
+    // 시간 기록하기 위함
+    double secs = ros::Time::now().toSec();
+    double msec;
+    secs = secs - (int)secs;
+    msec = secs * 1000;
+    msec = msec - (int)msec;
+    msec = msec / 1000;
+    secs = secs - msec;
+    m_sec = secs; // global
+
+    get_time();
+
+    // put text
+    string sec_string = to_string(sec+m_sec);
+    if(sec+m_sec < 10){
+      sec_string = "0" + sec_string.substr(0,5);
+    }
+    else{
+      sec_string = sec_string.substr(0,6);
+    }
+
+    string myText = "Time : " + to_string(hour) + ":" + to_string(minute) + ":" + sec_string;
+        
+    cv::Point myPoint;
+    myPoint.x = 10;
+    myPoint.y = 40;
+    /// Font Face
+    int myFontFace = 2;
+    /// Font Scale
+    double myFontScale = 1.0;
+    cv::putText(cv_bridge::toCvShare(img_ros_tag, "bgr8")->image, myText, myPoint, myFontFace, myFontScale, cv::Scalar(255, 0, 0)); // cv::Scalar::all(255)
+
+    myPoint.y = 80;
+    if(is_tag_lost == 1){
+      myText = "No Tag";
+    }
+    else{
+      myText = "Tag found";
+    }
+    cv::putText(cv_bridge::toCvShare(img_ros_tag, "bgr8")->image, myText, myPoint, myFontFace, myFontScale, cv::Scalar(255, 0, 0));
+
+    // // 이미지 저장
+    // cv::imwrite(src_img,cv_bridge::toCvShare(img_ros, "bgr8")->image);
+
+    // 영상 녹화
+    videoWriter_tag << cv_bridge::toCvShare(img_ros_tag, "bgr8")->image;
+
+    // cv::imshow("view", cv_bridge::toCvShare(img_ros, "bgr8")->image);
+    
+    // cv::waitKey(30);
+    // is_save_frame = 0;
+    // }
+  }
+  catch (cv_bridge::Exception& e){
+    ROS_ERROR("Could not convert from '%s' to 'bgr8'.", img_ros_tag->encoding.c_str());
+  }
+}
+
 void callback_tf(const tf2_msgs::TFMessage msg3)
 { // 값 저장하는 코드
   x_tf = msg3.transforms[0].transform.translation.x;
@@ -386,10 +453,12 @@ bool get_src(){
   if(!is_test){
     string vid_name = to_string(month) + "_" + to_string(day) + "_" + to_string(hour) + "_" + to_string(minute) + "_" + to_string(sec);
     src_vid = "/home/aims/Desktop/vid_output/" + vid_name + ".avi";
+    src_vid_tag = "/home/aims/Desktop/vid_output/" + vid_name + "_tag.avi";
     src_log = "/home/aims/Desktop/vid_output/" + vid_name + ".csv";
   }
   else{
     src_vid = "/home/aims/Desktop/vid_output/test.avi";
+    src_vid = "/home/aims/Desktop/vid_output/test_tag.avi";
     src_log = "/home/aims/Desktop/vid_output/log.csv";
   }
   return true;
@@ -473,6 +542,8 @@ void cb_kalman(const std_msgs::Float64MultiArray kal){
   tag_vx = kal.data[11];
   tag_vy = kal.data[12];
   tag_vz = kal.data[13];
+  kal_tag_vel_f = kal.data[14];
+  kal_tag_vel_r = kal.data[15];
 }
 
 void cb_distance(const std_msgs::Float64MultiArray dist){

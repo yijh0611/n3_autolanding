@@ -35,5 +35,3 @@ ctrl + `(숫자 1 옆에있는거)
 1. roslaunch apriltag_ros check_gimbal.launch
 
 /////////////////////////
-
-

@@ -347,6 +347,10 @@ add_executable(talker_ros_19 src/talker_ros_19.cpp)
 target_link_libraries(talker_ros_19 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(talker_ros_19 dji_sdk_generate_messages_cpp)
 
+add_executable(talker_ros_20 src/talker_ros_20.cpp)
+target_link_libraries(talker_ros_20 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_20 dji_sdk_generate_messages_cpp)
+
 
 add_executable(talker_sim_1 src/talker_sim_1.cpp)
 target_link_libraries(talker_sim_1 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
@@ -454,6 +458,10 @@ add_dependencies(save_log_100 dji_sdk_generate_messages_cpp)
 add_executable(save_log_sim src/save_log_sim.cpp)
 target_link_libraries(save_log_sim ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(save_log_sim dji_sdk_generate_messages_cpp)
+
+add_executable(save_log_platform src/save_log_platform.cpp)
+target_link_libraries(save_log_platform ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(save_log_platform dji_sdk_generate_messages_cpp)
 
 add_executable(calculate_vel src/calculate_vel.cpp)
 target_link_libraries(calculate_vel ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})

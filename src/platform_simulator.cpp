@@ -36,6 +36,13 @@
 // 시뮬레이션 위치 파악용
 #include "dji_sdk/VOPosition.h"
 
+// 난수 생성
+// https://modoocode.com/304
+#include <iomanip>
+// #include <iostream>
+// #include <map>
+#include <random>
+
 // Quaternion 계산용
 #include <iostream>
 using namespace std;
@@ -54,10 +61,16 @@ struct EulerAngles {
 
 // void tf_callback(const turtlesim::PoseConstPtr& msg){
 
-
 // 전역 변수 정의
 float imu_y = 0;
 float imu_ori_x, imu_ori_y, imu_ori_z, imu_ori_w;
+
+float hz = 12;
+float dt_hz = 1/hz;
+// float delayed_tag_time = 0.3;
+// int how_many = delayed_tag_time * hz + 1;
+float tag_f_arr[4]; // 여기 4 대신에 how_many로 바꿔도 됨
+float tag_r_arr[4];
 
 bool is_start = false;
 using namespace std;
@@ -78,10 +91,26 @@ void get_imu(const sensor_msgs::Imu msg);
 // gps 관련
 void cb_voposition(const dji_sdk::VOPosition pos); // 위치
 
+// float get_yaw(float w, float x, float y, float z){
+//   float yaw_x = 2 * (w * z + x * y);
+//   float yaw_y = 1 - 2 * (y * y + z * z);
+//   float yaw = atan2(yaw_x, yaw_y);
+
+//   return yaw;
+// }
+
+// float enu_to_fru(float e, float n, float y){
+//   float f = e * cos(y) + n * sin(y);
+//   float r = e * sin(y) - n * cos(y);
+
+//   return f,r;
+// }
+
 // void pub_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
 void get_time();
 float get_yaw(float w, float x, float y, float z);
-float enu_to_fru(float e, float n, float y);
+float enu_to_fru_f(float e, float n, float y);
+float enu_to_fru_r(float e, float n, float y);
 
 // tf2_msgs::TFMessage tag_po; // 태그 정보 보내기 위한 변수
 
@@ -97,25 +126,28 @@ int main(int argc, char **argv){
   ros::Subscriber sub_vo_pos = n.subscribe("dji_sdk/vo_position", 1000, cb_voposition);
   
   // publisher
-  // ros::Publisher control_vel_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_ENUvelocity_yawrate", 10);
-  // ros::Publisher gimbal_control = n.advertise<std_msgs::Float64MultiArray>("gimbal_control", 10);
-  // ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
   // ros::Publisher pub_tf = n.advertise<tf2_msgs::TFMessage>("tf", 10); // 필요한거 같은데, 일단 주석
  
   // GPS신호 대기
   float chk_start = 0;
   is_run_thread = true;
-  // while(vo_position_chk == 0){
-  //   chk_start += 1;
-  //   if (chk_start > 300){
-  //     ROS_ERROR("No GPS position for 30 Sec!");
-  //     is_run_thread = false;
-  //     return 0;
-  //     break;
-  //   }
-  //   ros::Duration(0.1).sleep();
-  //   ros::spinOnce();
-  // }
+  while(vo_position_chk == 0){
+    chk_start += 1;
+    if (chk_start > 300){
+      ROS_ERROR("No GPS position for 30 Sec!");
+      is_run_thread = false;
+      return 0;
+      break;
+    }
+    ros::Duration(0.1).sleep();
+    ros::spinOnce();
+  }
+  if(chk_start <= 300){
+    ROS_INFO("Vo_position recieved");
+    cout << "vo_e : " << vo_e << endl;
+    cout << "vo_n : " << vo_n << endl;
+    cout << "vo_z : " << vo_z << endl;
+  }
   
   // for(int i=0; i<3; i++){
   //   // tag_po.transforms[0].transform.translation.push_back(0.0);
@@ -141,37 +173,257 @@ int main(int argc, char **argv){
   // 쓰레드 2 - Control drone
   auto control_drone = []()
 	{
+    double time_is_start = ros::Time::now().toSec();
+    int int_wait = 0;
+    ROS_INFO("Simulation wait 12s");
+    while (ros::Time::now().toSec() - time_is_start < 12){
+      int_wait = 1 - int_wait;
+    }
     cout << "Tag simulation start" << endl;
 
     // // 드론 제어
     ros::NodeHandle n;
     ros::Publisher pub_tf = n.advertise<geometry_msgs::Transform>("tf_2", 10);
-    // ros::Publisher control_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_generic", 10); // 이거로 해야지 NEU가 아니라 FRU로 할 수 있다.
-    // ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
+    ros::Publisher pub_sim_data = n.advertise<std_msgs::Float64MultiArray>("sim_data", 10);
     ros::Rate loop_rate(50);
 
-    // time_prev = ros::Time::now().toSec() - 2; // 시작할 때 속도 높게나오는거 방지하기 위함.
-    // ros::Time time_no_tag = ros::Time::now();
-    // // float tag_time = ros::Time::now().toSec();
-    // struct timeval time_now{};
-    // time_t msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
-    int i = 0;
     geometry_msgs::Transform tag_po;
-    cout << "chk point" << endl;
+    std_msgs::Float64MultiArray sim_data;
+
+    for(int i=0; i < 15; i++){ // 5까지 하면 arr[4]까지 쓸 수 있음.
+      sim_data.data.push_back(0.0);
+    }
+
+    double time_start = ros::Time::now().toSec();
+    double time_prev = ros::Time::now().toSec();
+
+    int i = 0;
+    // int j = 0;
+    bool is_first = true;
     
+    float vo_e_start = 0;
+    float vo_n_start = 0;
+    float vo_z_start = 0;
+
+    float dt_all = 0;
+    float dt = 0;
+    // bool is_circle = true;
+    int what_direction = 1; // 0: circle, 1: square, 2: backward and forward
+
+    float tag_e = 0;
+    float tag_n = 0;
+    float tag_f = 0;
+    float tag_r = 0;
+    float yaw = 0;
+    float tag_vel_e = 2;
+    float tag_vel_n = 0;
+
+    int count_while = 0;
+    int count_tag = 5;
+
+    ROS_INFO("Start simulation");
+
+    for(int i_for = 0; i_for < 5; i += 1){
+      tag_f_arr[i_for] = 0;
+      tag_r_arr[i_for] = 0;
+    }
 
     while(is_run_thread){ // Start Tag simulation
-      i+=1;
-      
-      tag_po.translation.x = i;
-      pub_tf.publish(tag_po);
+      if (is_first){
+        if (vo_z != 0){
+          vo_z_start = vo_z;
+          vo_e_start = vo_e;
+          vo_n_start = vo_n + 1;
 
-      if (i>100){
-        i = 0;
+          tag_e = vo_e;
+          tag_n = vo_n;
+
+          is_first = false;
+
+          time_start = ros::Time::now().toSec();
+          time_prev = ros::Time::now().toSec();
+          ROS_INFO("init");
+        }
+      }
+
+      count_while += 1;
+
+      // dt 랜덤하게 정의 - 정규분포로 난수 생성하는건 없는 것 같다.
+      // 정규분포를 가지고 있는 list를 만들어서 그 중에 랜덤하게 꺼내는걸 해야 하는 듯.
+      // 평균이 0이고 표준편차가 1인 난수
+      
+      // 난수 생성
+      random_device rd;
+      mt19937 gen(rd());
+      normal_distribution<double> dist(/* 평균 = */ 0, /* 표준 편차 = */ 1);
+      
+      double rand_num_f = dist(gen) * 0.01;
+      // rand_num_f = rand_num_f * 0.05;
+      double rand_num_r = dist(gen) * 0.01;
+
+      if (vo_z != 0){ // 위치 정보가 들어올 때
+       
+        // Tag 원운동 할 때
+        // if (is_circle){
+        //   int radius = 15;
+        //   int ang_vel = 0.5;
+        //   tag_vel_e = radius * cos(ang_vel * dt_all);
+        //   tag_vel_n = radius * sin(ang_vel * dt_all); 
+        // }
+
+        // // 시간이 너무 지나면, 정지
+        // if(dt_all > 100){
+        //   tag_vel_e = 0;
+        //   tag_vel_n = 0;
+        // }
+
+        // Tag 위치
+        if(dt_all < 100){
+          if(what_direction == 0){ // 원
+            float radius = 15;
+            // float ang_vel = 0.133;
+            float ang_vel = 0.266;
+            tag_e = vo_e_start + radius * sin(ang_vel * dt_all);
+            tag_n = vo_n_start + radius - radius * cos(ang_vel * dt_all);
+          }
+          else if(what_direction == 1){ // 네모
+            float dist = 10;
+            float vel = 2;
+            float distance_moved = dt_all * vel;
+            if(distance_moved < dist){
+              tag_e = vo_e_start + vel * dt_all;
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 2){
+              tag_e = vo_e_start + dist;
+              tag_n = vo_n_start + vel * dt_all - dist;
+            }
+            else if(distance_moved < dist * 3){
+              tag_e = vo_e_start + dist - (vel * dt_all - dist * 2);
+              tag_n = vo_n_start + dist;
+            }
+            else if(distance_moved < dist * 4){
+              tag_e = vo_e_start;
+              tag_n = vo_n_start + dist - (vel * dt_all - dist * 3);
+            }
+            else{
+              tag_e = vo_e_start;
+              tag_n = vo_n_start;
+            }
+          }
+          else if(what_direction == 2){ // 앞뒤로
+            float dist = 10;
+            float vel = 2;
+            float distance_moved = dt_all * vel;
+            if(distance_moved < dist){
+              tag_e = vo_e_start + vel * dt_all;
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 2){
+              tag_e = vo_e_start + dist - (vel * dt_all - dist);
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 3){
+              tag_e = vo_e_start + (vel * dt_all - dist * 2);
+              tag_n = vo_n_start;
+            }
+            else if(distance_moved < dist * 4){
+              tag_e = vo_e_start+ dist - (vel * dt_all - dist * 3);
+              tag_n = vo_n_start;
+            }
+            else{
+              tag_e = vo_e_start;
+              tag_n = vo_n_start;
+            }
+          }
+          else{
+            tag_e += tag_vel_e * dt;
+            tag_n += tag_vel_n * dt;
+          }
+        }
+
+        float drone_to_tag_e = tag_e - vo_e;
+        float drone_to_tag_n = tag_n - vo_n;
+
+        yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
+        tag_f = enu_to_fru_f(drone_to_tag_e, drone_to_tag_n, yaw);
+        tag_r = enu_to_fru_r(drone_to_tag_e, drone_to_tag_n, yaw);
+
+        // data publish
+        sim_data.data[0] = tag_f;
+        sim_data.data[1] = tag_r;
+        sim_data.data[2] = tag_e;
+        sim_data.data[3] = tag_n;
+        // sim_data.data[4] = vo_e;
+        // sim_data.data[5] = vo_n;
+
+        tag_f = tag_f + rand_num_f;
+        tag_r = tag_r + rand_num_r;
+        
+        int where_arr = count_tag % 4;
+        
+        tag_f_arr[where_arr] = tag_f;
+        tag_r_arr[where_arr] = tag_r;
+
+        int where_arr_tmp = (count_tag - 3) % 4;
+        tag_f = tag_f_arr[where_arr_tmp];
+        tag_r = tag_r_arr[where_arr_tmp];
+
+        count_tag += 1;
+
+        tag_po.translation.x = tag_r; // 일단 이렇게 하고, flu로 바꿔서 다시 하기.
+        tag_po.translation.y = -1 * tag_f;
+        tag_po.translation.z = -1 * (vo_z - vo_z_start); // vo_z는 높아지면 음수가 되는 듯.
+
+        // Publish Tag info
+        pub_tf.publish(tag_po);
+        pub_sim_data.publish(sim_data);
+        
+
+        if(count_while % 12 == 0){ // 정보 확인용.
+        //   // cout << "Tag distance from start : " << tag_e - vo_e_start << endl;
+        //   // cout << "tag_e : " << tag_e - vo_e << endl;
+        //   // cout << "drone to tag e : " << drone_to_tag_e << endl;
+        //   // cout << "drone to tag n : " << drone_to_tag_n << endl;
+        //   // cout << "yaw : " << yaw << endl;
+        //   // cout << "sin : " << sin(yaw) << endl;
+        //   // cout << "cos : " << cos(yaw) << endl;
+          cout << "Tag_f : " << tag_f << endl;
+          cout << "Tag_r : " << tag_r << endl;
+          if(fabs(tag_f - rand_num_f) > 2){
+            cout << endl;
+            ROS_ERROR("Too far F");
+          }
+          if(fabs(tag_r - rand_num_r) > 2){
+            cout << endl;
+            ROS_ERROR("Too far R");
+          }
+        //   // cout << endl;
+
+        //   // cout << "vo_e : " << vo_e << endl;
+        //   // cout << "vo_n : " << vo_n << endl;
+        //   // // cout << "tag_n : " << tag_n - vo_n << endl;
+          // cout << "tag_abs_e : " << tag_e << endl;
+          // cout << "tag_abs_n : " << tag_n << endl;
+          // cout << "dt_all : " << dt_all << endl;
+        //   // cout << "count : " << count_while << endl;
+          cout << endl;
+          cout << endl;
+          
+        //   count_while = 0;
+        }
+
+        while(ros::Time::now().toSec() - time_prev < dt_hz){ // 12Hz로 데이터 보내기
+          // 아무것도 안함.
+          i = 1 - i;
+        }
+        dt_all = ros::Time::now().toSec() - time_start;
+        dt = ros::Time::now().toSec() - time_prev;
+        // cout << "dt : " << dt << endl;
+        time_prev = ros::Time::now().toSec();
       }
     }
 	};
-
 
   std::thread t1 = std::thread(ros_spin);
 	std::thread t2 = std::thread(control_drone);
@@ -206,11 +458,14 @@ float get_yaw(float w, float x, float y, float z){
   return yaw;
 }
 
-float enu_to_fru(float e, float n, float y){
+float enu_to_fru_f(float e, float n, float y){
   float f = e * cos(y) + n * sin(y);
-  float r = e * sin(y) - n * cos(y);
+  return f;
+}
 
-  return f,r;
+float enu_to_fru_r(float e, float n, float y){
+  float r = e * sin(y) - n * cos(y);
+  return r;
 }
 
 void cb_voposition(const dji_sdk::VOPosition pos){ // 이거 0.1Hz 라서 사용하기 힘들거 같다.
@@ -218,4 +473,5 @@ void cb_voposition(const dji_sdk::VOPosition pos){ // 이거 0.1Hz 라서 사용
   vo_e = pos.y; // y가 동쪽인데, 코드를 x를 동쪽으로 짜서 이렇게 바꿨음.
   vo_n = pos.x;
   vo_z = pos.z;
+  vo_position_chk = pos.y;
 }
