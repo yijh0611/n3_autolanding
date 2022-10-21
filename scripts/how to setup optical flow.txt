@@ -10,6 +10,13 @@ $ sudo modprobe spidev
 출처 : https://forums.developer.nvidia.com/t/spidev-not-loading-in-jetson-agx-xavier-in-l4t-32-6-1/200288
 (예전 버전에서는 그냥 작동한다)
 
+https://passwd.tistory.com/m/212
+rc.local을 먼저 활성화시켜줘야함
+$ sudo chmod 755 /etc/rc.local
+그리고 권한을 줘야함
+[출처] https://asung123456.tistory.com/m/17
+// 지금 이거는 잘 안됨. 부팅할때 자동으로 실행시키는거는 방법을 찾아야 할 듯.
+
 SPI 통신뿐만 아니라 PWM같은 다른 기능을 사용하려면 GPIO핀을 활성화 시켜줘야 한다.
 $ sudo /opt/nvidia/jetson-io/jetson-io.py
 를 입력하면 설정이 가능하다.

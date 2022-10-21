@@ -118,6 +118,11 @@ float pid_front, pid_right;
 float spd_constant;
 float kal_r_vel_tmp, kal_f_vel_tmp;
 float kal_tag_vel_f, kal_tag_vel_r;
+// 라이다
+float lid_dist, lid_strength;
+
+// 옵티컬 플로우
+float opt_dx, opt_dy, opt_x, opt_y;
 
 // 영상 녹화 및 로그
 string src_vid, src_log, src_vid_tag;
@@ -146,6 +151,10 @@ void cb_voposition(const dji_sdk::VOPosition pos); // 위치
 void cb_kalman(const std_msgs::Float64MultiArray kal);
 // Distance data
 void cb_distance(const std_msgs::Float64MultiArray dist);
+// lidar
+void cb_lidar(const std_msgs::Float64MultiArray lid);
+// optical flow sensor
+void cb_opticalflow(const std_msgs::Float64MultiArray opticalflow);
 
 // 영상 녹화 및 로그 경로
 bool test_bool = get_time();
@@ -177,7 +186,8 @@ int main(int argc, char **argv){
   kal_tf_x,kal_tf_y,kal_tf_z,dt,v_x,v_y,x_z,tag_d_x,tag_v_x,tag_d_y,tag_v_y,dt_pid,\
   PID_front,PID_right,target_input_f,target_input_l,\
   kp_control,kd_control,spd_constant,kal_r_vel_tmp,kal_f_vel_tmp,\
-  kal_tag_vel_f,kal_tag_vel_r";
+  kal_tag_vel_f,kal_tag_vel_r,lidar_distance,lidar_strength,\
+  opt_dx,opt_dy,opt_x,opt_y";
   outfile << csv_name << endl;
 
   ros::init(argc, argv, "save_log");
@@ -198,6 +208,8 @@ int main(int argc, char **argv){
   ros::Subscriber sub_vo_pos = nh.subscribe("dji_sdk/vo_position", 1000, cb_voposition);
   ros::Subscriber sub_kal = nh.subscribe("kalmanfilter", 1000, cb_kalman);
   ros::Subscriber sub_pid_data = nh.subscribe("distance", 1000, cb_distance);
+  ros::Subscriber sub_lid = nh.subscribe("lidar", 1000, cb_lidar);
+  ros::Subscriber sub_opt = nh.subscribe("pmw3901", 1000, cb_opticalflow);
 
   // 영상 녹화
   videoWriter.open(src_vid, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'), videoFPS , cv::Size(videoWidth, videoHeight), true);
@@ -259,7 +271,10 @@ int main(int argc, char **argv){
       outfile << target_input_f << "," << target_input_l << ",";
       outfile << kp_control << "," << kd_control << ",";
       outfile << spd_constant << "," << kal_r_vel_tmp << ",";
-      outfile << kal_f_vel_tmp << "," << kal_tag_vel_f << "," << kal_tag_vel_r << endl;
+      outfile << kal_f_vel_tmp << "," << kal_tag_vel_f << "," << kal_tag_vel_r << ",";
+      // lidar
+      outfile << lid_dist << "," << lid_strength << ",";
+      outfile << opt_dx << "," << opt_dy << "," << opt_x << "," << opt_y << endl;
 
       loop_rate_save.sleep();
     }
@@ -561,4 +576,16 @@ void cb_distance(const std_msgs::Float64MultiArray dist){
   spd_constant = dist.data[11];
   kal_r_vel_tmp = dist.data[12];
   kal_f_vel_tmp = dist.data[13];
+}
+
+void cb_lidar(const std_msgs::Float64MultiArray lid){
+  lid_dist = lid.data[0];
+  lid_strength = lid.data[1];
+}
+
+void cb_opticalflow(const std_msgs::Float64MultiArray opticalflow){
+  opt_dx = opticalflow.data[0];
+  opt_dy = opticalflow.data[1];
+  opt_x = opticalflow.data[2];
+  opt_y = opticalflow.data[3];
 }
