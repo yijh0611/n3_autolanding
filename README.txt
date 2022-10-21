@@ -1,3 +1,11 @@
+This is incomplete code
+
+Git library used
+1. dji_sdk_ros
+2. apriltag_ros
+3. Some demo ros codes
+
+///////////////////////////////////////////////
 rostopic list -v
 rostopic echo tf -뒤에 publish되는거 중에 확인하고 싶은거 넣기.
 ls -al : 파일 권한 확인하는 명령어 - 파일 권한이 잘못되어 있으면, rosrun으로 인식이 안될 수도 있음.
