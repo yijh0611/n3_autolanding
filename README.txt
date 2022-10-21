@@ -1,9 +1,11 @@
 This is incomplete code
 
 Git library used
-1. dji_sdk_ros
-2. apriltag_ros
-3. Some demo ros codes
+1. dji-sdk/Onboard-SDK https://github.com/dji-sdk/Onboard-SDK
+2. dji-sdk/Onboard-SDK-ROS https://github.com/dji-sdk/Onboard-SDK-ROS
+3. AprilRobotics/apriltag_ros https://github.com/AprilRobotics/apriltag_ros
+4. apriltag https://github.com/AprilRobotics/apriltag
+5. Some demo ros codes
 
 ///////////////////////////////////////////////
 rostopic list -v
