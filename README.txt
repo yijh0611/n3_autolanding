@@ -7,6 +7,9 @@ Git library used
 4. apriltag https://github.com/AprilRobotics/apriltag
 5. Some demo ros codes
 
+Main purpose of this code is backup.
+This code will not be helpful for most of people.
+
 ///////////////////////////////////////////////
 rostopic list -v
 rostopic echo tf -뒤에 publish되는거 중에 확인하고 싶은거 넣기.
