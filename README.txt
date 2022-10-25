@@ -5,12 +5,14 @@ Git library used
 2. dji-sdk/Onboard-SDK-ROS https://github.com/dji-sdk/Onboard-SDK-ROS
 3. AprilRobotics/apriltag_ros https://github.com/AprilRobotics/apriltag_ros
 4. apriltag https://github.com/AprilRobotics/apriltag
+5. 쿼터니언 계산 식
+6. 옵티컬 플로우 센서 (2가지 - 한개만 사용했음.)
 5. Some demo ros codes
 
-Main purpose of this code is backup.
-This code will not be helpful for most of people.
+Main purpose of this repository is backup.
+This repository may not be helpful for most of people.
 
-///////////////////////////////////////////////
+/////////////////////////// Memo ///////////////////////////
 rostopic list -v
 rostopic echo tf -뒤에 publish되는거 중에 확인하고 싶은거 넣기.
 ls -al : 파일 권한 확인하는 명령어 - 파일 권한이 잘못되어 있으면, rosrun으로 인식이 안될 수도 있음.
