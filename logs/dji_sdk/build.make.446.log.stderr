@@ -1,0 +1,17 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log.cpp:[m[K In function ‘[01m[Kvoid get_img_tag(const ImageConstPtr&)[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log.cpp:408:67:[m[K [01;31m[Kerror: [m[K‘[01m[Kconst class cv_bridge::CvImage[m[K’ has no member named ‘[01m[Kimage_tag[m[K’; did you mean ‘[01m[Kimage[m[K’?
+     videoWriter_tag << cv_bridge::toCvShare(img_ros_tag, "bgr8")->[01;31m[Kimage_tag[m[K;
+                                                                   [01;31m[K^~~~~~~~~[m[K
+                                                                   [32m[Kimage[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log.cpp:[m[K In function ‘[01m[Kbool get_src()[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log.cpp:454:5:[m[K [01;31m[Kerror: [m[K‘[01m[Ksrc_vid_tag[m[K’ was not declared in this scope
+     [01;31m[Ksrc_vid_tag[m[K = "/home/aims/Desktop/vid_output/" + vid_name + "_tag.avi";
+     [01;31m[K^~~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/save_log.cpp:454:5:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Ksrc_vid[m[K’
+     [01;36m[Ksrc_vid_tag[m[K = "/home/aims/Desktop/vid_output/" + vid_name + "_tag.avi";
+     [01;36m[K^~~~~~~~~~~[m[K
+     [32m[Ksrc_vid[m[K
+make[2]: *** [CMakeFiles/save_log.dir/src/save_log.cpp.o] Error 1
+make[1]: *** [CMakeFiles/save_log.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make: *** [all] Error 2

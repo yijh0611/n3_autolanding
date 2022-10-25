@@ -1,0 +1,141 @@
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target nav_msgs_generate_messages_py
+[  0%] Built target sensor_msgs_generate_messages_py
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MFIOSetValue
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpUpdateYawRate
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SetupCameraStream
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SetHardSync
+[  0%] Built target _dji_sdk_generate_messages_check_deps_QueryDroneVersion
+[  0%] Built target _dji_sdk_generate_messages_check_deps_DroneArmControl
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SDKControlAuthority
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SendMobileData
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MobileData
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWpGetInfo
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpUpload
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionStatus
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpGetInfo
+[  0%] Built target _dji_sdk_generate_messages_check_deps_Stereo240pSubscription
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpAction
+[  0%] Built target _dji_sdk_generate_messages_check_deps_FCTimeInUTC
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWpAction
+[  0%] Built target _dji_sdk_generate_messages_check_deps_Waypoint
+[  0%] Built target _dji_sdk_generate_messages_check_deps_StereoVGASubscription
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpResetYaw
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWaypointTask
+[  0%] Built target _dji_sdk_generate_messages_check_deps_VOPosition
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SendPayloadData
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWaypointAction
+[  0%] Built target _dji_sdk_generate_messages_check_deps_PayloadData
+[  0%] Built target _dji_sdk_generate_messages_check_deps_SetLocalPosRef
+[  0%] Built target _dji_sdk_generate_messages_check_deps_Activation
+[  0%] Built target _dji_sdk_generate_messages_check_deps_FlightAnomaly
+[  0%] Built target _dji_sdk_generate_messages_check_deps_CameraAction
+[  0%] Built target _dji_sdk_generate_messages_check_deps_GPSUTC
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWpSetSpeed
+[  0%] Built target _dji_sdk_generate_messages_check_deps_DroneTaskControl
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHotpointTask
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionHpUpdateRadius
+[  0%] Built target _dji_sdk_generate_messages_check_deps_WaypointList
+[  0%] Built target _dji_sdk_generate_messages_check_deps_Gimbal
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWpGetSpeed
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MFIOConfig
+[  0%] Built target _dji_sdk_generate_messages_check_deps_StereoDepthSubscription
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWpUpload
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target _dji_sdk_generate_messages_check_deps_MissionWaypoint
+[  0%] Built target nav_msgs_generate_messages_cpp
+[  0%] Built target sensor_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target nav_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target sensor_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target nav_msgs_generate_messages_lisp
+[  0%] Built target sensor_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_nodejs
+[  0%] Built target nav_msgs_generate_messages_nodejs
+[  0%] Built target sensor_msgs_generate_messages_nodejs
+[ 15%] Built target dji_sdk_generate_messages_py
+[ 41%] Built target dji_sdk_generate_messages_cpp
+[ 46%] Built target dji_sdk_generate_messages_eus
+[ 63%] Built target dji_sdk_generate_messages_lisp
+[ 79%] Built target dji_sdk_generate_messages_nodejs
+[35m[1mConsolidate compiler generated dependencies of target talker_ros_20[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/main.cpp.o[0m
+[ 80%] [32mBuilding CXX object CMakeFiles/talker_ros_17.dir/src/talker_ros_17.cpp.o[0m
+[ 81%] Built target talker_ros_19
+[ 81%] [32mBuilding CXX object CMakeFiles/talker_ros_18.dir/src/talker_ros_18.cpp.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/talker_ros_20.dir/src/talker_ros_20.cpp.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/talker_sim_1.dir/src/talker_sim_1.cpp.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/talker_sim_2.dir/src/talker_sim_2.cpp.o[0m
+[ 81%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_control.cpp.o[0m
+[ 82%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_17[0m
+[ 82%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_18[0m
+[ 83%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_1[0m
+[ 84%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_20[0m
+[ 84%] Built target talker_ros_18
+[ 84%] Built target talker_ros_20
+[ 84%] Built target talker_sim_1
+[ 84%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_services.cpp.o[0m
+[ 84%] Built target talker_ros_17
+[ 85%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node.cpp.o[0m
+[ 85%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_mission_services.cpp.o[0m
+[ 85%] [32mBuilding CXX object CMakeFiles/talker_sim_4.dir/src/talker_sim_4.cpp.o[0m
+[ 86%] [32mBuilding CXX object CMakeFiles/talker_sim_3.dir/src/talker_sim_3.cpp.o[0m
+[ 86%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_2[0m
+[ 86%] Built target talker_sim_2
+[ 87%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_subscriber.cpp.o[0m
+[ 87%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_publisher.cpp.o[0m
+[ 88%] [32mBuilding CXX object CMakeFiles/platform_simulator.dir/src/platform_simulator.cpp.o[0m
+[ 89%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_4[0m
+[ 89%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_sim_3[0m
+[ 90%] [32mBuilding CXX object CMakeFiles/get_tf.dir/src/get_tf.cpp.o[0m
+[ 90%] Built target talker_sim_4
+[ 90%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_mobile_comm.cpp.o[0m
+[ 90%] Built target talker_sim_3
+[ 91%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_payload_comm.cpp.o[0m
+[ 91%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/get_tf[0m
+[ 91%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/platform_simulator[0m
+[ 91%] [32mBuilding CXX object CMakeFiles/dji_sdk_node.dir/src/modules/dji_sdk_node_time_sync.cpp.o[0m
+[ 91%] Built target get_tf
+[ 91%] [32mBuilding CXX object CMakeFiles/test_code.dir/src/test_code.cpp.o[0m
+[ 91%] Built target platform_simulator
+[ 92%] [32mBuilding CXX object CMakeFiles/camera_to_tf.dir/src/camera_to_tf.cpp.o[0m
+[ 92%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_to_tf[0m
+[ 93%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/test_code[0m
+[ 94%] [32mBuilding CXX object CMakeFiles/camera_pub.dir/src/camera_pub.cpp.o[0m
+[ 94%] Built target camera_to_tf
+[ 94%] [32mBuilding CXX object CMakeFiles/camera_pub_no_imshow.dir/src/camera_pub_no_imshow.cpp.o[0m
+[ 94%] [32mBuilding CXX object CMakeFiles/camera_pub_and_apriltag.dir/src/camera_pub_and_apriltag.cpp.o[0m
+[ 94%] Built target test_code
+[ 95%] [32mBuilding CXX object CMakeFiles/chk_gimbal.dir/src/chk_gimbal.cpp.o[0m
+[ 95%] [32mBuilding CXX object CMakeFiles/save_log.dir/src/save_log.cpp.o[0m
+[ 95%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/dji_sdk_node[0m
+[ 95%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/chk_gimbal[0m
+[ 95%] Built target chk_gimbal
+[ 95%] [32mBuilding CXX object CMakeFiles/save_log_100.dir/src/save_log_100.cpp.o[0m
+[ 95%] Built target dji_sdk_node
+[ 96%] [32mBuilding CXX object CMakeFiles/save_log_sim.dir/src/save_log_sim.cpp.o[0m
+[ 97%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_pub_and_apriltag[0m
+[ 97%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_pub[0m
+[ 97%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_pub_no_imshow[0m
+[ 97%] Built target camera_pub_and_apriltag
+[ 98%] [32mBuilding CXX object CMakeFiles/save_log_platform.dir/src/save_log_platform.cpp.o[0m
+[ 98%] Built target camera_pub
+[ 98%] Built target camera_pub_no_imshow
+[ 98%] Built target dji_sdk_generate_messages
+[ 98%] [32mBuilding CXX object CMakeFiles/calculate_vel.dir/src/calculate_vel.cpp.o[0m
+[100%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log[0m
+[100%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/calculate_vel[0m
+[100%] Built target calculate_vel
+[100%] Built target save_log
+[100%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log_100[0m
+[100%] Built target save_log_100
+[100%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log_sim[0m
+[100%] Built target save_log_sim
+[100%] [32m[1mLinking CXX executable /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log_platform[0m
+[100%] Built target save_log_platform

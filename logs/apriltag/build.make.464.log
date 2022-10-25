@@ -1,0 +1,10 @@
+[  2%] [32mBuilding C object CMakeFiles/apriltag.dir/common/getopt.c.o[0m
+[  5%] [32m[1mLinking C shared library libapriltag.so[0m
+[ 80%] Built target apriltag
+[ 82%] [34m[1mGenerating apriltag.cpython-36m-aarch64-linux-gnu.so[0m
+[ 85%] [32m[1mLinking C executable apriltag_demo[0m
+[ 87%] [32mBuilding CXX object CMakeFiles/opencv_demo.dir/example/opencv_demo.cc.o[0m
+[ 90%] Built target apriltag_demo
+[ 97%] Built target apriltag_python
+[100%] [32m[1mLinking CXX executable opencv_demo[0m
+[100%] Built target opencv_demo

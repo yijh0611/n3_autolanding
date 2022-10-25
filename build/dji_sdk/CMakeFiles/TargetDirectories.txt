@@ -116,9 +116,9 @@
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/dji_sdk_generate_messages_py.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/dji_sdk_genpy.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/dji_sdk_node.dir
-/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_17.dir
-/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_18.dir
-/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_19.dir
+/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_20.dir
+/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_21.dir
+/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_22.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_1.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_2.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_3.dir
