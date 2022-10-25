@@ -279,8 +279,8 @@ if __name__ == '__main__':
     tag_vx = 0
     tag_vy = 0
     tag_vz = 0
-    kal_gps_r = np.zeros(35)
-    kal_gps_f = np.zeros(35)
+    kal_gps_e = np.zeros(35)
+    kal_gps_n = np.zeros(35)
 
     is_tag_lost = True
 
@@ -297,10 +297,10 @@ if __name__ == '__main__':
             count_else += 1
             # print("else")
         
-        if count_else % 1000 == 0:
-                print("Skip : ", count_skip)
-                print("else : ", count_else)
-                print()
+        # if count_else % 1000 == 0:
+        #         print("Skip : ", count_skip)
+        #         print("else : ", count_else)
+        #         print()
 
         if is_tag: # 태그가 보인적이 있는 경우
             if tag_chk == tf.x: # 태그가 보이지 않는 경우 // 같은 태그 정보가 들어온 경우
@@ -361,15 +361,26 @@ if __name__ == '__main__':
         
         x_filtered = my_filter.x
 
-        # 플랫폼 속도 출력
+        # Kalman filtered Tag distance
         tag_f, tag_r = enu_to_fru(x_filtered[6],x_filtered[7],yaw)
-        vel_f, vel_r = enu_to_fru(x_filtered[8]+x_filtered[2],x_filtered[9]+x_filtered[3],yaw)
+
+        # GPS delay
+        gps_vel_e_tmp = x_filtered[2]
+        gps_vel_n_tmp = x_filtered[3]
+        kal_gps_e = np.append(kal_gps_e, gps_vel_e_tmp)
+        kal_gps_n = np.append(kal_gps_n, gps_vel_n_tmp)
+        gps_vel_e_tmp = kal_gps_e[-30]
+        gps_vel_n_tmp = kal_gps_n[-30]
+
+        # Platform 속력
+        vel_f, vel_r = enu_to_fru(x_filtered[8]+gps_vel_e_tmp,x_filtered[9]+gps_vel_n_tmp,yaw)
+        vel_tag_f, vel_tag_r = enu_to_fru(x_filtered[8], x_filtered[9],yaw)
         
-        ## GPS 딜레이를 주기 위함.
-        kal_gps_r = np.append(kal_gps_r, vel_r)
-        kal_gps_f = np.append(kal_gps_f, vel_f)
-        vel_f = kal_gps_f[-30]
-        vel_r = kal_gps_r[-30]
+        # ## GPS 딜레이를 주기 위함.
+        # kal_gps_r = np.append(kal_gps_r, vel_r)
+        # kal_gps_f = np.append(kal_gps_f, vel_f)
+        # vel_f = kal_gps_f[-30]
+        # vel_r = kal_gps_r[-30]
 
         # float은 소수점 아래 6자리만 표현 가능해서 double로 보내야 하지만, 그냥 1000으로 나눠서 보내기로 했다. - 이거 사용 안해서 없어도 크게 상관은 없을 듯 하다.
         time_publish = time.time() % 1000
@@ -377,9 +388,8 @@ if __name__ == '__main__':
 
         data_pub = Float64MultiArray()
         try:
-            data_pub.data = np.array([tag_f - reset_tag_y, tag_r + reset_tag_x, vel_f, vel_r, time_publish, is_tag, is_tag_lost,tf.x,tf.y,tf.z,kal_dt,tag_vx,tag_vy,tag_vz])
+            data_pub.data = np.array([tag_f - reset_tag_y, tag_r + reset_tag_x, vel_f, vel_r, time_publish, is_tag, is_tag_lost,tf.x,tf.y,tf.z,kal_dt,tag_vx,tag_vy,tag_vz,vel_tag_f,vel_tag_r])
         except:
-            data_pub.data = np.array([tag_f - reset_tag_y, tag_r + reset_tag_x, vel_f, vel_r, time_publish, is_tag, is_tag_lost,0.0,0.0,0.0,kal_dt,tag_vx,tag_vy,tag_vz])
+            data_pub.data = np.array([tag_f - reset_tag_y, tag_r + reset_tag_x, vel_f, vel_r, time_publish, is_tag, is_tag_lost,0.0,0.0,0.0,kal_dt,tag_vx,tag_vy,tag_vz,vel_tag_f,vel_tag_r])
         pub_kalman.publish(data_pub)
-
-
+        

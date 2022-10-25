@@ -335,17 +335,30 @@ catkin_install_python(PROGRAMS scripts/talker.py
 # target_link_libraries(talker_ros_16 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 # add_dependencies(talker_ros_16 dji_sdk_generate_messages_cpp)
 
-add_executable(talker_ros_17 src/talker_ros_17.cpp)
-target_link_libraries(talker_ros_17 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
-add_dependencies(talker_ros_17 dji_sdk_generate_messages_cpp)
+# add_executable(talker_ros_17 src/talker_ros_17.cpp)
+# target_link_libraries(talker_ros_17 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+# add_dependencies(talker_ros_17 dji_sdk_generate_messages_cpp)
 
-add_executable(talker_ros_18 src/talker_ros_18.cpp)
-target_link_libraries(talker_ros_18 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
-add_dependencies(talker_ros_18 dji_sdk_generate_messages_cpp)
+# add_executable(talker_ros_18 src/talker_ros_18.cpp)
+# target_link_libraries(talker_ros_18 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+# add_dependencies(talker_ros_18 dji_sdk_generate_messages_cpp)
 
-add_executable(talker_ros_19 src/talker_ros_19.cpp)
-target_link_libraries(talker_ros_19 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
-add_dependencies(talker_ros_19 dji_sdk_generate_messages_cpp)
+# add_executable(talker_ros_19 src/talker_ros_19.cpp)
+# target_link_libraries(talker_ros_19 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+# add_dependencies(talker_ros_19 dji_sdk_generate_messages_cpp)
+
+add_executable(talker_ros_20 src/talker_ros_20.cpp)
+target_link_libraries(talker_ros_20 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_20 dji_sdk_generate_messages_cpp)
+
+add_executable(talker_ros_21 src/talker_ros_21.cpp)
+target_link_libraries(talker_ros_21 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_21 dji_sdk_generate_messages_cpp)
+
+add_executable(talker_ros_22 src/talker_ros_22.cpp)
+target_link_libraries(talker_ros_22 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_22 dji_sdk_generate_messages_cpp)
+
 
 
 add_executable(talker_sim_1 src/talker_sim_1.cpp)

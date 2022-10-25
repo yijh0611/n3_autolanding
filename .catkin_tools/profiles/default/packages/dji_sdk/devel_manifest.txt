@@ -291,6 +291,9 @@ Onboard-SDK-ROS-3.8.1/dji_sdk
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/save_log_sim /home/aims/catkin_ws/devel/lib/dji_sdk/save_log_sim
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_pub /home/aims/catkin_ws/devel/lib/dji_sdk/camera_pub
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_17 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_17
+/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_20 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_20
+/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_22 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_22
+/home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_21 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_21
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/camera_pub_and_apriltag /home/aims/catkin_ws/devel/lib/dji_sdk/camera_pub_and_apriltag
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_19 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_19
 /home/aims/catkin_ws/devel/.private/dji_sdk/lib/dji_sdk/talker_ros_15 /home/aims/catkin_ws/devel/lib/dji_sdk/talker_ros_15

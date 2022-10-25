@@ -223,6 +223,11 @@ int main(int argc, char **argv){
 
     ROS_INFO("Start simulation");
 
+    for(int i_for = 0; i_for < 5; i += 1){
+      tag_f_arr[i_for] = 0;
+      tag_r_arr[i_for] = 0;
+    }
+
     while(is_run_thread){ // Start Tag simulation
       if (is_first){
         if (vo_z != 0){

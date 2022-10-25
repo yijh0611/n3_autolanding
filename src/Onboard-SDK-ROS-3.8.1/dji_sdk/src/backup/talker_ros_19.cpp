@@ -11,6 +11,7 @@
 #include "geometry_msgs/Vector3.h"
 #include "tf2_msgs/TFMessage.h"
 #include "geometry_msgs/Transform.h" // 시뮬레이션
+
 // multi thread
 #include <mutex>
 #include <thread>
@@ -98,10 +99,10 @@ bool is_kalman = true;
 float x_tf, y_tf, z_tf;
 double time_prev;
 float gimbal_down;
-bool is_gimbal_down = true; // 밖에서 할때는 false, 안에서 할때는 true
+bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
 
 // 드론 제어해도 되는지 판단
-bool is_drone_move = false;
+bool is_drone_move = false; // 이거는 안전검사 끝나면 알아서 바뀜
 float spd_r, spd_f, spd_u, spd_y;
 float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
 float drone_vel_f_prev = 0;
@@ -356,7 +357,8 @@ int main(int argc, char **argv){
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 0.8;
+        float spd_constant = 1; // 0.85
+        float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
         // time_t msecs_tag_time_now = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
@@ -368,6 +370,7 @@ int main(int argc, char **argv){
 
         if(ros::Time::now().toSec() - tag_time < 0.5){
           spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; // - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
+          spd_constant = spd_constant * spd_constant_tmp;
         }
 
         float kal_r_vel_tmp = kal_r_vel * spd_constant;
