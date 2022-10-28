@@ -12,6 +12,10 @@
 
 Main purpose of this repository is backup.  
 This repository may not be helpful for most of people.  
+
+___
+## Image of drone
+![image of our drone](https://github.com/yijh0611/n3_autolanding/blob/main/image_files/drone.png)
 ___
 # **Memo**
 rostopic list -v  
