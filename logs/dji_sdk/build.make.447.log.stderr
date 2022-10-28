@@ -1,8 +1,0 @@
-[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/talker_ros_19.cpp:14:10:[m[K [01;31m[Kfatal error: [m[Kapriltag_ros/AprilTagDetectionArray.h: No such file or directory
- #include [01;31m[K"apriltag_ros/AprilTagDetectionArray.h"[m[K
-          [01;31m[K^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[m[K
-compilation terminated.
-make[2]: *** [CMakeFiles/talker_ros_19.dir/src/talker_ros_19.cpp.o] Error 1
-make[1]: *** [CMakeFiles/talker_ros_19.dir/all] Error 2
-make[1]: *** Waiting for unfinished jobs....
-make: *** [all] Error 2

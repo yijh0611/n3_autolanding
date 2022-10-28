@@ -1,7 +1,0 @@
-[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/camera_pub_no_imshow.cpp:[m[K In function ‘[01m[Kint main(int, char**)[m[K’:
-[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/camera_pub_no_imshow.cpp:84:14:[m[K [01;31m[Kerror: [m[Kcould not convert ‘[01m[Kcv::operator==(const cv::Mat&, const cv::Mat&)(img)[m[K’ from ‘[01m[Kcv::MatExpr[m[K’ to ‘[01m[Kbool[m[K’
-   if([01;31m[Kimg_tmp == img[m[K){
-      [01;31m[K~~~~~~~~^~~~~~[m[K
-make[2]: *** [CMakeFiles/camera_pub_no_imshow.dir/src/camera_pub_no_imshow.cpp.o] Error 1
-make[1]: *** [CMakeFiles/camera_pub_no_imshow.dir/all] Error 2
-make: *** [all] Error 2
