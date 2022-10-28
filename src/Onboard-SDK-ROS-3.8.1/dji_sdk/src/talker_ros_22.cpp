@@ -51,7 +51,11 @@ struct EulerAngles {
 // 코드 정보
 // 코드 이름 : talker_ros_22
 // PID 계수 P:0.7, D:0.07
-// 정지한 태그에 착륙하는 코드
+// 정지한 태그위에 착륙하는 코드 추가하려고 함 - 만들려다가 말았음. - land_1으로 다시 만드는 중
+// 태그보다 약간 뒤에서 착륙하게 코드를 만들면, 바람에 밀리는 상황을 알 수 없기 때문에
+// 작은 태그를 보고 착륙하게 만드는게 좋을 것 같다.
+// 우선 호버링 먼저 해보고 
+// 태그 여러개 있을때 구분을 하는 코드도 있어야 할 듯
 // 칼만필터에서 얻은 정보 이용해서 제어 + 고도는 3.5m로 유지
 // move함수안에 0.02초 기다리는거 있는데, 빼도 괜찮은지 확인 !!
 // Tag 안보이다가 보이면, 0.5초정도 간격을 두고 Kalman filter speed를 서서히 늘리는 코드 추가
@@ -144,7 +148,7 @@ int main(int argc, char **argv){
   }
   
   is_run_thread = true;
-  ros::init(argc, argv, "talker_ros_21");
+  ros::init(argc, argv, "talker_ros_22");
   ros::NodeHandle n;
 
   // subscriber

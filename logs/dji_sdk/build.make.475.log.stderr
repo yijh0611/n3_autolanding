@@ -1,0 +1,17 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:[m[K In lambda function:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:526:7:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[Kbool[m[K’
+       [01;31m[Kbool[m[K try_disarm = drone_disarm();
+       [01;31m[K^~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:534:14:[m[K [01;31m[Kerror: [m[K‘[01m[Ktry_disarm[m[K’ was not declared in this scope
+       while(![01;31m[Ktry_disarm[m[K){ // 계속 강제종료 시도
+              [01;31m[K^~~~~~~~~~[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:534:14:[m[K [01;36m[Knote: [m[Ksuggested alternative: ‘[01m[Kdrone_disarm[m[K’
+       while(![01;36m[Ktry_disarm[m[K){ // 계속 강제종료 시도
+              [01;36m[K^~~~~~~~~~[m[K
+              [32m[Kdrone_disarm[m[K
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:536:9:[m[K [01;31m[Kerror: [m[Kexpected ‘[01m[K;[m[K’ before ‘[01m[Kbool[m[K’
+         [01;31m[Kbool[m[K try_disarm = drone_disarm();
+         [01;31m[K^~~~[m[K
+make[2]: *** [CMakeFiles/land_1.dir/src/land_1.cpp.o] Error 1
+make[1]: *** [CMakeFiles/land_1.dir/all] Error 2
+make: *** [all] Error 2

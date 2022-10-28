@@ -119,6 +119,7 @@
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_20.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_21.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_ros_22.dir
+/home/aims/catkin_ws/build/dji_sdk/CMakeFiles/land_1.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_1.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_2.dir
 /home/aims/catkin_ws/build/dji_sdk/CMakeFiles/talker_sim_3.dir

@@ -359,6 +359,10 @@ add_executable(talker_ros_22 src/talker_ros_22.cpp)
 target_link_libraries(talker_ros_22 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(talker_ros_22 dji_sdk_generate_messages_cpp)
 
+add_executable(land_1 src/land_1.cpp)
+target_link_libraries(land_1 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(land_1 dji_sdk_generate_messages_cpp)
+
 
 
 add_executable(talker_sim_1 src/talker_sim_1.cpp)

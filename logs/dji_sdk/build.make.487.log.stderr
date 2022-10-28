@@ -1,0 +1,7 @@
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:[m[K In function ‘[01m[Kbool drone_land()[m[K’:
+[01m[K/home/aims/catkin_ws/src/Onboard-SDK-ROS-3.8.1/dji_sdk/src/land_1.cpp:799:60:[m[K [01;31m[Kerror: [m[K‘[01m[KTASK_LANDING[m[K’ is not a member of ‘[01m[Kdji_sdk::DroneTaskControl::Request {aka dji_sdk::DroneTaskControlRequest_<std::allocator<void> >}[m[K’
+   landing.request.task=dji_sdk::DroneTaskControl::Request::[01;31m[KTASK_LANDING[m[K; // 원래는 6
+                                                            [01;31m[K^~~~~~~~~~~~[m[K
+make[2]: *** [CMakeFiles/land_1.dir/src/land_1.cpp.o] Error 1
+make[1]: *** [CMakeFiles/land_1.dir/all] Error 2
+make: *** [all] Error 2
