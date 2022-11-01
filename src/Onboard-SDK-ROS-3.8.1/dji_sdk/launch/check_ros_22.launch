@@ -6,7 +6,7 @@
     <node pkg ="dji_sdk" type="gimbal_control.py" name="control_gimbal"/>
     <node pkg ="dji_sdk" type="kalmanfilter.py" name="kalman_filter" output="screen"/>
     <node pkg ="dji_sdk" type="lidar_ros.py" name="lidar_ros"/>
-    <node pkg ="dji_sdk" type="pmw3901_ros_2.py" name="pmw3901_ros_2"/>
+    <!-- <node pkg ="dji_sdk" type="pmw3901_ros_2.py" name="pmw3901_ros_2"/>  -->
     <node pkg ="dji_sdk" type="save_log" name="save_log" output = "screen"/>
 
     <node pkg ="dji_sdk" type="talker_ros_22" name="talker_ros_22" output="screen"/>

@@ -51,6 +51,8 @@ struct EulerAngles {
 // 코드 정보
 // 코드 이름 : talker_ros_22
 // PID 계수 P:0.7, D:0.07
+// 정지한 태그에 착륙하지는 않지만, 다가가는 코드
+
 // 정지한 태그위에 착륙하는 코드 추가하려고 함 - 만들려다가 말았음. - land_1으로 다시 만드는 중
 // 태그보다 약간 뒤에서 착륙하게 코드를 만들면, 바람에 밀리는 상황을 알 수 없기 때문에
 // 작은 태그를 보고 착륙하게 만드는게 좋을 것 같다.
@@ -102,10 +104,13 @@ float kal_r,kal_f,kal_r_vel,kal_f_vel,kal_time,kal_is_tag,kal_is_tag_lost;
 bool is_kalman = true;
 // 태그 위치
 float x_tf, y_tf, z_tf;
+string tf_name;
+int count_tf = 0;
+bool big_tag = true;
 double time_prev;
 float gimbal_down;
 bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
-bool is_boost = true; // true 이면 P계수 변경
+bool is_boost = false; // true 이면 P계수 변경
 float boost_rate = 2;
 
 // 드론 제어해도 되는지 판단
@@ -114,7 +119,10 @@ float spd_r, spd_f, spd_u, spd_y;
 float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
 float drone_vel_f_prev = 0;
 float drone_vel_r_prev = 0;
-// tf 정보 
+// tf 정보
+
+// 시뮬레이션이면 안전검사 스킵
+bool is_sim = true;
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
@@ -166,29 +174,35 @@ int main(int argc, char **argv){
   ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
  
   // 안전 검사
-  int chk_start = 0;
-  while(imu_y == 0){ // N3로부터 신호 수신이 안된다는 뜻. -> 지금은 그냥 넘어가는데, 나중에는 sdk.launch 재실행하게 하는 코드 넣어야 할 듯.!!
-    ros::Duration(0.1).sleep();
-    chk_start += 1;
-    if (chk_start > 300){
-      ROS_ERROR("No IMU signal for 30 sec!");
-      is_run_thread = false;
-      break;
-    }
-    ros::spinOnce();
+  if (is_sim){
+    cout << "Simulation" << endl;
   }
-
-
-  chk_start = 0;
-  while(gps_health == 0){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
-    ros::Duration(0.1).sleep();
-    chk_start += 1;
-    if (chk_start > 300){
-      ROS_ERROR("No GPS singal for 30 Sec!");
-      is_run_thread = false;
-      break;
+  else{
+      
+    int chk_start = 0;
+    while(imu_y == 0){ // N3로부터 신호 수신이 안된다는 뜻. -> 지금은 그냥 넘어가는데, 나중에는 sdk.launch 재실행하게 하는 코드 넣어야 할 듯.!!
+      ros::Duration(0.1).sleep();
+      chk_start += 1;
+      if (chk_start > 300){
+        ROS_ERROR("No IMU signal for 30 sec!");
+        is_run_thread = false;
+        break;
+      }
+      ros::spinOnce();
     }
-    ros::spinOnce();
+
+
+    chk_start = 0;
+    while(gps_health == 0){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
+      ros::Duration(0.1).sleep();
+      chk_start += 1;
+      if (chk_start > 300){
+        ROS_ERROR("No GPS singal for 30 Sec!");
+        is_run_thread = false;
+        break;
+      }
+      ros::spinOnce();
+    }
   }
 
   // // simulation
@@ -253,7 +267,6 @@ int main(int argc, char **argv){
   if(!obtain_control_result){
      is_run_thread = false; // 권한을 못얻으면 코드 중지하기 위함.
   }
-
 
   ros::Rate loop_rate(50);
 
@@ -351,12 +364,19 @@ int main(int argc, char **argv){
         float kp_l = kp;
         float kp_f = kp;
 
-        if (is_boost){
+        if (is_boost){ // 이거 왜 넣었는지 잘 기억이 안남.
           kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
           kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
-      }
-        move_right = kp_l * d_x + kd * v_x;
-        move_front = kp_f * d_y + kd * v_y;
+        }
+
+        if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
+          move_right = 0;
+          move_front = 0;
+        }
+        else{ // 멀리 있을때만 움직인다.
+          move_right = kp_l * d_x + kd * v_x;
+          move_front = kp_f * d_y + kd * v_y;
+        }
 
         distance_data.data[0] = d_x;
         distance_data.data[1] = v_x;
@@ -371,7 +391,7 @@ int main(int argc, char **argv){
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 1; // 0.85
+        float spd_constant = 0; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
         float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
@@ -402,9 +422,20 @@ int main(int argc, char **argv){
 
         float move_up = 0.0;
         
-        // 태그보고 고도 조절
-        if(fabs(z_tf - 3.5) > 0.1){
-          move_up = (3.5 - z_tf) * 0.3;
+        // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
+        // if (tf_name == "tag_6"){
+        //   big_tag = false;
+        //   // cout << "Tag_6 found" << endl;
+        // }
+        if (big_tag){
+          if(fabs(z_tf - 1.7) > 0.1){
+            move_up = (1.7 - z_tf) * 0.3;
+          }
+        }
+        else{
+          if(fabs(z_tf - 1.3) > 0.1){
+            move_up = (1.3 - z_tf) * 0.3;
+          }
         }
 
         // move_left = -1 * move_right;
@@ -528,6 +559,7 @@ int main(int argc, char **argv){
     // gimbal_y = 56; // 앞 보기(77)76
     // gimbal_y = 76; // 앞 보기(77)76
     gimbal_y = gimbal_down;
+    // gimbal_y = 56;
 
     gim.data[0] = gimbal_y;
     gim.data[1] = gimbal_x;
@@ -760,6 +792,23 @@ void cb_kalman(const std_msgs::Float64MultiArray kal){
 void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
 { // 값 저장하는 코드
   if (is_tag_signal){
+    tf_name = msg3.transforms[0].child_frame_id;
+    if (tf_name == "tag_2"){
+      // cout << "true" << endl; 
+      count_tf = 0;
+      big_tag = false;
+    }
+    else{
+      // cout << tf_name << endl;
+      count_tf += 1;
+      // if (count_tf > 1){
+      //   cout << count_tf << endl;
+      // }
+      big_tag = true;
+    }
+    cout << tf_name << endl;
+
+    // 이전 코드
     x_tf = msg3.transforms[0].transform.translation.x;
     y_tf = msg3.transforms[0].transform.translation.y;
     z_tf = msg3.transforms[0].transform.translation.z;
@@ -767,6 +816,26 @@ void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
     // cout << "x_tf : " << x_tf << endl;
     // cout << "y_tf : " << y_tf << endl;
     // cout << "z_tf : " << z_tf << endl;
+
+    // // 20221030추가
+    // // string tf_name_tmp = msg3.transforms[0].child_frame_id;
+    // // tf_name = tf_name_tmp;
+    // tf_name = msg3.transforms[0].child_frame_id;
+    // if (tf_name == "tag_6"){
+    //   cout << "True" << endl;
+    //   count_tf = 0;
+    // }
+    // else{
+    //   cout << tf_name << endl;
+    //   count_tf += 1;
+    //   if (count_tf > 1){
+    //     cout << count_tf << endl;
+    //   }
+    // }
+    // // cout << msg3.transforms[0] << endl;
+    // // cout << msg3.transforms[0].child_frame_id << endl;
+
+    // // tf_name = msg3.child_frame_id[0];
   }
 }
 
@@ -778,6 +847,7 @@ void callback_tf_2(const geometry_msgs::Transform tag_tmp){
     y_tf = tag_tmp.translation.y;
     z_tf = tag_tmp.translation.z;
     // cout << "tf_2" << endl;
+
   }
 }
 

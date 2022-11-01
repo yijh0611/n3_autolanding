@@ -3,8 +3,14 @@ import serial
 import time
 
 # ser = serial.Serial("/dev/ttyTHS1", 115200)
-ser = serial.Serial("/dev/ttyUSB1", 115200) # 9600
+# ser = serial.Serial("/dev/ttyUSB1", 115200) # 9600
 
+try: # N3보다 나중에 연결하면 1번
+    ser = serial.Serial("/dev/ttyUSB1", 115200) # 9600
+except: # N3보다 먼저 연결하면 0번
+    ser = serial.Serial("/dev/ttyUSB0", 115200) # 9600
+
+    
 time_prev = time.time()
 
 def getTFminiData():

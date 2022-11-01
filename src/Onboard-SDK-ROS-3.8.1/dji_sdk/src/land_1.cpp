@@ -551,6 +551,7 @@ int main(int argc, char **argv){
   //       // float cont[] = {0.0,0.0,-0.5,0.0}; //전좌상회전
   //       // move(cont, n, control_pub); // 하강
   //     }
+  
   ////착륙2
       time_prev = ros::Time::now().toSec();
       dt = ros::Time::now().toSec() - time_prev;
