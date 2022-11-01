@@ -3,6 +3,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Float64MultiArray.h"
 #include "dji_sdk/DroneArmControl.h"
+#include "dji_sdk/DroneTaskControl.h"
 #include "sensor_msgs/Joy.h"
 #include "sensor_msgs/Imu.h"
 #include "sensor_msgs/BatteryState.h"
@@ -49,11 +50,9 @@ struct EulerAngles {
 // 쿼터니언 여기까지
 
 // 코드 정보
-// 코드 이름 : talker_ros_22
+// 코드 이름 : land_1
 // PID 계수 P:0.7, D:0.07
-// 정지한 태그에 착륙하지는 않지만, 다가가는 코드
-
-// 정지한 태그위에 착륙하는 코드 추가하려고 함 - 만들려다가 말았음. - land_1으로 다시 만드는 중
+// 정지한 태그위에 착륙하는 코드 추가하려고 함
 // 태그보다 약간 뒤에서 착륙하게 코드를 만들면, 바람에 밀리는 상황을 알 수 없기 때문에
 // 작은 태그를 보고 착륙하게 만드는게 좋을 것 같다.
 // 우선 호버링 먼저 해보고 
@@ -62,6 +61,7 @@ struct EulerAngles {
 // move함수안에 0.02초 기다리는거 있는데, 빼도 괜찮은지 확인 !!
 // Tag 안보이다가 보이면, 0.5초정도 간격을 두고 Kalman filter speed를 서서히 늘리는 코드 추가
 // !! (느낌표 두개)있는거 ctrl + f 해서 이 부분들 수정하기
+
 
 // 전역 변수 정의
 // 처음에 /dji_sdk/sdk.launch 실행 되었는지 확인용
@@ -89,7 +89,7 @@ float f_prev = 0;
 float z_prev = 0;
 float dt = 0;
 // Tag 정보 수신이 되는지 확인
-bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
+bool is_tag_signal = false; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
 
 // PID 계수
 float kp = 0.7; 
@@ -104,13 +104,10 @@ float kal_r,kal_f,kal_r_vel,kal_f_vel,kal_time,kal_is_tag,kal_is_tag_lost;
 bool is_kalman = true;
 // 태그 위치
 float x_tf, y_tf, z_tf;
-string tf_name;
-int count_tf = 0;
-bool big_tag = true;
 double time_prev;
 float gimbal_down;
 bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
-bool is_boost = false; // true 이면 P계수 변경
+bool is_boost = true; // true 이면 P계수 변경
 float boost_rate = 2;
 
 // 드론 제어해도 되는지 판단
@@ -119,13 +116,12 @@ float spd_r, spd_f, spd_u, spd_y;
 float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
 float drone_vel_f_prev = 0;
 float drone_vel_r_prev = 0;
-// tf 정보
-
-// 시뮬레이션이면 안전검사 스킵
-bool is_sim = true;
+// tf 정보 
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
+ros::ServiceClient drone_arm_control_service;
+ros::ServiceClient drone_task_control_service;
 
 // 함수 정의
 void get_imu(const sensor_msgs::Imu msg);
@@ -140,6 +136,12 @@ void cb_kalman(const std_msgs::Float64MultiArray kal);
 void callback_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
 void callback_tf_2(const geometry_msgs::Transform tag_tmp); // Tag 정보 simulation
 void get_time();
+
+// 드론 강제 종료
+bool drone_disarm();
+// 드론 착륙
+bool drone_land();
+
 float get_yaw(float w, float x, float y, float z);
 float enu_to_fru_f(float e, float n, float y);
 float enu_to_fru_r(float e, float n, float y);
@@ -173,37 +175,35 @@ int main(int argc, char **argv){
   ros::Publisher gimbal_control = n.advertise<std_msgs::Float64MultiArray>("gimbal_control", 10);
   ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
  
-  // 안전 검사
-  if (is_sim){
-    cout << "Simulation" << endl;
-  }
-  else{
-      
-    int chk_start = 0;
-    while(imu_y == 0){ // N3로부터 신호 수신이 안된다는 뜻. -> 지금은 그냥 넘어가는데, 나중에는 sdk.launch 재실행하게 하는 코드 넣어야 할 듯.!!
-      ros::Duration(0.1).sleep();
-      chk_start += 1;
-      if (chk_start > 300){
-        ROS_ERROR("No IMU signal for 30 sec!");
-        is_run_thread = false;
-        break;
-      }
-      ros::spinOnce();
-    }
+  // // 안전 검사
+  // int chk_start = 0;
+  // while(imu_y == 0){ // N3로부터 신호 수신이 안된다는 뜻. -> 지금은 그냥 넘어가는데, 나중에는 sdk.launch 재실행하게 하는 코드 넣어야 할 듯.!!
+  //   ros::Duration(0.1).sleep();
+  //   chk_start += 1;
+  //   if (chk_start > 300){
+  //     ROS_ERROR("No IMU signal for 30 sec!");
+  //     is_run_thread = false;
+  //     break;
+  //   }
+  //   ros::spinOnce();
+  // }
 
 
-    chk_start = 0;
-    while(gps_health == 0){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
-      ros::Duration(0.1).sleep();
-      chk_start += 1;
-      if (chk_start > 300){
-        ROS_ERROR("No GPS singal for 30 Sec!");
-        is_run_thread = false;
-        break;
-      }
-      ros::spinOnce();
-    }
-  }
+  // chk_start = 0;
+  // while(gps_health == 0){ // GPS 수신 안되면 일단 넘어가는데, 이거도 수정해야 할 듯.!!
+  //   ros::Duration(0.1).sleep();
+  //   chk_start += 1;
+  //   if (chk_start > 300){
+  //     ROS_ERROR("No GPS singal for 30 Sec!");
+  //     is_run_thread = false;
+  //     break;
+  //   }
+  //   ros::spinOnce();
+  // }
+
+  // 안전검사 안함(시뮬레이션)
+  is_run_thread = true;
+  cout << "Is run thread : True" << endl;
 
   // // simulation
   // chk_start = 0;
@@ -226,6 +226,7 @@ int main(int argc, char **argv){
 
 
   if(!is_run_thread){
+    cout << "End" << endl;
     return 0;
   }
   // 안전검사 여기까지
@@ -245,7 +246,8 @@ int main(int argc, char **argv){
   
 
   // // 계수 입력 받기
-  if (is_tag_signal){ // 시뮬레이션이 아닐 때
+  if (true){ // 너무 바로 시작하면 Obtain control 실패함
+  // if (is_tag_signal){ // 시뮬레이션이 아닐 때
     cout << "Maximum speed" << endl;
     cin >> max_move_spd;
   }
@@ -262,11 +264,16 @@ int main(int argc, char **argv){
 
   // 드론 제어 권한
   sdk_ctrl_authority_service = n.serviceClient<dji_sdk::SDKControlAuthority> ("dji_sdk/sdk_control_authority");
-    
-  bool obtain_control_result = obtain_control(); //비행 권한 얻는 코드
+  // 드론 disarm
+  drone_arm_control_service = n.serviceClient<dji_sdk::DroneArmControl> ("dji_sdk/drone_arm_control");
+
+
+
+  bool obtain_control_result = obtain_control(); //비행 권한 얻는 코드 - 이거는 함수 앞부분에서 정의 안했는데, 어떻게 작동하는거지?(10/25)
   if(!obtain_control_result){
      is_run_thread = false; // 권한을 못얻으면 코드 중지하기 위함.
   }
+
 
   ros::Rate loop_rate(50);
 
@@ -336,204 +343,234 @@ int main(int argc, char **argv){
         // msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
       }
 
-      // 태그 거리기반 PID
-      if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
-        if(count_tag_lost % 100 == 0){
-          ROS_INFO("Tag is found");
-          count_tag_lost = 0;
-        }
+      // // 태그 거리기반 PID
+      // if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
+      //   if(count_tag_lost % 100 == 0){
+      //     ROS_INFO("Tag is found");
+      //     count_tag_lost = 0;
+      //   }
 
-        float d_x = x_tf;
-        float d_y = -1 * y_tf;
+      //   float d_x = x_tf;
+      //   float d_y = -1 * y_tf;
         
-        dt = ros::Time::now().toSec() - time_prev;
-        float d_dx = d_x - d_x_prev;
-        float d_dy = d_y - d_y_prev;
-        d_x_prev = d_x;
-        d_y_prev = d_y;
-        time_prev = ros::Time::now().toSec();
+      //   dt = ros::Time::now().toSec() - time_prev;
+      //   float d_dx = d_x - d_x_prev;
+      //   float d_dy = d_y - d_y_prev;
+      //   d_x_prev = d_x;
+      //   d_y_prev = d_y;
+      //   time_prev = ros::Time::now().toSec();
         
-        float v_x = 0;
-        float v_y = 0;
+      //   float v_x = 0;
+      //   float v_y = 0;
 
-        if(ros::Time::now().toSec() - tag_time > 0.5){ // 태그를 찾고 0.5동안은 속력 0이라고 생각
-          v_x = d_dx / dt;
-          v_y = d_dy / dt;
-        }
+      //   if(ros::Time::now().toSec() - tag_time > 0.5){ // 태그를 찾고 0.5동안은 속력 0이라고 생각
+      //     v_x = d_dx / dt;
+      //     v_y = d_dy / dt;
+      //   }
 
-        float kp_l = kp;
-        float kp_f = kp;
+      //   float kp_l = kp;
+      //   float kp_f = kp;
 
-        if (is_boost){ // 이거 왜 넣었는지 잘 기억이 안남.
-          kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
-          kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
-        }
-
-        if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
-          move_right = 0;
-          move_front = 0;
-        }
-        else{ // 멀리 있을때만 움직인다.
-          move_right = kp_l * d_x + kd * v_x;
-          move_front = kp_f * d_y + kd * v_y;
-        }
-
-        distance_data.data[0] = d_x;
-        distance_data.data[1] = v_x;
-        distance_data.data[2] = d_y;
-        distance_data.data[3] = v_y;
-        distance_data.data[4] = dt;
-        distance_data.data[5] = move_right;
-        distance_data.data[6] = move_front;
-        // distance_pub.publish(distance_data); - 뒤에서 Publish
-
-        // 여기까지 거리 기반
-
-        // 칼만필터
-        // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 0; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
-        float spd_constant_tmp = spd_constant;
-        // if(ros::Time::now().toSec() - tag_time < 0.5){
-        // gettimeofday(&time_now, nullptr);
-        // time_t msecs_tag_time_now = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
-        // if((float)msecs_tag_time_now - (float)msecs_tag_time < 500){
-        //   // spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
-        //   // cout << ros::Time::now().toSec() - tag_time << endl;
-        //   spd_constant = ((float)msecs_tag_time_now - (float)msecs_tag_time)/500;
-        // }
-
-        if(ros::Time::now().toSec() - tag_time < 0.5){
-          spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; // - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
-          spd_constant = spd_constant * spd_constant_tmp;
-        }
-
-        float kal_r_vel_tmp = kal_r_vel * spd_constant;
-        float kal_f_vel_tmp = kal_f_vel * spd_constant;
-        
-        if(is_kalman){
-          move_right += kal_r_vel_tmp;
-          move_front += kal_f_vel_tmp;
-          // cout << "kalmanfiltered" << endl;
-        }
-        // }
-        // else{
-        //   ROS_ERROR("Tag is lost");
-        // }
-
-        float move_up = 0.0;
-        
-        // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
-        // if (tf_name == "tag_6"){
-        //   big_tag = false;
-        //   // cout << "Tag_6 found" << endl;
-        // }
-        if (big_tag){
-          if(fabs(z_tf - 1.7) > 0.1){
-            move_up = (1.7 - z_tf) * 0.3;
-          }
-        }
-        else{
-          if(fabs(z_tf - 1.3) > 0.1){
-            move_up = (1.3 - z_tf) * 0.3;
-          }
-        }
-
-        // move_left = -1 * move_right;
-
-        spd_f = move_front;
-        spd_r = move_right;
-        spd_u = move_up;
-        spd_y = 0;
-        is_drone_move = true;
-
-
-        // PID 계수 보내기
-        distance_data.data[7] = spd_f;
-        distance_data.data[8] = -1 * spd_r;
-        distance_data.data[9] = kp_control;
-        distance_data.data[10] = kd_control;
-        distance_data.data[11] = spd_constant;
-        distance_data.data[12] = kal_r_vel_tmp;
-        distance_data.data[13] = kal_f_vel_tmp;
-        
-        distance_pub.publish(distance_data);
-
-        tag_x_tmp = x_tf;
-        time_no_tag = ros::Time::now();
-      }
-      // else{
-      //   is_drone_move = false;
-      //   ROS_ERROR("Tag is lost");
+      //   if (is_boost){
+      //     kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
+      //     kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
       // }
-      // 여기까지 속도 계산
+      //   move_right = kp_l * d_x + kd * v_x;
+      //   move_front = kp_f * d_y + kd * v_y;
 
-      // 속도 제어
-      if(is_drone_move){
-        kp_control = 0; // 직전에는 0.5
-        kp_control = 0; // 일단 0으로 해보고 나중에 바꾸기
-        kd_control = 0;
-        // if(dt < 0.5){
-        //   kd_control = 0.01;
-        // }
+      //   distance_data.data[0] = d_x;
+      //   distance_data.data[1] = v_x;
+      //   distance_data.data[2] = d_y;
+      //   distance_data.data[3] = v_y;
+      //   distance_data.data[4] = dt;
+      //   distance_data.data[5] = move_right;
+      //   distance_data.data[6] = move_front;
+      //   // distance_pub.publish(distance_data); - 뒤에서 Publish
 
-        float yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
-        float drone_vel_f = enu_to_fru_f(drone_vel_e, drone_vel_n, yaw);
-        float drone_vel_r = enu_to_fru_r(drone_vel_e, drone_vel_n, yaw);
+      //   // 여기까지 거리 기반
+
+      //   // 칼만필터
+      //   // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
+      //   float spd_constant = 1; // 0.85
+      //   float spd_constant_tmp = spd_constant;
+      //   // if(ros::Time::now().toSec() - tag_time < 0.5){
+      //   // gettimeofday(&time_now, nullptr);
+      //   // time_t msecs_tag_time_now = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
+      //   // if((float)msecs_tag_time_now - (float)msecs_tag_time < 500){
+      //   //   // spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
+      //   //   // cout << ros::Time::now().toSec() - tag_time << endl;
+      //   //   spd_constant = ((float)msecs_tag_time_now - (float)msecs_tag_time)/500;
+      //   // }
+
+      //   if(ros::Time::now().toSec() - tag_time < 0.5){
+      //     spd_constant = (ros::Time::now().toSec() - tag_time)/0.5; // - 이거는 시간을 float으로 하면 안되고, double 로 해야 된다.
+      //     spd_constant = spd_constant * spd_constant_tmp;
+      //   }
+
+      //   float kal_r_vel_tmp = kal_r_vel * spd_constant;
+      //   float kal_f_vel_tmp = kal_f_vel * spd_constant;
         
-        // PID를 위한 계산
-        float proportional_f = spd_f - drone_vel_f;
-        float proportional_r = spd_r - drone_vel_r;
+      //   if(is_kalman){
+      //     move_right += kal_r_vel_tmp;
+      //     move_front += kal_f_vel_tmp;
+      //     // cout << "kalmanfiltered" << endl;
+      //   }
+      //   // }
+      //   // else{
+      //   //   ROS_ERROR("Tag is lost");
+      //   // }
 
-        float derivative_f = (proportional_f - (spd_f_prev - drone_vel_f_prev)) / dt;
-        float derivative_r = (proportional_r - (spd_r_prev - drone_vel_r_prev)) / dt;
+      //   float move_up = 0.0;
+        
+      //   // 태그보고 고도 조절
+      //   if(fabs(z_tf - 3.5) > 0.1){
+      //     move_up = (3.5 - z_tf) * 0.3;
+      //   }
 
-        if(ros::Time::now().toSec() - tag_time < 0.5){
-          derivative_f = 0;
-          derivative_r = 0;
-        }
+      //   // move_left = -1 * move_right;
 
-        // PID 제어
-        float input_f = spd_f + proportional_f * kp_control + derivative_f *  kd_control;
-        if(fabs(input_f) > max_move_spd){
-          input_f = max_move_spd * (input_f)/(fabs(input_f));
-        }
-        float input_r = spd_r +  proportional_r * kp_control + derivative_r *  kd_control;
-        if(fabs(input_r) > max_move_spd){
-          input_r = max_move_spd * (input_r)/(fabs(input_r));
-        }
+      //   spd_f = move_front;
+      //   spd_r = move_right;
+      //   spd_u = move_up;
+      //   spd_y = 0;
+      //   is_drone_move = true;
 
-        float input_l = -1 * input_r;
 
-        float cont[] = {input_f, input_l, spd_u, spd_y}; // 전좌상회전
-        move(cont, n, control_pub);
+      //   // PID 계수 보내기
+      //   distance_data.data[7] = spd_f;
+      //   distance_data.data[8] = -1 * spd_r;
+      //   distance_data.data[9] = kp_control;
+      //   distance_data.data[10] = kd_control;
+      //   distance_data.data[11] = spd_constant;
+      //   distance_data.data[12] = kal_r_vel_tmp;
+      //   distance_data.data[13] = kal_f_vel_tmp;
+        
+      //   distance_pub.publish(distance_data);
 
-        // 변수 업데이트
-        drone_vel_f_prev = drone_vel_f;
-        drone_vel_r_prev = drone_vel_r;
-      }
-      else{
-        float cont[] = {0.0,0.0,0.0,0.0}; // 전좌상회전
-        spd_f = 0;
-        spd_r = 0;
-        move(cont, n, control_pub);
+      //   tag_x_tmp = x_tf;
+      //   time_no_tag = ros::Time::now();
+      // }
+      // // else{
+      // //   is_drone_move = false;
+      // //   ROS_ERROR("Tag is lost");
+      // // }
+      // // 여기까지 속도 계산
+
+      // // 속도 제어
+      // if(is_drone_move){
+      //   kp_control = 0; // 직전에는 0.5
+      //   kp_control = 0; // 일단 0으로 해보고 나중에 바꾸기
+      //   kd_control = 0;
+      //   // if(dt < 0.5){
+      //   //   kd_control = 0.01;
+      //   // }
+
+      //   float yaw = get_yaw(imu_ori_w, imu_ori_x, imu_ori_y, imu_ori_z);
+      //   float drone_vel_f = enu_to_fru_f(drone_vel_e, drone_vel_n, yaw);
+      //   float drone_vel_r = enu_to_fru_r(drone_vel_e, drone_vel_n, yaw);
+        
+      //   // PID를 위한 계산
+      //   float proportional_f = spd_f - drone_vel_f;
+      //   float proportional_r = spd_r - drone_vel_r;
+
+      //   float derivative_f = (proportional_f - (spd_f_prev - drone_vel_f_prev)) / dt;
+      //   float derivative_r = (proportional_r - (spd_r_prev - drone_vel_r_prev)) / dt;
+
+      //   if(ros::Time::now().toSec() - tag_time < 0.5){
+      //     derivative_f = 0;
+      //     derivative_r = 0;
+      //   }
+
+      //   // PID 제어
+      //   float input_f = spd_f + proportional_f * kp_control + derivative_f *  kd_control;
+      //   if(fabs(input_f) > max_move_spd){
+      //     input_f = max_move_spd * (input_f)/(fabs(input_f));
+      //   }
+      //   float input_r = spd_r +  proportional_r * kp_control + derivative_r *  kd_control;
+      //   if(fabs(input_r) > max_move_spd){
+      //     input_r = max_move_spd * (input_r)/(fabs(input_r));
+      //   }
+
+      //   float input_l = -1 * input_r;
+
+      //   float cont[] = {input_f, input_l, spd_u, spd_y}; // 전좌상회전
+      //   move(cont, n, control_pub);
+
+      //   // 변수 업데이트
+      //   drone_vel_f_prev = drone_vel_f;
+      //   drone_vel_r_prev = drone_vel_r;
+      // }
+      // else{
+      //   float cont[] = {0.0,0.0,0.0,0.0}; // 전좌상회전
+      //   spd_f = 0;
+      //   spd_r = 0;
+      //   move(cont, n, control_pub);
+      // }
+      
+      // // 1초에 한번씩 배터리 퍼센트 표시하기
+      // if(ros::Time::now() - battery_time > ros::Duration(1)){
+      //   cout << "Battery : " << (batt_volt/1000) << " V" << endl;
+      //   battery_time = ros::Time::now();
+      //   if(batt_volt/1000 < 14.5){
+      //     float cont[] = {0.0,0.0,0.0,0.0}; //전좌상회전
+      //     move(cont, n, control_pub); // 정지
+      //     // spd_f = 0;
+      //     // spd_r = 0;
+      //     // spd_u = 0;
+      //     // spd_y = 0;
+      //     is_drone_move = false;
+      //     is_run_thread = false;
+      //     break;
+      //   }
+      // }
+
+  // ////착륙1
+  //     time_prev = ros::Time::now().toSec();
+  //     // // Landing
+  //     // bool try_disarm = drone_disarm();
+
+  //     dt = ros::Time::now().toSec() - time_prev;
+  //     while(dt < 20){
+  //       dt = ros::Time::now().toSec() - time_prev;
+  //       float cont[] = {0.0,0.0,-0.5,0.0}; //전좌상회전
+  //       move(cont, n, control_pub); // 하강
+  //     }
+
+  //     // Landing
+  //     bool try_disarm = drone_disarm();
+
+
+  //     while(!try_disarm){ // 계속 강제종료 시도
+  //       time_prev = ros::Time::now().toSec();
+  //       bool try_disarm = drone_disarm();
+  //       dt = ros::Time::now().toSec() - time_prev;
+  //       while(dt < 1){
+  //         dt = ros::Time::now().toSec() - time_prev;
+  //       }
+
+  //       // float cont[] = {0.0,0.0,-0.5,0.0}; //전좌상회전
+  //       // move(cont, n, control_pub); // 하강
+  //     }
+  
+  ////착륙2
+      time_prev = ros::Time::now().toSec();
+      dt = ros::Time::now().toSec() - time_prev;
+      bool try_land = drone_land();
+      while(dt < 20){
+        dt = ros::Time::now().toSec() - time_prev;
       }
       
-      // 1초에 한번씩 배터리 퍼센트 표시하기
-      if(ros::Time::now() - battery_time > ros::Duration(1)){
-        cout << "Battery : " << (batt_volt/1000) << " V" << endl;
-        battery_time = ros::Time::now();
-        if(batt_volt/1000 < 14.5){
-          float cont[] = {0.0,0.0,0.0,0.0}; //전좌상회전
-          move(cont, n, control_pub); // 정지
-          // spd_f = 0;
-          // spd_r = 0;
-          // spd_u = 0;
-          // spd_y = 0;
-          is_drone_move = false;
-          is_run_thread = false;
-          break;
-        }
+      if(try_land){
+        cout << "Landing" << endl;
+        break;
       }
+      else{
+        cout << "Landing failed" << endl;
+        break;
+      }
+
+
+
     } // while 문
 	};
 
@@ -559,7 +596,6 @@ int main(int argc, char **argv){
     // gimbal_y = 56; // 앞 보기(77)76
     // gimbal_y = 76; // 앞 보기(77)76
     gimbal_y = gimbal_down;
-    // gimbal_y = 56;
 
     gim.data[0] = gimbal_y;
     gim.data[1] = gimbal_x;
@@ -738,6 +774,47 @@ bool obtain_control()
   return true;
 }
 
+bool drone_disarm()
+{
+  dji_sdk::DroneArmControl arming;
+  arming.request.arm=0;
+  drone_arm_control_service.call(arming);
+  // http://docs.ros.org/en/indigo/api/dji_sdk/html/dji__drone_8h_source.html - 여기 참고
+  // dji_drone.h 파일 사용하면, 그냥 드론 착륙이 가능한 듯 하다.
+  // ros 굳이 사용하지 말고 그냥 dji sdk 사용하는게 더 좋으려나?
+
+  if(!arming.response.result)
+  {
+    ROS_ERROR("Disarm failed!");
+    return false;
+  }
+  else{
+    ROS_INFO("Disarm success!");
+  }
+  
+  return true;
+}
+
+bool drone_land(){
+  dji_sdk::DroneTaskControl landing;
+  landing.request.task=dji_sdk::DroneTaskControl::Request::TASK_LAND; // 원래는 6
+  cout << "Try landing" << drone_task_control_service.call(landing) << endl;
+  // http://docs.ros.org/en/indigo/api/dji_sdk/html/dji__drone_8h_source.html - 여기 참고
+  // dji_drone.h 파일 사용하면, 그냥 드론 착륙이 가능한 듯 하다.
+  // ros 굳이 사용하지 말고 그냥 dji sdk 사용하는게 더 좋으려나?
+
+  if(!landing.response.result)
+  {
+    ROS_ERROR("Landing failed!");
+    return false;
+  }
+  else{
+    ROS_INFO("Landing success!");
+  }
+  
+  return true;
+}
+
 void move(float control[],ros::NodeHandle n,ros::Publisher control_pub){
   ros::Rate loop_rate(50);
   sensor_msgs::Joy msg_control;
@@ -792,23 +869,6 @@ void cb_kalman(const std_msgs::Float64MultiArray kal){
 void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
 { // 값 저장하는 코드
   if (is_tag_signal){
-    tf_name = msg3.transforms[0].child_frame_id;
-    if (tf_name == "tag_2"){
-      // cout << "true" << endl;
-      count_tf = 0;
-      big_tag = false;
-    }
-    else{
-      // cout << tf_name << endl;
-      count_tf += 1;
-      // if (count_tf > 1){
-      //   cout << count_tf << endl;
-      // }
-      big_tag = true;
-    }
-    cout << tf_name << endl;
-
-    // 이전 코드
     x_tf = msg3.transforms[0].transform.translation.x;
     y_tf = msg3.transforms[0].transform.translation.y;
     z_tf = msg3.transforms[0].transform.translation.z;
@@ -816,26 +876,6 @@ void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
     // cout << "x_tf : " << x_tf << endl;
     // cout << "y_tf : " << y_tf << endl;
     // cout << "z_tf : " << z_tf << endl;
-
-    // // 20221030추가
-    // // string tf_name_tmp = msg3.transforms[0].child_frame_id;
-    // // tf_name = tf_name_tmp;
-    // tf_name = msg3.transforms[0].child_frame_id;
-    // if (tf_name == "tag_6"){
-    //   cout << "True" << endl;
-    //   count_tf = 0;
-    // }
-    // else{
-    //   cout << tf_name << endl;
-    //   count_tf += 1;
-    //   if (count_tf > 1){
-    //     cout << count_tf << endl;
-    //   }
-    // }
-    // // cout << msg3.transforms[0] << endl;
-    // // cout << msg3.transforms[0].child_frame_id << endl;
-
-    // // tf_name = msg3.child_frame_id[0];
   }
 }
 
@@ -847,7 +887,6 @@ void callback_tf_2(const geometry_msgs::Transform tag_tmp){
     y_tf = tag_tmp.translation.y;
     z_tf = tag_tmp.translation.z;
     // cout << "tf_2" << endl;
-
   }
 }
 
