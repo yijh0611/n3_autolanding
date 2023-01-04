@@ -49,21 +49,23 @@ struct EulerAngles {
 // 쿼터니언 여기까지
 
 // 코드 정보
-// 코드 이름 : talker_ros_22
+// 코드 이름 : talker_ros_PID
 // PID 계수 P:0.7, D:0.07
-// 정지한 태그에 착륙하지는 않지만, 다가가는 코드
+// 이동하는 플랫폼에 PID 제어를 통해 따라가는 코드
 
-// 정지한 태그위에 착륙하는 코드 추가하려고 함 - 만들려다가 말았음. - land_1으로 다시 만드는 중
-// 태그보다 약간 뒤에서 착륙하게 코드를 만들면, 바람에 밀리는 상황을 알 수 없기 때문에
-// 작은 태그를 보고 착륙하게 만드는게 좋을 것 같다.
-// 우선 호버링 먼저 해보고 
-// 태그 여러개 있을때 구분을 하는 코드도 있어야 할 듯
 // 칼만필터에서 얻은 정보 이용해서 제어 + 고도는 3.5m로 유지
 // move함수안에 0.02초 기다리는거 있는데, 빼도 괜찮은지 확인 !!
 // Tag 안보이다가 보이면, 0.5초정도 간격을 두고 Kalman filter speed를 서서히 늘리는 코드 추가
 // !! (느낌표 두개)있는거 ctrl + f 해서 이 부분들 수정하기
 
 // 전역 변수 정의
+// 시뮬레이션이면 안전검사 스킵 - 밖에서 실험하는지, 시뮬레이션인지에 따라서 바뀌는 변수들 정의
+bool is_sim = true;
+// Tag 정보 수신이 되는지 확인
+bool is_tag_signal; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
+bool is_gimbal_down; // main 함수 시작할때 정의하는거로 수정
+
+
 // 처음에 /dji_sdk/sdk.launch 실행 되었는지 확인용
 float imu_y = 0;
 float imu_ori_x, imu_ori_y, imu_ori_z, imu_ori_w;
@@ -88,14 +90,14 @@ float r_prev = 0;
 float f_prev = 0;
 float z_prev = 0;
 float dt = 0;
-// Tag 정보 수신이 되는지 확인
-bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
 
 // PID 계수
-float kp = 0.7; 
-float kd = 0.07;
-float ki = 0; // 필요한가?
-float max_move_spd = 5;
+float kp = 1.5; // 0.7
+float kd = 0.5; // 0.07
+float ki = 1;
+float x_i = 0; // 거리 누적
+float y_i = 0; // 거리 누적
+float max_move_spd = 8;
 // // 속도제어 PD 계수 - 값은 함수 안에서 정의
 float kp_control, kd_control;
 
@@ -109,7 +111,6 @@ int count_tf = 0;
 bool big_tag = true;
 double time_prev;
 float gimbal_down;
-bool is_gimbal_down = false; // 밖에서 할때는 false, 안에서 할때는 true
 bool is_boost = false; // true 이면 P계수 변경
 float boost_rate = 2;
 
@@ -119,10 +120,9 @@ float spd_r, spd_f, spd_u, spd_y;
 float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
 float drone_vel_f_prev = 0;
 float drone_vel_r_prev = 0;
-// tf 정보
 
-// 시뮬레이션이면 안전검사 스킵
-bool is_sim = false;
+
+
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
@@ -139,6 +139,7 @@ void cb_battery(const sensor_msgs::BatteryState battery);
 void cb_kalman(const std_msgs::Float64MultiArray kal);
 void callback_tf(const tf2_msgs::TFMessage msg3); // Tag 정보 - 거리 기반 PID
 void callback_tf_2(const geometry_msgs::Transform tag_tmp); // Tag 정보 simulation
+void callback_tf_sim(const std_msgs::Float64MultiArray tf_sim); // Tag 정보 simulation
 void get_time();
 float get_yaw(float w, float x, float y, float z);
 float enu_to_fru_f(float e, float n, float y);
@@ -146,8 +147,23 @@ float enu_to_fru_r(float e, float n, float y);
 
 std_msgs::Float64MultiArray gim;
 std_msgs::Float64MultiArray distance_data;
+std_msgs::Float64MultiArray pid_data;
 
 int main(int argc, char **argv){
+  if(is_sim){
+    // is_gimbal_down : 밖에서 할때는 false, 안에서 할때는 true
+    is_gimbal_down = true;
+    // is_tag_signal : 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
+    is_tag_signal = false;
+
+  }
+  else{
+    // is_gimbal_down : 밖에서 할때는 false, 안에서 할때는 true
+    is_gimbal_down = false;
+    // is_tag_signal : 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
+    is_tag_signal = true;
+  }
+
   if(is_gimbal_down){
     gimbal_down = 76;
   }
@@ -166,19 +182,22 @@ int main(int argc, char **argv){
   ros::Subscriber sub_battery = n.subscribe("dji_sdk/battery_state", 1000, cb_battery);
   ros::Subscriber sub_kalman = n.subscribe("kalmanfilter", 1000, cb_kalman);
   ros::Subscriber sub_tf = n.subscribe("tf", 1000, callback_tf);
-  // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
-  
+  // if (is_sim == true){
+    // ros::Subscriber sub_tf_2 = n.subscribe("tf_2", 1000, callback_tf_2);
+  ros::Subscriber sub_platform = n.subscribe("platform_sim", 1000, callback_tf_sim);
+  // }
+
   // publisher
   ros::Publisher control_vel_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_ENUvelocity_yawrate", 10);
   ros::Publisher gimbal_control = n.advertise<std_msgs::Float64MultiArray>("gimbal_control", 10);
   ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
- 
+  ros::Publisher pid_pub = n.advertise<std_msgs::Float64MultiArray>("pid_sim", 10);
+
   // 안전 검사
   if (is_sim){
     cout << "Simulation" << endl;
   }
   else{
-      
     int chk_start = 0;
     while(imu_y == 0){ // N3로부터 신호 수신이 안된다는 뜻. -> 지금은 그냥 넘어가는데, 나중에는 sdk.launch 재실행하게 하는 코드 넣어야 할 듯.!!
       ros::Duration(0.1).sleep();
@@ -242,7 +261,6 @@ int main(int argc, char **argv){
   for(int i=0; i < 15; i++){ // 5까지 하면 arr[4]까지 쓸 수 있음.
     distance_data.data.push_back(0.0);
   }
-  
 
   // // 계수 입력 받기
   if (is_tag_signal){ // 시뮬레이션이 아닐 때
@@ -250,8 +268,8 @@ int main(int argc, char **argv){
     cin >> max_move_spd;
   }
 
-  if(max_move_spd > 5){
-    max_move_spd = 5;
+  if(max_move_spd > 8){
+    max_move_spd = 8;
   }
   else if(max_move_spd < 0){
     max_move_spd = 1;
@@ -273,11 +291,6 @@ int main(int argc, char **argv){
   // // // // 쓰레드 1 - Get sensor data
   auto ros_spin = []()
 	{
-    // if (is_tag_signal == false){
-    //   cout << "Start TF_2" << endl;
-    //   ros::NodeHandle nh;
-    //   ros::Subscriber sub_tf_2 = nh.subscribe("tf_2", 1000, callback_tf_2);
-    // }
     if(is_run_thread){
       cout << "start ros spin" << endl;
       ros::spin(); // 이거 굳이 쓰레드 한개를 차지할 필요가 있나? 그냥 메인함수에 남겨둬도 될거 같은데.
@@ -304,6 +317,7 @@ int main(int argc, char **argv){
     ros::NodeHandle n;
     ros::Publisher control_pub = n.advertise<sensor_msgs::Joy>("dji_sdk/flight_control_setpoint_generic", 10); // 이거로 해야지 NEU가 아니라 FRU로 할 수 있다.
     ros::Publisher distance_pub = n.advertise<std_msgs::Float64MultiArray>("distance", 10);
+    ros::Publisher pid_pub = n.advertise<std_msgs::Float64MultiArray>("pid_sim" ,10);
     ros::Rate loop_rate(50);
 
     ros::Time control_time = ros::Time::now();
@@ -311,6 +325,7 @@ int main(int argc, char **argv){
     cout << "start moving" << endl;
 
     float tag_x_tmp;
+    float tag_z_tmp;
     float d_x_prev, d_y_prev;
 
     time_prev = ros::Time::now().toSec() - 2; // 시작할 때 속도 높게나오는거 방지하기 위함.
@@ -321,7 +336,7 @@ int main(int argc, char **argv){
 
     int count_tag_lost = 0;
 
-    while(is_run_thread){ // 이게 수정된 제어 코드
+    while(is_run_thread){
       count_tag_lost += 1;
       if(ros::Time::now() - time_no_tag > ros::Duration(time_limit)){
         move_front = 0;
@@ -337,21 +352,30 @@ int main(int argc, char **argv){
       }
 
       // 태그 거리기반 PID
+      // if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
       if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
-        if(count_tag_lost % 100 == 0){
+        if((count_tag_lost+1) % 100 == 0){
           ROS_INFO("Tag is found");
           count_tag_lost = 0;
         }
 
+        // d 계산
         float d_x = x_tf;
         float d_y = -1 * y_tf;
         
         dt = ros::Time::now().toSec() - time_prev;
+        // cout << "dt : " << dt << endl;
         float d_dx = d_x - d_x_prev;
         float d_dy = d_y - d_y_prev;
         d_x_prev = d_x;
         d_y_prev = d_y;
+
         time_prev = ros::Time::now().toSec();
+
+        // i 누적
+        x_i = x_i + d_x * dt;
+        y_i = y_i + d_y * dt;
+        
         
         float v_x = 0;
         float v_y = 0;
@@ -364,19 +388,21 @@ int main(int argc, char **argv){
         float kp_l = kp;
         float kp_f = kp;
 
-        if (is_boost){ // 이거 왜 넣었는지 잘 기억이 안남.
+        if (is_boost){ // 안하는게 좋을 듯
           kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
           kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
         }
 
-        if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
-          move_right = 0;
-          move_front = 0;
-        }
-        else{ // 멀리 있을때만 움직인다.
-          move_right = kp_l * d_x + kd * v_x;
-          move_front = kp_f * d_y + kd * v_y;
-        }
+        // if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
+        //   move_right = 0;
+        //   move_front = 0;
+        // }
+        // else{ // 멀리 있을때만 움직인다.
+        //   move_right = kp_l * d_x + kd * v_x + ki * x_i;
+        //   move_front = kp_f * d_y + kd * v_y + ki * y_i;
+        // }
+        move_right = kp_l * d_x + kd * v_x + ki * x_i;
+        move_front = kp_f * d_y + kd * v_y + ki * y_i;
 
         distance_data.data[0] = d_x;
         distance_data.data[1] = v_x;
@@ -386,12 +412,14 @@ int main(int argc, char **argv){
         distance_data.data[5] = move_right;
         distance_data.data[6] = move_front;
         // distance_pub.publish(distance_data); - 뒤에서 Publish
+        pid_data.data = {kp,ki,kd,d_x,v_x,x_i,ki * x_i,dt};
+        pid_pub.publish(pid_data);
 
         // 여기까지 거리 기반
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 1; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
+        float spd_constant = 0; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
         float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
@@ -422,23 +450,23 @@ int main(int argc, char **argv){
 
         float move_up = 0.0;
         
-        // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
-        // if (tf_name == "tag_6"){
-        //   big_tag = false;
-        //   // cout << "Tag_6 found" << endl;
+        // // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
+        // // if (tf_name == "tag_6"){
+        // //   big_tag = false;
+        // //   // cout << "Tag_6 found" << endl;
+        // // }
+        // if (big_tag){
+        //   if(fabs(z_tf - 1.7) > 0.1){
+        //     move_up = (1.7 - z_tf) * 0.3;
+        //   }
         // }
-        if (big_tag){
-          if(fabs(z_tf - 3.5) > 0.1){
-            move_up = (3.5 - z_tf) * 0.3;
-          }
-          // if(fabs(z_tf - 1.7) > 0.1){
-          //   move_up = (1.7 - z_tf) * 0.3;
-          // }
-        }
-        else{
-          if(fabs(z_tf - 1.3) > 0.1){
-            move_up = (1.3 - z_tf) * 0.3;
-          }
+        // else{
+        //   if(fabs(z_tf - 1.3) > 0.1){
+        //     move_up = (1.3 - z_tf) * 0.3;
+        //   }
+        // }
+        if(fabs(z_tf - 3.5) > 0.1){
+          move_up = (3.5 - z_tf) * 0.3;
         }
 
         // move_left = -1 * move_right;
@@ -462,6 +490,7 @@ int main(int argc, char **argv){
         distance_pub.publish(distance_data);
 
         tag_x_tmp = x_tf;
+        tag_z_tmp = z_tf;
         time_no_tag = ros::Time::now();
       }
       // else{
@@ -538,7 +567,7 @@ int main(int argc, char **argv){
         }
       }
     } // while 문
-	};
+	}; // 드론 제어 여기까지
 
   // 쓰레드 3 - Control gimbal
   auto control_gimbal = []()
@@ -580,8 +609,8 @@ int main(int argc, char **argv){
     }
 	};
 
-  // auto control_input = []() // 쓰레드 4 드론 Input 제어
-  // {
+  // auto control_input = []()
+  // { // 쓰레드 4 드론 Input 제어
   //   double time_is_control = ros::Time::now().toSec();
   //   float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
   //   float kp_control = 4.5;
@@ -687,11 +716,16 @@ int main(int argc, char **argv){
   std::thread t1 = std::thread(ros_spin);
 	std::thread t2 = std::thread(control_drone);
   std::thread t3 = std::thread(control_gimbal);
-  // std::thread t4 = std::thread(control_input);
+  // if(is_sim){
+  //   std::thread t4 = std::thread(control_input);
+  // }
+  
   t1.join(); // 쓰레드 끝날때 까지 main 함수 종료 안함.
 	t2.join();
   t3.join();
-  // t4.join();
+  // if(is_sim){
+  //   t4.join();
+  // }
 
   return 0;
 }
@@ -850,7 +884,16 @@ void callback_tf_2(const geometry_msgs::Transform tag_tmp){
     y_tf = tag_tmp.translation.y;
     z_tf = tag_tmp.translation.z;
     // cout << "tf_2" << endl;
+  }
+}
 
+void callback_tf_sim(const std_msgs::Float64MultiArray tf_sim){
+  if (is_sim == true){
+    x_tf = tf_sim.data[0];
+    // cout << x_tf << endl;
+    y_tf = tf_sim.data[1];
+    // cout << y_tf << endl;
+    z_tf = tf_sim.data[2];
   }
 }
 

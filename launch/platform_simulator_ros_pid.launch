@@ -1,0 +1,11 @@
+<launch>
+    <!-- <include file="$(find dji_sdk)/launch/sdk.launch"/> -->
+    
+    <!-- <node pkg ="dji_sdk" type="kalmanfilter.py" name="kalman_filter" output="screen"/> -->
+    <node pkg ="dji_sdk" type="talker_ros_pid" name="talker_ros_pid" output="screen"/>
+    <node pkg ="dji_sdk" type="talker_sim_platform_position" name="talker_sim_platform_position" output="screen"/>
+    <node pkg ="dji_sdk" type="log_sim_platform_position" name="log_sim_platform_position" output="screen"/>
+    <!-- <node pkg ="dji_sdk" type="save_log_platform" name="save_log_platform" output = "screen"/> -->
+    
+    
+</launch>

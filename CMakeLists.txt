@@ -1,4 +1,6 @@
-cmake_minimum_required(VERSION 2.8.3)
+# cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 2.8.12)
+# cmake_minimum_required(VERSION 2.6.2)
 project(dji_sdk)
 # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11") # https://answers.ros.org/question/354932/couldnt-find-executable/
 
@@ -359,6 +361,14 @@ add_executable(talker_ros_22 src/talker_ros_22.cpp)
 target_link_libraries(talker_ros_22 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(talker_ros_22 dji_sdk_generate_messages_cpp)
 
+add_executable(talker_ros_sim_pid src/talker_ros_sim_pid.cpp)
+target_link_libraries(talker_ros_sim_pid ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_sim_pid dji_sdk_generate_messages_cpp)
+
+add_executable(talker_ros_pid src/talker_ros_pid.cpp)
+target_link_libraries(talker_ros_pid ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_ros_pid dji_sdk_generate_messages_cpp)
+
 add_executable(land_1 src/land_1.cpp)
 target_link_libraries(land_1 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(land_1 dji_sdk_generate_messages_cpp)
@@ -385,6 +395,10 @@ add_executable(talker_sim_4 src/talker_sim_4.cpp)
 target_link_libraries(talker_sim_4 ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(talker_sim_4 dji_sdk_generate_messages_cpp)
 
+# publish platform position
+add_executable(talker_sim_platform_position src/talker_sim_platform_position.cpp)
+target_link_libraries(talker_sim_platform_position ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(talker_sim_platform_position dji_sdk_generate_messages_cpp)
 
 
 
@@ -483,3 +497,7 @@ add_dependencies(save_log_platform dji_sdk_generate_messages_cpp)
 add_executable(calculate_vel src/calculate_vel.cpp)
 target_link_libraries(calculate_vel ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
 add_dependencies(calculate_vel dji_sdk_generate_messages_cpp)
+
+add_executable(log_sim_platform_position src/log_sim_platform_position.cpp)
+target_link_libraries(log_sim_platform_position ${catkin_LIBRARIES} ${DJIOSDK_LIBRARIES})
+add_dependencies(log_sim_platform_position dji_sdk_generate_messages_cpp)

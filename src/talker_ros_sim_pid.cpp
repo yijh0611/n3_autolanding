@@ -49,15 +49,10 @@ struct EulerAngles {
 // 쿼터니언 여기까지
 
 // 코드 정보
-// 코드 이름 : talker_ros_22
+// 코드 이름 : talker_ros_PID
 // PID 계수 P:0.7, D:0.07
-// 정지한 태그에 착륙하지는 않지만, 다가가는 코드
+// 이동하는 플랫폼에 PID 제어를 통해 따라가는 코드
 
-// 정지한 태그위에 착륙하는 코드 추가하려고 함 - 만들려다가 말았음. - land_1으로 다시 만드는 중
-// 태그보다 약간 뒤에서 착륙하게 코드를 만들면, 바람에 밀리는 상황을 알 수 없기 때문에
-// 작은 태그를 보고 착륙하게 만드는게 좋을 것 같다.
-// 우선 호버링 먼저 해보고 
-// 태그 여러개 있을때 구분을 하는 코드도 있어야 할 듯
 // 칼만필터에서 얻은 정보 이용해서 제어 + 고도는 3.5m로 유지
 // move함수안에 0.02초 기다리는거 있는데, 빼도 괜찮은지 확인 !!
 // Tag 안보이다가 보이면, 0.5초정도 간격을 두고 Kalman filter speed를 서서히 늘리는 코드 추가
@@ -95,6 +90,8 @@ bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, s
 float kp = 0.7; 
 float kd = 0.07;
 float ki = 0; // 필요한가?
+float x_i = 0; // 거리 누적
+float y_i = 0; // 거리 누적
 float max_move_spd = 5;
 // // 속도제어 PD 계수 - 값은 함수 안에서 정의
 float kp_control, kd_control;
@@ -122,7 +119,7 @@ float drone_vel_r_prev = 0;
 // tf 정보
 
 // 시뮬레이션이면 안전검사 스킵
-bool is_sim = false;
+bool is_sim = true;
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
@@ -242,7 +239,7 @@ int main(int argc, char **argv){
   for(int i=0; i < 15; i++){ // 5까지 하면 arr[4]까지 쓸 수 있음.
     distance_data.data.push_back(0.0);
   }
-  
+
 
   // // 계수 입력 받기
   if (is_tag_signal){ // 시뮬레이션이 아닐 때
@@ -273,11 +270,6 @@ int main(int argc, char **argv){
   // // // // 쓰레드 1 - Get sensor data
   auto ros_spin = []()
 	{
-    // if (is_tag_signal == false){
-    //   cout << "Start TF_2" << endl;
-    //   ros::NodeHandle nh;
-    //   ros::Subscriber sub_tf_2 = nh.subscribe("tf_2", 1000, callback_tf_2);
-    // }
     if(is_run_thread){
       cout << "start ros spin" << endl;
       ros::spin(); // 이거 굳이 쓰레드 한개를 차지할 필요가 있나? 그냥 메인함수에 남겨둬도 될거 같은데.
@@ -321,7 +313,7 @@ int main(int argc, char **argv){
 
     int count_tag_lost = 0;
 
-    while(is_run_thread){ // 이게 수정된 제어 코드
+    while(is_run_thread){
       count_tag_lost += 1;
       if(ros::Time::now() - time_no_tag > ros::Duration(time_limit)){
         move_front = 0;
@@ -343,6 +335,7 @@ int main(int argc, char **argv){
           count_tag_lost = 0;
         }
 
+        // d 계산
         float d_x = x_tf;
         float d_y = -1 * y_tf;
         
@@ -351,7 +344,13 @@ int main(int argc, char **argv){
         float d_dy = d_y - d_y_prev;
         d_x_prev = d_x;
         d_y_prev = d_y;
+
         time_prev = ros::Time::now().toSec();
+
+        // i 누적
+        x_i += d_dx;
+        y_i += d_dy;
+        
         
         float v_x = 0;
         float v_y = 0;
@@ -364,7 +363,7 @@ int main(int argc, char **argv){
         float kp_l = kp;
         float kp_f = kp;
 
-        if (is_boost){ // 이거 왜 넣었는지 잘 기억이 안남.
+        if (is_boost){ // 안하는게 좋을 듯
           kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
           kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
         }
@@ -374,8 +373,8 @@ int main(int argc, char **argv){
           move_front = 0;
         }
         else{ // 멀리 있을때만 움직인다.
-          move_right = kp_l * d_x + kd * v_x;
-          move_front = kp_f * d_y + kd * v_y;
+          move_right = kp_l * d_x + kd * v_x + ki * x_i;
+          move_front = kp_f * d_y + kd * v_y + ki * y_i;
         }
 
         distance_data.data[0] = d_x;
@@ -391,7 +390,7 @@ int main(int argc, char **argv){
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 1; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
+        float spd_constant = 0; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
         float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
@@ -422,23 +421,23 @@ int main(int argc, char **argv){
 
         float move_up = 0.0;
         
-        // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
-        // if (tf_name == "tag_6"){
-        //   big_tag = false;
-        //   // cout << "Tag_6 found" << endl;
+        // // 태그보고 고도 조절 - 여기에 태그별로 어떻게 할지 정하는 코드
+        // // if (tf_name == "tag_6"){
+        // //   big_tag = false;
+        // //   // cout << "Tag_6 found" << endl;
+        // // }
+        // if (big_tag){
+        //   if(fabs(z_tf - 1.7) > 0.1){
+        //     move_up = (1.7 - z_tf) * 0.3;
+        //   }
         // }
-        if (big_tag){
-          if(fabs(z_tf - 3.5) > 0.1){
-            move_up = (3.5 - z_tf) * 0.3;
-          }
-          // if(fabs(z_tf - 1.7) > 0.1){
-          //   move_up = (1.7 - z_tf) * 0.3;
-          // }
-        }
-        else{
-          if(fabs(z_tf - 1.3) > 0.1){
-            move_up = (1.3 - z_tf) * 0.3;
-          }
+        // else{
+        //   if(fabs(z_tf - 1.3) > 0.1){
+        //     move_up = (1.3 - z_tf) * 0.3;
+        //   }
+        // }
+        if(fabs(z_tf - 3.5) > 0.1){
+          move_up = (3.5 - z_tf) * 0.3;
         }
 
         // move_left = -1 * move_right;
@@ -538,7 +537,7 @@ int main(int argc, char **argv){
         }
       }
     } // while 문
-	};
+	}; // 드론 제어 여기까지
 
   // 쓰레드 3 - Control gimbal
   auto control_gimbal = []()
@@ -580,8 +579,8 @@ int main(int argc, char **argv){
     }
 	};
 
-  // auto control_input = []() // 쓰레드 4 드론 Input 제어
-  // {
+  // auto control_input = []()
+  // { // 쓰레드 4 드론 Input 제어
   //   double time_is_control = ros::Time::now().toSec();
   //   float spd_r_prev, spd_f_prev, spd_u_prev, spd_y_prev;
   //   float kp_control = 4.5;
@@ -687,11 +686,16 @@ int main(int argc, char **argv){
   std::thread t1 = std::thread(ros_spin);
 	std::thread t2 = std::thread(control_drone);
   std::thread t3 = std::thread(control_gimbal);
-  // std::thread t4 = std::thread(control_input);
+  // if(is_sim){
+  //   std::thread t4 = std::thread(control_input);
+  // }
+  
   t1.join(); // 쓰레드 끝날때 까지 main 함수 종료 안함.
 	t2.join();
   t3.join();
-  // t4.join();
+  // if(is_sim){
+  //   t4.join();
+  // }
 
   return 0;
 }
