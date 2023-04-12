@@ -92,7 +92,7 @@ float dt = 0;
 bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
 
 // PID 계수
-float kp = 0.7; 
+float kp = 0.7;
 float kd = 0.07;
 float ki = 0; // 필요한가?
 float max_move_spd = 5;
@@ -398,7 +398,7 @@ int main(int argc, char **argv){
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 0; // 1, 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
+        float spd_constant = 1; // 1, 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
         float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
