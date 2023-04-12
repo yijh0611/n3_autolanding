@@ -60,9 +60,9 @@ struct EulerAngles {
 
 // 전역 변수 정의
 // 시뮬레이션이면 안전검사 스킵 - 밖에서 실험하는지, 시뮬레이션인지에 따라서 바뀌는 변수들 정의
-bool is_sim = false;
+bool is_sim = true;
 // Tag 정보 수신이 되는지 확인
-bool is_tag_signal = true; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
+bool is_tag_signal; // 시뮬이 아니면 true. 원래는 false였고, simulation인지 아닌지 잘 판단할 수 있게 수정하기 !!
 bool is_gimbal_down; // main 함수 시작할때 정의하는거로 수정
 
 
@@ -92,23 +92,9 @@ float z_prev = 0;
 float dt = 0;
 
 // PID 계수
-// float kp = 1.5; // 0.7
-// float kd = 0.5; // 0.07
-// float ki = 1;
-float kp = 0.7;
-float kd = 0.07;
-float ki = 0.02;
-/*
-움직이는 플랫폼 따라가는 경우 - 3m/s 정도
-kp = 1.5
-kd = 0.5
-ki = 1
-
-정지한 플랫폼에 다가가는 경우
-kp = 0.7
-kd = 0.07
-ki = 0.5 - 확인 필요
-*/
+float kp = 1.5; // 0.7
+float kd = 0.5; // 0.07
+float ki = 1;
 float x_i = 0; // 거리 누적
 float y_i = 0; // 거리 누적
 float max_move_spd = 8;

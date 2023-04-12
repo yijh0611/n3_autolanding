@@ -166,6 +166,8 @@ cv::VideoWriter videoWriter_tag;
 float videoFPS = 30; // 원래는 100인데, 30으로 줄였음. 100
 int videoWidth = 640;
 int videoHeight = 480;
+// int videoWidth = 1920;
+// int videoHeight = 1080;
 
 int main(int argc, char **argv){
 

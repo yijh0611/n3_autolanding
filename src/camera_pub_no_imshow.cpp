@@ -19,13 +19,31 @@ using namespace std;
 sensor_msgs::CameraInfo cam_par(){ 
 	sensor_msgs::CameraInfo cam_info;
 
+	// int width = 640;
+	// int height = 480;
+
+	// float fx = 501.92767418;
+	// float fy = 500.12588919;
+	// float cx = 331.22594614;
+	// float cy = 225.79436303;
+
+	// // new camera
+	// int width = 1920;
+	// int height = 1080;
+
+	// float fx = 2602.87988;
+	// float fy = 2566.67725;
+	// float cx = 948.173245;
+	// float cy = 593.405745;
+
+	// new camera - low res
 	int width = 640;
 	int height = 480;
 
-	float fx = 501.92767418;
-	float fy = 500.12588919;
-	float cx = 331.22594614;
-	float cy = 225.79436303;
+	float fx = 442.58435;
+	float fy = 440.94937;
+	float cx = 328.35252;
+	float cy = 245.88484;
 
 	cam_info.width = width;
 	cam_info.height = height;
@@ -57,8 +75,10 @@ int main(int argc, char** argv) {
 
     // OpenCV 관련
 	VideoCapture cap(0);
-	cap.set(CAP_PROP_FRAME_WIDTH, 640); // 1280
-	cap.set(CAP_PROP_FRAME_HEIGHT, 480); // 720
+	cap.set(CV_CAP_PROP_FOCUS, CV_FOURCC('M', 'J', 'P', 'G'));
+	cap.set(CAP_PROP_FRAME_WIDTH, 640); // 1280, 640
+	cap.set(CAP_PROP_FRAME_HEIGHT, 480); // 720, 480
+	cap.set(CV_CAP_PROP_FOCUS, 0); // Disable Auto focus
 	// cap.set(CAP_PROP_FPS, 50);
 	double fps = cap.get(CAP_PROP_FPS);
 	cout << fps << "fps" << endl;

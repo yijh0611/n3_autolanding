@@ -122,7 +122,7 @@ float drone_vel_r_prev = 0;
 // tf 정보
 
 // 시뮬레이션이면 안전검사 스킵
-bool is_sim = false;
+bool is_sim = false; // false : 실제, true : 시뮬레이션 - 이거만 바꾸면 됨
 
 // 드론 제어 권한
 ros::ServiceClient sdk_ctrl_authority_service;
@@ -148,6 +148,12 @@ std_msgs::Float64MultiArray gim;
 std_msgs::Float64MultiArray distance_data;
 
 int main(int argc, char **argv){
+  if(is_sim == true){
+    is_gimbal_down = true;
+  }
+  else{
+    is_gimbal_down = false;
+  }
   if(is_gimbal_down){
     gimbal_down = 76;
   }
@@ -331,13 +337,12 @@ int main(int argc, char **argv){
           ROS_ERROR("Tag is lost");
         }
         tag_time = ros::Time::now().toSec();
-        // cout << "Time : " << tag_time << endl;
-        // gettimeofday(&time_now, nullptr);
-        // msecs_tag_time = (time_now.tv_sec * 1000) + (time_now.tv_usec / 1000);
       }
 
       // 태그 거리기반 PID
       if(tag_x_tmp != x_tf){ // 태그 정보가 바뀌었을때
+        cout << "Distance : " << z_tf << endl;
+        // ROS_INFO(z_tf);
         if(count_tag_lost % 100 == 0){
           ROS_INFO("Tag is found");
           count_tag_lost = 0;
@@ -356,7 +361,7 @@ int main(int argc, char **argv){
         float v_x = 0;
         float v_y = 0;
 
-        if(ros::Time::now().toSec() - tag_time > 0.5){ // 태그를 찾고 0.5동안은 속력 0이라고 생각
+        if(ros::Time::now().toSec() - tag_time > 0.2){ // 태그를 찾고 0.2동안은 속력 0이라고 생각 - 10Hz 정도로 Tag 정보가 들어오기 때문에 0.2초면 괜찮을 듯 하다.
           v_x = d_dx / dt;
           v_y = d_dy / dt;
         }
@@ -364,19 +369,21 @@ int main(int argc, char **argv){
         float kp_l = kp;
         float kp_f = kp;
 
-        if (is_boost){ // 이거 왜 넣었는지 잘 기억이 안남.
+        if (is_boost){ // 나중에 제거하기
           kp_l = 1 + fabs(y_tf / z_tf) * 2 * (boost_rate - 1);
           kp_f = 1 + fabs(x_tf / z_tf) * 3 * (boost_rate - 1);
         }
 
-        if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
-          move_right = 0;
-          move_front = 0;
-        }
-        else{ // 멀리 있을때만 움직인다.
-          move_right = kp_l * d_x + kd * v_x;
-          move_front = kp_f * d_y + kd * v_y;
-        }
+        // if(d_x < 0.5 && d_y < 0.5){ // 가까울때 움직이지 않는다 - 조건문 좀 더 추가해서 태그가 다를때 어떻게 할지 등을 넣으면 좋을 듯.
+        //   move_right = 0;
+        //   move_front = 0;
+        // }
+        // else{ // 멀리 있을때만 움직인다.
+          // move_right = kp_l * d_x + kd * v_x;
+          // move_front = kp_f * d_y + kd * v_y;
+        // }
+        move_right = kp_l * d_x + kd * v_x;
+        move_front = kp_f * d_y + kd * v_y;
 
         distance_data.data[0] = d_x;
         distance_data.data[1] = v_x;
@@ -391,7 +398,7 @@ int main(int argc, char **argv){
 
         // 칼만필터
         // if(kal_is_tag_lost == 0){ // 태그 놓치지 않았을 때
-        float spd_constant = 1; // 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
+        float spd_constant = 0; // 1, 0.85 !! 원래는 1 - 지금 0이라서 칼만필터를 이용한 속도제어는 작동하지 않는다.
         float spd_constant_tmp = spd_constant;
         // if(ros::Time::now().toSec() - tag_time < 0.5){
         // gettimeofday(&time_now, nullptr);
@@ -427,18 +434,21 @@ int main(int argc, char **argv){
         //   big_tag = false;
         //   // cout << "Tag_6 found" << endl;
         // }
-        if (big_tag){
-          if(fabs(z_tf - 3.5) > 0.1){
-            move_up = (3.5 - z_tf) * 0.3;
-          }
-          // if(fabs(z_tf - 1.7) > 0.1){
-          //   move_up = (1.7 - z_tf) * 0.3;
-          // }
-        }
-        else{
-          if(fabs(z_tf - 1.3) > 0.1){
-            move_up = (1.3 - z_tf) * 0.3;
-          }
+        // if (big_tag){
+        //   if(fabs(z_tf - 3.5) > 0.1){
+        //     move_up = (3.5 - z_tf) * 0.3;
+        //   }
+        //   // if(fabs(z_tf - 1.7) > 0.1){
+        //   //   move_up = (1.7 - z_tf) * 0.3;
+        //   // }
+        // }
+        // else{
+        //   if(fabs(z_tf - 1.3) > 0.1){
+        //     move_up = (1.3 - z_tf) * 0.3;
+        //   }
+        // }
+        if(fabs(z_tf - 3.5) > 0.1){
+          move_up = (3.5 - z_tf) * 0.3;
         }
 
         // move_left = -1 * move_right;
@@ -815,6 +825,8 @@ void callback_tf(const tf2_msgs::TFMessage msg3) // need to be edited
     x_tf = msg3.transforms[0].transform.translation.x;
     y_tf = msg3.transforms[0].transform.translation.y;
     z_tf = msg3.transforms[0].transform.translation.z;
+    // // 태그 크기 확인용 임시 코드
+    // cout << "Distance : " << z_tf << endl;
     is_tag_signal = true;
     // cout << "x_tf : " << x_tf << endl;
     // cout << "y_tf : " << y_tf << endl;

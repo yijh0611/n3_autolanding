@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 # -*- coding: utf-8 -*-
 # 한국어 주석 적기 위함
 
@@ -226,7 +226,7 @@ if __name__ == '__main__':
                                 [0., 0., 0., 1.,      0.,      dt, 0., 0., 0., 0.],
                                 [0., 0., 0., 0.,      1.,      0., 0., 0., 0., 0.],
                                 [0., 0., 0., 0.,      0.,      1., 0., 0., 0., 0.],
-                                [0., 0., 0., 0.,      0.,      0., 1., 0., dt, 0.],
+                                [0., 0., 0., 0.,      0.,      0., 1., 0., dt, 0.], # may be (dt * 2~10) - 태그 정보는 업데이트가 느리기 때문 
                                 [0., 0., 0., 0.,      0.,      0., 0., 1., 0., dt],
                                 [0., 0., 0., 0.,      0.,      0., 0., 0., 1., 0.],
                                 [0., 0., 0., 0.,      0.,      0., 0., 0., 0., 1.]])    # state transition matrix
@@ -392,4 +392,3 @@ if __name__ == '__main__':
         except:
             data_pub.data = np.array([tag_f - reset_tag_y, tag_r + reset_tag_x, vel_f, vel_r, time_publish, is_tag, is_tag_lost,0.0,0.0,0.0,kal_dt,tag_vx,tag_vy,tag_vz,vel_tag_f,vel_tag_r])
         pub_kalman.publish(data_pub)
-        
