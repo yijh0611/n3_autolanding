@@ -3,6 +3,7 @@
     <include file="$(find dji_sdk)/launch/sdk.launch"/>
     
     <node pkg ="dji_sdk" type="camera_pub_no_imshow" name="publish_camera"/>
+    <!-- <node pkg ="dji_sdk" type="camera_pub" name="publish_camera"/> -->
     <node pkg ="dji_sdk" type="gimbal_control.py" name="control_gimbal"/>
     <node pkg ="dji_sdk" type="kalmanfilter.py" name="kalman_filter" output="screen"/>
     <!-- <node pkg ="dji_sdk" type="lidar_ros.py" name="lidar_ros"/> -->
